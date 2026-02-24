@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
+import { CrowToolsRegistrar } from "@/components/CrowToolsRegistrar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,12 +44,13 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
+            <CrowToolsRegistrar />
           </AppProvider>
         </AuthProvider>
         <Script
           src="/ourguide-b2b-widget.iife.js"
-          data-product-id="prod_c2d6a9b0-2682-420f-8458-9a84b62ee148"
-          data-api-url="https://almightily-unrisky-floy.ngrok-free.dev"
+          data-product-id="prod_12c959e4-94d1-49dc-991f-e2d829011ab1"
+          data-api-url="http://localhost:3001"
           strategy="afterInteractive"
         />
       </body>
