@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useApp } from "@/context/AppContext";
+import { useAuth } from "@/context/AuthContext";
 import RequireAuth from "@/components/RequireAuth";
+import Toast from "@/components/Toast";
 
 const STATUS_ORDER = ["pending", "processing", "shipped", "delivered"] as const;
 
@@ -14,6 +17,8 @@ const STATUS_LABELS: Record<string, string> = {
   shipped: "Shipped",
   delivered: "Delivered",
   cancelled: "Cancelled",
+  return_requested: "Return Requested",
+  replacement_requested: "Replacement Requested",
 };
 
 const STATUS_STYLES: Record<string, string> = {
@@ -22,6 +27,8 @@ const STATUS_STYLES: Record<string, string> = {
   processing: "bg-yellow-100 text-yellow-700",
   pending: "bg-gray-100 text-gray-700",
   cancelled: "bg-red-100 text-red-700",
+  return_requested: "bg-orange-100 text-orange-700",
+  replacement_requested: "bg-purple-100 text-purple-700",
 };
 
 function formatDate(iso: string): string {
@@ -52,9 +59,16 @@ export default function OrderDetailPage() {
 
 function OrderDetailContent() {
   const params = useParams();
-  const { orders } = useApp();
+  const { orders, updateOrderStatus } = useApp();
+  const { user } = useAuth();
   const orderId = params.id as string;
   const order = orders.find((o) => o.id === orderId);
+
+  const [actionLoading, setActionLoading] = useState<
+    null | "cancel" | "return" | "replace"
+  >(null);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   if (!order) {
     return (
@@ -73,8 +87,25 @@ function OrderDetailContent() {
     );
   }
 
-  const currentStepIndex = order.status === "cancelled"
-    ? -1
+  async function handleOrderAction(action: "cancel" | "return" | "replace") {
+    setActionLoading(action);
+    const result = await updateOrderStatus(orderId, action);
+    setActionLoading(null);
+    if (result.success) {
+      const messages = {
+        cancel: "Order cancelled successfully",
+        return: "Return request submitted",
+        replace: "Replacement request submitted",
+      };
+      setToastMessage(messages[action]);
+    } else {
+      setToastMessage(result.error ?? "Action failed");
+    }
+    setToastVisible(true);
+  }
+
+  const currentStepIndex = ["cancelled", "return_requested", "replacement_requested"].includes(order.status)
+    ? (order.status === "cancelled" ? -1 : STATUS_ORDER.indexOf("delivered"))
     : STATUS_ORDER.indexOf(order.status as (typeof STATUS_ORDER)[number]);
 
   // Generate simulated timeline dates based on order date
@@ -113,16 +144,16 @@ function OrderDetailContent() {
           </p>
         </div>
         <span
-          className={`inline-block px-3 py-1 rounded-full text-sm font-semibold capitalize ${
+          className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
             STATUS_STYLES[order.status] ?? STATUS_STYLES.pending
           }`}
         >
-          {order.status}
+          {STATUS_LABELS[order.status] ?? order.status}
         </span>
       </div>
 
       {/* Tracking Timeline */}
-      {order.status !== "cancelled" ? (
+      {order.status !== "cancelled" && order.status !== "return_requested" && order.status !== "replacement_requested" ? (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">Tracking Timeline</h2>
           <div className="relative">
@@ -162,9 +193,17 @@ function OrderDetailContent() {
             </div>
           </div>
         </div>
-      ) : (
+      ) : order.status === "cancelled" ? (
         <div className="border border-red-200 rounded-lg p-6 mb-6 bg-red-50">
           <p className="text-sm text-red-700 font-medium">This order has been cancelled.</p>
+        </div>
+      ) : (
+        <div className="border border-yellow-200 rounded-lg p-6 mb-6 bg-yellow-50">
+          <p className="text-sm text-yellow-800 font-medium">
+            {order.status === "return_requested"
+              ? "Your return request is being processed. We will notify you once approved."
+              : "Your replacement request is being processed. We will notify you once approved."}
+          </p>
         </div>
       )}
 
@@ -225,14 +264,65 @@ function OrderDetailContent() {
         </div>
       </div>
 
+      {/* Order Actions */}
+      {(order.status === "pending" || order.status === "processing") && (
+        <div className="border border-gray-200 rounded-lg p-6 mb-6">
+          <h2 className="text-base font-semibold text-gray-900 mb-3">Order Actions</h2>
+          <button
+            onClick={() => handleOrderAction("cancel")}
+            disabled={Boolean(actionLoading)}
+            className="bg-white border border-red-300 text-red-700 hover:bg-red-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+          >
+            {actionLoading === "cancel" ? "Processing..." : "Cancel Order"}
+          </button>
+        </div>
+      )}
+
+      {order.status === "delivered" && (
+        <div className="border border-gray-200 rounded-lg p-6 mb-6">
+          <h2 className="text-base font-semibold text-gray-900 mb-3">Order Actions</h2>
+          <div className="flex gap-3">
+            <button
+              onClick={() => handleOrderAction("return")}
+              disabled={Boolean(actionLoading)}
+              className="bg-white border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+            >
+              {actionLoading === "return" ? "Processing..." : "Request Return"}
+            </button>
+            <button
+              onClick={() => handleOrderAction("replace")}
+              disabled={Boolean(actionLoading)}
+              className="bg-white border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+            >
+              {actionLoading === "replace" ? "Processing..." : "Request Replacement"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Shipping & Payment Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="border border-gray-200 rounded-lg p-6">
           <h2 className="text-base font-semibold text-gray-900 mb-3">Shipping Address</h2>
           <div className="text-sm text-gray-600 space-y-1">
-            <p className="font-medium text-gray-900">Jane Doe</p>
-            <p>123 Main Street, Apt 4B</p>
-            <p>San Francisco, CA 94102</p>
+            <p className="font-medium text-gray-900">{user?.name}</p>
+            {user?.address?.street && <p>{user.address.street}</p>}
+            {(user?.address?.city || user?.address?.state || user?.address?.zipCode) && (
+              <p>
+                {[user?.address?.city, user?.address?.state, user?.address?.zipCode]
+                  .filter(Boolean)
+                  .join(", ")}
+              </p>
+            )}
+            {user?.address?.country && <p>{user.address.country}</p>}
+            {!user?.address?.street && !user?.address?.city && (
+              <p className="text-gray-400 italic">
+                No address on file.{" "}
+                <Link href="/account" className="text-blue-600 hover:underline not-italic">
+                  Add address
+                </Link>
+              </p>
+            )}
           </div>
         </div>
         <div className="border border-gray-200 rounded-lg p-6">
@@ -243,6 +333,12 @@ function OrderDetailContent() {
           </div>
         </div>
       </div>
+
+      <Toast
+        message={toastMessage}
+        visible={toastVisible}
+        onClose={() => setToastVisible(false)}
+      />
     </div>
   );
 }

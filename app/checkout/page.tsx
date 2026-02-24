@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useApp } from "@/context/AppContext";
+import { useAuth } from "@/context/AuthContext";
 import RequireAuth from "@/components/RequireAuth";
 
 export default function CheckoutPage() {
@@ -15,8 +17,10 @@ export default function CheckoutPage() {
 }
 
 function CheckoutContent() {
-  const { items, cartTotal, cartCount, placeOrder, clearCart } = useApp();
+  const { items, cartTotal, cartCount, placeOrder } = useApp();
+  const { user } = useAuth();
   const router = useRouter();
+  const [placing, setPlacing] = useState(false);
 
   if (items.length === 0) {
     return (
@@ -37,10 +41,14 @@ function CheckoutContent() {
     );
   }
 
-  function handlePlaceOrder() {
-    const orderId = placeOrder(items, cartTotal);
-    clearCart();
-    router.push(`/checkout/success?orderId=${orderId}`);
+  async function handlePlaceOrder() {
+    setPlacing(true);
+    try {
+      const orderId = await placeOrder(items, cartTotal);
+      router.push(`/checkout/success?orderId=${orderId}`);
+    } catch {
+      setPlacing(false);
+    }
   }
 
   return (
@@ -62,7 +70,7 @@ function CheckoutContent() {
                 </label>
                 <input
                   type="text"
-                  defaultValue="Jane Doe"
+                  value={user?.name ?? ""}
                   readOnly
                   className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
                 />
@@ -73,7 +81,7 @@ function CheckoutContent() {
                 </label>
                 <input
                   type="text"
-                  defaultValue="123 Main Street, Apt 4B"
+                  value={user?.address?.street ?? ""}
                   readOnly
                   className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
                 />
@@ -84,7 +92,7 @@ function CheckoutContent() {
                 </label>
                 <input
                   type="text"
-                  defaultValue="San Francisco"
+                  value={user?.address?.city ?? ""}
                   readOnly
                   className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
                 />
@@ -96,7 +104,7 @@ function CheckoutContent() {
                   </label>
                   <input
                     type="text"
-                    defaultValue="CA"
+                    value={user?.address?.state ?? ""}
                     readOnly
                     className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
                   />
@@ -107,13 +115,21 @@ function CheckoutContent() {
                   </label>
                   <input
                     type="text"
-                    defaultValue="94102"
+                    value={user?.address?.zipCode ?? ""}
                     readOnly
                     className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
                   />
                 </div>
               </div>
             </div>
+            {!user?.address?.street && (
+              <p className="text-sm text-gray-500 mt-3">
+                <Link href="/account" className="text-blue-600 hover:underline">
+                  Add your shipping address
+                </Link>{" "}
+                in account settings.
+              </p>
+            )}
           </section>
 
           {/* Payment method */}
@@ -149,9 +165,10 @@ function CheckoutContent() {
           <div className="lg:hidden">
             <button
               onClick={handlePlaceOrder}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base"
+              disabled={placing}
+              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base disabled:opacity-60"
             >
-              Place Your Order
+              {placing ? "Processing..." : "Place Your Order"}
             </button>
           </div>
         </div>
@@ -206,9 +223,10 @@ function CheckoutContent() {
             {/* Place order button — visible on lg, hidden on mobile */}
             <button
               onClick={handlePlaceOrder}
-              className="hidden lg:block w-full mt-6 bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base"
+              disabled={placing}
+              className="hidden lg:block w-full mt-6 bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base disabled:opacity-60"
             >
-              Place Your Order
+              {placing ? "Processing..." : "Place Your Order"}
             </button>
           </div>
         </div>

@@ -14,6 +14,18 @@ const STATUS_STYLES: Record<string, string> = {
   processing: "bg-yellow-100 text-yellow-700",
   pending: "bg-gray-100 text-gray-700",
   cancelled: "bg-red-100 text-red-700",
+  return_requested: "bg-orange-100 text-orange-700",
+  replacement_requested: "bg-purple-100 text-purple-700",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  delivered: "Delivered",
+  shipped: "Shipped",
+  processing: "Processing",
+  pending: "Pending",
+  cancelled: "Cancelled",
+  return_requested: "Return Requested",
+  replacement_requested: "Replacement Requested",
 };
 
 function formatDate(iso: string): string {
@@ -33,9 +45,12 @@ export default function OrdersPage() {
 }
 
 function OrdersContent() {
-  const { orders, addToCart } = useApp();
+  const { orders, addToCart, updateOrderStatus } = useApp();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [orderActionLoading, setOrderActionLoading] = useState<
+    Record<string, "cancel" | "return" | "replace" | undefined>
+  >({});
 
   const handleBuyAgain = useCallback(
     (product: Product) => {
@@ -44,6 +59,35 @@ function OrdersContent() {
       setToastVisible(true);
     },
     [addToCart]
+  );
+
+  const handleOrderAction = useCallback(
+    async (orderId: string, action: "cancel" | "return" | "replace") => {
+      const confirmMessages: Record<typeof action, string> = {
+        cancel: "Cancel this order?",
+        return: "Request a return for this order?",
+        replace: "Request a replacement for this order?",
+      };
+
+      if (!window.confirm(confirmMessages[action])) return;
+
+      setOrderActionLoading((prev) => ({ ...prev, [orderId]: action }));
+      const result = await updateOrderStatus(orderId, action);
+      setOrderActionLoading((prev) => ({ ...prev, [orderId]: undefined }));
+
+      if (result.success) {
+        const successMessages: Record<typeof action, string> = {
+          cancel: "Order cancelled successfully",
+          return: "Return request submitted",
+          replace: "Replacement request submitted",
+        };
+        setToastMessage(successMessages[action]);
+      } else {
+        setToastMessage(result.error ?? "Action failed");
+      }
+      setToastVisible(true);
+    },
+    [updateOrderStatus]
   );
 
   if (orders.length === 0) {
@@ -89,37 +133,85 @@ function OrdersContent() {
             className="border border-gray-200 rounded-lg overflow-hidden"
           >
             {/* Order header */}
-            <Link
-              href={`/orders/${order.id}`}
-              className="block bg-gray-50 px-5 py-4 hover:bg-gray-100 transition-colors"
-            >
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
-                <div>
-                  <span className="text-gray-500">Order </span>
-                  <span className="font-mono font-medium text-gray-900">
-                    {order.id}
-                  </span>
-                </div>
-                <div className="text-gray-500">{formatDate(order.date)}</div>
-                <div>
-                  <span
-                    className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${
-                      STATUS_STYLES[order.status] ?? STATUS_STYLES.pending
-                    }`}
-                  >
-                    {order.status}
-                  </span>
-                </div>
-                <div className="sm:ml-auto flex items-center gap-2">
-                  <span className="font-semibold text-gray-900">
-                    Total: ${order.total.toFixed(2)}
-                  </span>
-                  <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
+            <div className="bg-gray-50 px-5 py-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <Link
+                  href={`/orders/${order.id}`}
+                  className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm hover:underline"
+                >
+                  <div>
+                    <span className="text-gray-500">Order </span>
+                    <span className="font-mono font-medium text-gray-900">{order.id}</span>
+                  </div>
+                  <div className="text-gray-500">{formatDate(order.date)}</div>
+                  <div>
+                    <span
+                      className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                        STATUS_STYLES[order.status] ?? STATUS_STYLES.pending
+                      }`}
+                    >
+                      {STATUS_LABELS[order.status] ?? order.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-gray-900">
+                      Total: ${order.total.toFixed(2)}
+                    </span>
+                    <svg
+                      className="h-4 w-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </Link>
+
+                {(() => {
+                  const loadingAction = orderActionLoading[order.id];
+                  const busy = Boolean(loadingAction);
+                  const canCancel = order.status === "pending" || order.status === "processing";
+                  const canReturnReplace = order.status === "delivered";
+
+                  return (
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleOrderAction(order.id, "cancel")}
+                        disabled={busy || !canCancel}
+                        className="bg-white border border-red-300 text-red-700 hover:bg-red-50 font-medium px-3 py-1.5 rounded-md transition-colors text-sm disabled:opacity-60"
+                      >
+                        {loadingAction === "cancel" ? "Processing..." : "Cancel"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOrderAction(order.id, "return")}
+                        disabled={busy || !canReturnReplace}
+                        className="bg-white border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium px-3 py-1.5 rounded-md transition-colors text-sm disabled:opacity-60"
+                      >
+                        {loadingAction === "return" ? "Processing..." : "Request Return"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleOrderAction(order.id, "replace")}
+                        disabled={busy || !canReturnReplace}
+                        className="bg-white border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium px-3 py-1.5 rounded-md transition-colors text-sm disabled:opacity-60"
+                      >
+                        {loadingAction === "replace"
+                          ? "Processing..."
+                          : "Request Replacement"}
+                      </button>
+                    </div>
+                  );
+                })()}
               </div>
-            </Link>
+            </div>
 
             {/* Order items */}
             <ul className="divide-y divide-gray-100">

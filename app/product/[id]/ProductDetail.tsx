@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, FormEvent } from "react";
+import { useState, useCallback, useEffect, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -48,13 +48,18 @@ function ClickableStarRating({ rating, onRate }: { rating: number; onRate: (r: n
 }
 
 export default function ProductDetail({ product }: { product: Product }) {
-  const { addToCart, placeOrder, addToWishlist, removeFromWishlist, isInWishlist, getProductReviews, addReview } = useApp();
+  const { addToCart, placeOrder, addToWishlist, removeFromWishlist, isInWishlist, getProductReviews, addReview, fetchProductReviews } = useApp();
   const { isAuthenticated, user } = useAuth();
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [added, setAdded] = useState(false);
+
+  // Fetch reviews from API when product loads
+  useEffect(() => {
+    fetchProductReviews(product.id);
+  }, [product.id, fetchProductReviews]);
 
   const wishlisted = isInWishlist(product.id);
   const productReviews = getProductReviews(product.id);
@@ -81,15 +86,19 @@ export default function ProductDetail({ product }: { product: Product }) {
     setTimeout(() => setAdded(false), 1500);
   }, [addToCart, product, quantity, isAuthenticated, router]);
 
-  const handleBuyNow = useCallback(() => {
+  const handleBuyNow = useCallback(async () => {
     if (!isAuthenticated) {
       router.push("/signin");
       return;
     }
     const items = [{ product, quantity }];
     const total = product.price * quantity;
-    placeOrder(items, total);
-    router.push("/orders");
+    try {
+      await placeOrder(items, total);
+      router.push("/orders");
+    } catch {
+      // Error handled in context
+    }
   }, [product, quantity, placeOrder, router, isAuthenticated]);
 
   const handleWishlist = useCallback(() => {

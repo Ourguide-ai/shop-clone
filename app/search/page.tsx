@@ -1,24 +1,41 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { products } from "@/lib/products";
+import { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
+import ProductCardSkeleton from "@/components/ProductCardSkeleton";
+import { apiGet } from "@/lib/api";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  const [results, setResults] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const results = useMemo(() => {
-    if (!query.trim()) return [];
-    const lower = query.toLowerCase();
-    return products.filter(
-      (p) =>
-        p.title.toLowerCase().includes(lower) ||
-        p.description.toLowerCase().includes(lower) ||
-        p.category.toLowerCase().includes(lower)
-    );
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    async function search() {
+      setLoading(true);
+      try {
+        const data = await apiGet<{ products: Product[] }>(
+          `/api/products?q=${encodeURIComponent(query)}`
+        );
+        setResults(data.products);
+      } catch (err) {
+        console.error("Search failed:", err);
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    search();
   }, [query]);
 
   return (
@@ -29,12 +46,20 @@ export default function SearchPage() {
             <h1 className="text-2xl font-bold text-gray-900 mb-1">
               Search Results
             </h1>
-            <p className="text-sm text-gray-500">
-              {results.length} {results.length === 1 ? "result" : "results"} for &ldquo;{query}&rdquo;
-            </p>
+            {!loading && (
+              <p className="text-sm text-gray-500">
+                {results.length} {results.length === 1 ? "result" : "results"} for &ldquo;{query}&rdquo;
+              </p>
+            )}
           </div>
 
-          {results.length > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : results.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {results.map((product) => (
                 <ProductCard key={product.id} product={product} />

@@ -1,0 +1,2330 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ShopClone E-Commerce API",
+    "description": "A full-featured e-commerce REST API powering the ShopClone storefront. Provides endpoints for user authentication, product catalog browsing, shopping cart management, order processing, wishlists, product reviews, and simulated payment processing.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "ShopClone API Support"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "User authentication, registration, profile management, and account operations"
+    },
+    {
+      "name": "Products",
+      "description": "Product catalog browsing and seeding"
+    },
+    {
+      "name": "Cart",
+      "description": "Shopping cart management (requires authentication)"
+    },
+    {
+      "name": "Orders",
+      "description": "Order placement and retrieval (requires authentication)"
+    },
+    {
+      "name": "Wishlist",
+      "description": "Product wishlist management (requires authentication)"
+    },
+    {
+      "name": "Reviews",
+      "description": "Product review submission and retrieval"
+    },
+    {
+      "name": "Payment",
+      "description": "Simulated payment processing (requires authentication)"
+    }
+  ],
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Register a new user",
+        "description": "Creates a new user account with the provided name, email, date of birth, and password. Returns the created user object and an authentication token.",
+        "operationId": "signUp",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              },
+              "example": {
+                "name": "Jane Doe",
+                "email": "jane.doe@example.com",
+                "dob": "1995-06-15",
+                "password": "SecureP@ss123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                },
+                "example": {
+                  "user": {
+                    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                    "name": "Jane Doe",
+                    "email": "jane.doe@example.com",
+                    "dob": "1995-06-15",
+                    "address": {
+                      "street": "",
+                      "city": "",
+                      "state": "",
+                      "zipCode": "",
+                      "country": ""
+                    }
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body (missing or malformed fields)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Name, email, date of birth, and password are required"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "A user with this email already exists"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sign in an existing user",
+        "description": "Authenticates a user with their email and password. Returns the user object and a Bearer token for subsequent authenticated requests.",
+        "operationId": "signIn",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequest"
+              },
+              "example": {
+                "email": "jane.doe@example.com",
+                "password": "SecureP@ss123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully authenticated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                },
+                "example": {
+                  "user": {
+                    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                    "name": "Jane Doe",
+                    "email": "jane.doe@example.com",
+                    "dob": "1995-06-15",
+                    "address": {
+                      "street": "",
+                      "city": "",
+                      "state": "",
+                      "zipCode": "",
+                      "country": ""
+                    }
+                  },
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body (missing email or password)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Email and password are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid email or password"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user profile",
+        "description": "Retrieves the profile of the currently authenticated user based on the Bearer token provided in the Authorization header.",
+        "operationId": "getMe",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                },
+                "example": {
+                  "user": {
+                    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                    "name": "Jane Doe",
+                    "email": "jane.doe@example.com",
+                    "dob": "1995-06-15",
+                    "address": {
+                      "street": "123 Main Street, Apt 4B",
+                      "city": "San Francisco",
+                      "state": "CA",
+                      "zipCode": "94102",
+                      "country": "United States"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/profile": {
+      "put": {
+        "tags": ["Auth"],
+        "summary": "Update user profile",
+        "description": "Updates the authenticated user's profile. All fields are optional; only provided fields will be updated.",
+        "operationId": "updateProfile",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              },
+              "example": {
+                "name": "Jane Smith",
+                "email": "jane.smith@example.com",
+                "dob": "1995-06-15",
+                "address": {
+                  "street": "123 Main Street, Apt 4B",
+                  "city": "San Francisco",
+                  "state": "CA",
+                  "zipCode": "94102",
+                  "country": "United States"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                },
+                "example": {
+                  "user": {
+                    "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+                    "name": "Jane Smith",
+                    "email": "jane.smith@example.com",
+                    "dob": "1995-06-15",
+                    "address": {
+                      "street": "123 Main Street, Apt 4B",
+                      "city": "San Francisco",
+                      "state": "CA",
+                      "zipCode": "94102",
+                      "country": "United States"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "409": {
+            "description": "Email already in use by another account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "A user with this email already exists"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/password": {
+      "put": {
+        "tags": ["Auth"],
+        "summary": "Change user password",
+        "description": "Changes the authenticated user's password. Requires the current password for verification and the new password.",
+        "operationId": "changePassword",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              },
+              "example": {
+                "currentPassword": "SecureP@ss123",
+                "newPassword": "EvenMoreSecure@456"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password successfully changed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                },
+                "example": {
+                  "success": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing fields or new password does not meet requirements)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Current password and new password are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/auth/account": {
+      "delete": {
+        "tags": ["Auth"],
+        "summary": "Delete user account",
+        "description": "Permanently deletes the authenticated user's account. Requires the current password for confirmation.",
+        "operationId": "deleteAccount",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteAccountRequest"
+              },
+              "example": {
+                "password": "SecureP@ss123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Account successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                },
+                "example": {
+                  "success": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing password)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Password is required to delete account"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "List all products",
+        "description": "Retrieves a list of all products in the catalog. Supports optional filtering by category and text search via query parameters.",
+        "operationId": "listProducts",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "description": "Filter products by category name",
+            "schema": {
+              "type": "string"
+            },
+            "example": "electronics"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "description": "Search query to filter products by title or description",
+            "schema": {
+              "type": "string"
+            },
+            "example": "wireless headphones"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved product list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductListResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": "prod-001",
+                      "title": "Wireless Bluetooth Headphones",
+                      "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                      "price": 79.99,
+                      "image": "https://example.com/images/headphones.jpg",
+                      "category": "electronics"
+                    },
+                    {
+                      "id": "prod-002",
+                      "title": "Organic Cotton T-Shirt",
+                      "description": "Comfortable and sustainable organic cotton t-shirt available in multiple colors.",
+                      "price": 24.99,
+                      "image": "https://example.com/images/tshirt.jpg",
+                      "category": "clothing"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Products"],
+        "summary": "Seed the product catalog",
+        "description": "Seeds the product catalog with initial data. This endpoint is intended for development and setup purposes. The request body must include an action field set to \"seed\".",
+        "operationId": "seedProducts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeedProductsRequest"
+              },
+              "example": {
+                "action": "seed"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Products successfully seeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeedProductsResponse"
+                },
+                "example": {
+                  "success": true,
+                  "message": "Successfully seeded 20 products"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing or invalid action field)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid action. Only 'seed' is supported."
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get a product by ID",
+        "description": "Retrieves the details of a single product by its unique identifier.",
+        "operationId": "getProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product",
+            "schema": {
+              "type": "string"
+            },
+            "example": "prod-001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleProductResponse"
+                },
+                "example": {
+                  "product": {
+                    "id": "prod-001",
+                    "title": "Wireless Bluetooth Headphones",
+                    "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                    "price": 79.99,
+                    "image": "https://example.com/images/headphones.jpg",
+                    "category": "electronics"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product ID format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid product ID"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Product not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/cart": {
+      "get": {
+        "tags": ["Cart"],
+        "summary": "Get the current user's cart",
+        "description": "Retrieves all items in the authenticated user's shopping cart, including full product details and quantities.",
+        "operationId": "getCart",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved cart contents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "product": {
+                        "id": "prod-001",
+                        "title": "Wireless Bluetooth Headphones",
+                        "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                        "price": 79.99,
+                        "image": "https://example.com/images/headphones.jpg",
+                        "category": "electronics"
+                      },
+                      "quantity": 2
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Cart"],
+        "summary": "Add an item to the cart",
+        "description": "Adds a product to the authenticated user's shopping cart. If the product already exists in the cart, the quantity is incremented. An optional quantity parameter can be specified (defaults to 1).",
+        "operationId": "addToCart",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToCartRequest"
+              },
+              "example": {
+                "productId": "prod-001",
+                "quantity": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item successfully added to cart; returns the updated cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "product": {
+                        "id": "prod-001",
+                        "title": "Wireless Bluetooth Headphones",
+                        "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                        "price": 79.99,
+                        "image": "https://example.com/images/headphones.jpg",
+                        "category": "electronics"
+                      },
+                      "quantity": 1
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing productId or invalid quantity)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Product ID is required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Cart"],
+        "summary": "Update cart item quantity",
+        "description": "Updates the quantity of a specific product in the authenticated user's cart. If the quantity is set to 0, the item is removed from the cart.",
+        "operationId": "updateCartItem",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCartRequest"
+              },
+              "example": {
+                "productId": "prod-001",
+                "quantity": 3
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart item successfully updated; returns the updated cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "example": {
+                  "items": [
+                    {
+                      "product": {
+                        "id": "prod-001",
+                        "title": "Wireless Bluetooth Headphones",
+                        "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                        "price": 79.99,
+                        "image": "https://example.com/images/headphones.jpg",
+                        "category": "electronics"
+                      },
+                      "quantity": 3
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing productId or invalid quantity)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Product ID and quantity are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Cart"],
+        "summary": "Clear the entire cart",
+        "description": "Removes all items from the authenticated user's shopping cart.",
+        "operationId": "clearCart",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart successfully cleared",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "example": {
+                  "items": []
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/cart/{productId}": {
+      "delete": {
+        "tags": ["Cart"],
+        "summary": "Remove a specific item from the cart",
+        "description": "Removes a single product from the authenticated user's shopping cart by its product ID.",
+        "operationId": "removeCartItem",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to remove from the cart",
+            "schema": {
+              "type": "string"
+            },
+            "example": "prod-001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item successfully removed; returns the updated cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CartResponse"
+                },
+                "example": {
+                  "items": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid product ID"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "List all orders for the current user",
+        "description": "Retrieves a list of all orders placed by the authenticated user, sorted by date in descending order.",
+        "operationId": "listOrders",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved order list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderListResponse"
+                },
+                "example": {
+                  "orders": [
+                    {
+                      "id": "ord-abc123",
+                      "items": [
+                        {
+                          "product": {
+                            "id": "prod-001",
+                            "title": "Wireless Bluetooth Headphones",
+                            "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                            "price": 79.99,
+                            "image": "https://example.com/images/headphones.jpg",
+                            "category": "electronics"
+                          },
+                          "quantity": 2
+                        }
+                      ],
+                      "total": 159.98,
+                      "date": "2026-02-23T14:30:00.000Z",
+                      "status": "pending"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Place a new order",
+        "description": "Creates a new order for the authenticated user with the specified items and total amount. The order is initially created with a \"pending\" status.",
+        "operationId": "createOrder",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              },
+              "example": {
+                "items": [
+                  {
+                    "product": {
+                      "id": "prod-001",
+                      "title": "Wireless Bluetooth Headphones",
+                      "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                      "price": 79.99,
+                      "image": "https://example.com/images/headphones.jpg",
+                      "category": "electronics"
+                    },
+                    "quantity": 2
+                  }
+                ],
+                "total": 159.98
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleOrderResponse"
+                },
+                "example": {
+                  "order": {
+                    "id": "ord-abc123",
+                    "items": [
+                      {
+                        "product": {
+                          "id": "prod-001",
+                          "title": "Wireless Bluetooth Headphones",
+                          "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                          "price": 79.99,
+                          "image": "https://example.com/images/headphones.jpg",
+                          "category": "electronics"
+                        },
+                        "quantity": 2
+                      }
+                    ],
+                    "total": 159.98,
+                    "date": "2026-02-23T14:30:00.000Z",
+                    "status": "pending"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing items or total)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Items and total are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/orders/{id}": {
+      "get": {
+        "tags": ["Orders"],
+        "summary": "Get an order by ID",
+        "description": "Retrieves the details of a specific order belonging to the authenticated user.",
+        "operationId": "getOrder",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the order",
+            "schema": {
+              "type": "string"
+            },
+            "example": "ord-abc123"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved order details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleOrderResponse"
+                },
+                "example": {
+                  "order": {
+                    "id": "ord-abc123",
+                    "items": [
+                      {
+                        "product": {
+                          "id": "prod-001",
+                          "title": "Wireless Bluetooth Headphones",
+                          "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                          "price": 79.99,
+                          "image": "https://example.com/images/headphones.jpg",
+                          "category": "electronics"
+                        },
+                        "quantity": 2
+                      }
+                    ],
+                    "total": 159.98,
+                    "date": "2026-02-23T14:30:00.000Z",
+                    "status": "processing"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Order not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Orders"],
+        "summary": "Update order status (cancel, return, or replace)",
+        "description": "Performs an action on an order belonging to the authenticated user. Supported actions: 'cancel' (only for pending/processing orders), 'return' (only for delivered orders), 'replace' (only for delivered orders).",
+        "operationId": "updateOrderStatus",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the order",
+            "schema": {
+              "type": "string"
+            },
+            "example": "ord-abc123"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusRequest"
+              },
+              "example": {
+                "action": "cancel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order status successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleOrderResponse"
+                },
+                "example": {
+                  "order": {
+                    "id": "ord-abc123",
+                    "items": [
+                      {
+                        "product": {
+                          "id": "prod-001",
+                          "title": "Wireless Bluetooth Headphones",
+                          "description": "Premium noise-cancelling wireless headphones with 30-hour battery life.",
+                          "price": 79.99,
+                          "image": "https://example.com/images/headphones.jpg",
+                          "category": "electronics"
+                        },
+                        "quantity": 2
+                      }
+                    ],
+                    "total": 159.98,
+                    "date": "2026-02-23T14:30:00.000Z",
+                    "status": "cancelled"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid action or action not allowed for the current order status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Order can only be cancelled when pending or processing"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Order not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/wishlist": {
+      "get": {
+        "tags": ["Wishlist"],
+        "summary": "Get the current user's wishlist",
+        "description": "Retrieves all products in the authenticated user's wishlist.",
+        "operationId": "getWishlist",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WishlistResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": "prod-002",
+                      "title": "Organic Cotton T-Shirt",
+                      "description": "Comfortable and sustainable organic cotton t-shirt available in multiple colors.",
+                      "price": 24.99,
+                      "image": "https://example.com/images/tshirt.jpg",
+                      "category": "clothing"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Wishlist"],
+        "summary": "Add a product to the wishlist",
+        "description": "Adds a product to the authenticated user's wishlist by its product ID.",
+        "operationId": "addToWishlist",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddToWishlistRequest"
+              },
+              "example": {
+                "productId": "prod-002"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Product successfully added to wishlist; returns the updated wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WishlistResponse"
+                },
+                "example": {
+                  "products": [
+                    {
+                      "id": "prod-002",
+                      "title": "Organic Cotton T-Shirt",
+                      "description": "Comfortable and sustainable organic cotton t-shirt available in multiple colors.",
+                      "price": 24.99,
+                      "image": "https://example.com/images/tshirt.jpg",
+                      "category": "clothing"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing productId)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Product ID is required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/wishlist/{productId}": {
+      "delete": {
+        "tags": ["Wishlist"],
+        "summary": "Remove a product from the wishlist",
+        "description": "Removes a specific product from the authenticated user's wishlist by its product ID.",
+        "operationId": "removeFromWishlist",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to remove from the wishlist",
+            "schema": {
+              "type": "string"
+            },
+            "example": "prod-002"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product successfully removed from wishlist; returns the updated wishlist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WishlistResponse"
+                },
+                "example": {
+                  "products": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid product ID"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/reviews/{productId}": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get reviews for a product",
+        "description": "Retrieves all reviews for a specific product. This endpoint does not require authentication.",
+        "operationId": "getProductReviews",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "description": "The unique identifier of the product to get reviews for",
+            "schema": {
+              "type": "string"
+            },
+            "example": "prod-001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewListResponse"
+                },
+                "example": {
+                  "reviews": [
+                    {
+                      "id": "rev-xyz789",
+                      "productId": "prod-001",
+                      "userName": "Jane Doe",
+                      "rating": 5,
+                      "title": "Excellent sound quality!",
+                      "body": "These headphones have amazing sound quality and the noise cancellation is top-notch. Battery life is as advertised.",
+                      "date": "2026-02-20T10:15:00.000Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid product ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Invalid product ID"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/reviews": {
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Submit a product review",
+        "description": "Creates a new review for a product. Requires authentication. The reviewer's name is automatically derived from the authenticated user's profile.",
+        "operationId": "createReview",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReviewRequest"
+              },
+              "example": {
+                "productId": "prod-001",
+                "rating": 5,
+                "title": "Excellent sound quality!",
+                "body": "These headphones have amazing sound quality and the noise cancellation is top-notch. Battery life is as advertised."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Review successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SingleReviewResponse"
+                },
+                "example": {
+                  "review": {
+                    "id": "rev-xyz789",
+                    "productId": "prod-001",
+                    "userName": "Jane Doe",
+                    "rating": 5,
+                    "title": "Excellent sound quality!",
+                    "body": "These headphones have amazing sound quality and the noise cancellation is top-notch. Battery life is as advertised.",
+                    "date": "2026-02-23T14:30:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing required fields or invalid rating)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Product ID, rating, title, and body are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/payment/process": {
+      "post": {
+        "tags": ["Payment"],
+        "summary": "Process a payment",
+        "description": "Processes a simulated payment for an order. This endpoint does not connect to a real payment gateway; it simulates a successful payment transaction and returns a mock transaction ID.",
+        "operationId": "processPayment",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessPaymentRequest"
+              },
+              "example": {
+                "orderId": "ord-abc123",
+                "amount": 159.98
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment successfully processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaymentResponse"
+                },
+                "example": {
+                  "success": true,
+                  "transactionId": "txn-9f8e7d6c5b4a",
+                  "orderId": "ord-abc123",
+                  "amount": 159.98,
+                  "message": "Payment processed successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (missing orderId or amount, or invalid amount)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Order ID and amount are required"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "JWT token obtained from the /api/auth/signup or /api/auth/signin endpoints. Include in the Authorization header as: Bearer <token>"
+      }
+    },
+    "schemas": {
+      "Address": {
+        "type": "object",
+        "description": "Represents a user's shipping address",
+        "properties": {
+          "street": {
+            "type": "string",
+            "description": "Street address",
+            "example": "123 Main Street, Apt 4B"
+          },
+          "city": {
+            "type": "string",
+            "description": "City name",
+            "example": "San Francisco"
+          },
+          "state": {
+            "type": "string",
+            "description": "State or region",
+            "example": "CA"
+          },
+          "zipCode": {
+            "type": "string",
+            "description": "ZIP or postal code",
+            "example": "94102"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country name",
+            "example": "United States"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "description": "Represents a user in the system",
+        "required": ["id", "name", "email", "dob"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the user",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full name of the user",
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the user",
+            "example": "jane.doe@example.com"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Date of birth of the user",
+            "example": "1995-06-15"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "description": "Represents a product in the catalog",
+        "required": ["id", "title", "description", "price", "image", "category"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the product",
+            "example": "prod-001"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the product",
+            "example": "Wireless Bluetooth Headphones"
+          },
+          "description": {
+            "type": "string",
+            "description": "Detailed description of the product",
+            "example": "Premium noise-cancelling wireless headphones with 30-hour battery life."
+          },
+          "price": {
+            "type": "number",
+            "format": "double",
+            "description": "Price of the product in USD",
+            "minimum": 0,
+            "example": 79.99
+          },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the product image",
+            "example": "https://example.com/images/headphones.jpg"
+          },
+          "category": {
+            "type": "string",
+            "description": "Category the product belongs to",
+            "example": "electronics"
+          }
+        }
+      },
+      "CartItem": {
+        "type": "object",
+        "description": "Represents an item in the shopping cart, combining a product with a quantity",
+        "required": ["product", "quantity"],
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the product in the cart",
+            "minimum": 1,
+            "example": 2
+          }
+        }
+      },
+      "OrderItem": {
+        "type": "object",
+        "description": "Represents an item within an order",
+        "required": ["product", "quantity"],
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity of the product ordered",
+            "minimum": 1,
+            "example": 2
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "description": "Represents a customer order",
+        "required": ["id", "items", "total", "date", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "example": "ord-abc123"
+          },
+          "items": {
+            "type": "array",
+            "description": "List of items in the order",
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "double",
+            "description": "Total cost of the order in USD",
+            "minimum": 0,
+            "example": 159.98
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of when the order was placed",
+            "example": "2026-02-23T14:30:00.000Z"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          }
+        }
+      },
+      "OrderStatus": {
+        "type": "string",
+        "description": "The current status of an order",
+        "enum": ["pending", "processing", "shipped", "delivered", "cancelled", "return_requested", "replacement_requested"],
+        "example": "pending"
+      },
+      "Review": {
+        "type": "object",
+        "description": "Represents a product review submitted by a user",
+        "required": ["id", "productId", "userName", "rating", "title", "body", "date"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the review",
+            "example": "rev-xyz789"
+          },
+          "productId": {
+            "type": "string",
+            "description": "The ID of the product being reviewed",
+            "example": "prod-001"
+          },
+          "userName": {
+            "type": "string",
+            "description": "Display name of the reviewer",
+            "example": "Jane Doe"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Rating from 1 to 5 stars",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5
+          },
+          "title": {
+            "type": "string",
+            "description": "Brief title summarizing the review",
+            "example": "Excellent sound quality!"
+          },
+          "body": {
+            "type": "string",
+            "description": "Full text of the review",
+            "example": "These headphones have amazing sound quality and the noise cancellation is top-notch. Battery life is as advertised."
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp of when the review was submitted",
+            "example": "2026-02-20T10:15:00.000Z"
+          }
+        }
+      },
+      "SignUpRequest": {
+        "type": "object",
+        "description": "Request body for user registration",
+        "required": ["name", "email", "dob", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full name of the user",
+            "minLength": 1,
+            "example": "Jane Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address for the new account",
+            "example": "jane.doe@example.com"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Date of birth (YYYY-MM-DD format)",
+            "example": "1995-06-15"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for the new account",
+            "minLength": 6,
+            "format": "password",
+            "example": "SecureP@ss123"
+          }
+        }
+      },
+      "SignInRequest": {
+        "type": "object",
+        "description": "Request body for user authentication",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Registered email address",
+            "example": "jane.doe@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Account password",
+            "format": "password",
+            "example": "SecureP@ss123"
+          }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "description": "Request body for updating user profile. All fields are optional; only provided fields will be updated.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Updated full name",
+            "minLength": 1,
+            "example": "Jane Smith"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Updated email address",
+            "example": "jane.smith@example.com"
+          },
+          "dob": {
+            "type": "string",
+            "description": "Updated date of birth (YYYY-MM-DD format)",
+            "example": "1995-06-15"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        }
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "description": "Request body for changing the user's password",
+        "required": ["currentPassword", "newPassword"],
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "description": "The user's current password for verification",
+            "format": "password",
+            "example": "SecureP@ss123"
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "The desired new password",
+            "minLength": 6,
+            "format": "password",
+            "example": "EvenMoreSecure@456"
+          }
+        }
+      },
+      "DeleteAccountRequest": {
+        "type": "object",
+        "description": "Request body for account deletion confirmation",
+        "required": ["password"],
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Current password to confirm account deletion",
+            "format": "password",
+            "example": "SecureP@ss123"
+          }
+        }
+      },
+      "SeedProductsRequest": {
+        "type": "object",
+        "description": "Request body for seeding the product catalog",
+        "required": ["action"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The action to perform. Must be \"seed\".",
+            "enum": ["seed"],
+            "example": "seed"
+          }
+        }
+      },
+      "AddToCartRequest": {
+        "type": "object",
+        "description": "Request body for adding a product to the cart",
+        "required": ["productId"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the product to add",
+            "example": "prod-001"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "Quantity to add (defaults to 1 if not specified)",
+            "minimum": 1,
+            "default": 1,
+            "example": 1
+          }
+        }
+      },
+      "UpdateCartRequest": {
+        "type": "object",
+        "description": "Request body for updating a cart item's quantity",
+        "required": ["productId", "quantity"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the product to update",
+            "example": "prod-001"
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The new quantity for the cart item. Set to 0 to remove the item.",
+            "minimum": 0,
+            "example": 3
+          }
+        }
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "description": "Request body for placing a new order",
+        "required": ["items", "total"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "List of items to include in the order",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/components/schemas/OrderItem"
+            }
+          },
+          "total": {
+            "type": "number",
+            "format": "double",
+            "description": "Total cost of the order in USD",
+            "minimum": 0,
+            "example": 159.98
+          }
+        }
+      },
+      "UpdateOrderStatusRequest": {
+        "type": "object",
+        "description": "Request body for updating an order's status via an action",
+        "required": ["action"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The action to perform on the order. 'cancel' cancels pending/processing orders, 'return' requests a return for delivered orders, 'replace' requests a replacement for delivered orders.",
+            "enum": ["cancel", "return", "replace"],
+            "example": "cancel"
+          }
+        }
+      },
+      "AddToWishlistRequest": {
+        "type": "object",
+        "description": "Request body for adding a product to the wishlist",
+        "required": ["productId"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the product to add to the wishlist",
+            "example": "prod-002"
+          }
+        }
+      },
+      "CreateReviewRequest": {
+        "type": "object",
+        "description": "Request body for submitting a product review",
+        "required": ["productId", "rating", "title", "body"],
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The ID of the product being reviewed",
+            "example": "prod-001"
+          },
+          "rating": {
+            "type": "integer",
+            "description": "Rating from 1 to 5 stars",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 5
+          },
+          "title": {
+            "type": "string",
+            "description": "Brief title summarizing the review",
+            "minLength": 1,
+            "example": "Excellent sound quality!"
+          },
+          "body": {
+            "type": "string",
+            "description": "Full text of the review",
+            "minLength": 1,
+            "example": "These headphones have amazing sound quality and the noise cancellation is top-notch. Battery life is as advertised."
+          }
+        }
+      },
+      "ProcessPaymentRequest": {
+        "type": "object",
+        "description": "Request body for processing a simulated payment",
+        "required": ["orderId", "amount"],
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "The unique identifier of the order to pay for",
+            "example": "ord-abc123"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The payment amount in USD",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "example": 159.98
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "description": "Response returned after successful signup or signin",
+        "required": ["user", "token"],
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "description": "JWT authentication token to be used as a Bearer token in subsequent requests",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "description": "Response containing the user profile",
+        "required": ["user"],
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "description": "Generic success response",
+        "required": ["success"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates the operation was successful",
+            "example": true
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "Standard error response",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Human-readable error message describing what went wrong",
+            "example": "An unexpected error occurred"
+          }
+        }
+      },
+      "ProductListResponse": {
+        "type": "object",
+        "description": "Response containing a list of products",
+        "required": ["products"],
+        "properties": {
+          "products": {
+            "type": "array",
+            "description": "Array of product objects",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        }
+      },
+      "SingleProductResponse": {
+        "type": "object",
+        "description": "Response containing a single product",
+        "required": ["product"],
+        "properties": {
+          "product": {
+            "$ref": "#/components/schemas/Product"
+          }
+        }
+      },
+      "SeedProductsResponse": {
+        "type": "object",
+        "description": "Response after seeding the product catalog",
+        "required": ["success", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates the seed operation was successful",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable message about the seeding result",
+            "example": "Successfully seeded 20 products"
+          }
+        }
+      },
+      "CartResponse": {
+        "type": "object",
+        "description": "Response containing the current state of the shopping cart",
+        "required": ["items"],
+        "properties": {
+          "items": {
+            "type": "array",
+            "description": "Array of cart items (product with quantity)",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          }
+        }
+      },
+      "OrderListResponse": {
+        "type": "object",
+        "description": "Response containing a list of orders",
+        "required": ["orders"],
+        "properties": {
+          "orders": {
+            "type": "array",
+            "description": "Array of order objects",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            }
+          }
+        }
+      },
+      "SingleOrderResponse": {
+        "type": "object",
+        "description": "Response containing a single order",
+        "required": ["order"],
+        "properties": {
+          "order": {
+            "$ref": "#/components/schemas/Order"
+          }
+        }
+      },
+      "WishlistResponse": {
+        "type": "object",
+        "description": "Response containing the user's wishlist products",
+        "required": ["products"],
+        "properties": {
+          "products": {
+            "type": "array",
+            "description": "Array of product objects in the wishlist",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        }
+      },
+      "ReviewListResponse": {
+        "type": "object",
+        "description": "Response containing a list of reviews for a product",
+        "required": ["reviews"],
+        "properties": {
+          "reviews": {
+            "type": "array",
+            "description": "Array of review objects",
+            "items": {
+              "$ref": "#/components/schemas/Review"
+            }
+          }
+        }
+      },
+      "SingleReviewResponse": {
+        "type": "object",
+        "description": "Response containing a single review",
+        "required": ["review"],
+        "properties": {
+          "review": {
+            "$ref": "#/components/schemas/Review"
+          }
+        }
+      },
+      "PaymentResponse": {
+        "type": "object",
+        "description": "Response from a successful simulated payment",
+        "required": ["success", "transactionId", "orderId", "amount", "message"],
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates the payment was processed successfully",
+            "example": true
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Unique identifier for the payment transaction",
+            "example": "txn-9f8e7d6c5b4a"
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The order ID the payment was applied to",
+            "example": "ord-abc123"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount that was charged in USD",
+            "example": 159.98
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable message about the payment result",
+            "example": "Payment processed successfully"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Authentication required or token is invalid/expired",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "error": "Authentication required"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "An unexpected server error occurred",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "example": {
+              "error": "Internal server error"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,6 +13,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
 
   function validate(): boolean {
     const next: Record<string, string> = {};
@@ -38,11 +39,14 @@ export default function SignUpPage() {
     return Object.keys(next).length === 0;
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!validate()) return;
 
-    const result = signUp(name, email, "", password);
+    setSubmitting(true);
+    const result = await signUp(name, email, "", password);
+    setSubmitting(false);
+
     if (result.success) {
       router.push("/");
     } else {
@@ -163,9 +167,10 @@ export default function SignUpPage() {
 
             <button
               type="submit"
-              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-2.5 rounded-lg transition-all text-sm mt-2"
+              disabled={submitting}
+              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-2.5 rounded-lg transition-all text-sm mt-2 disabled:opacity-60"
             >
-              Create Account
+              {submitting ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 

@@ -1,9 +1,18 @@
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
 export interface User {
   id: string;
   name: string;
   dob: string;
   email: string;
   password: string;
+  address: Address;
 }
 
 export interface Product {
@@ -25,7 +34,7 @@ export interface Order {
   items: CartItem[];
   total: number;
   date: string;
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled";
+  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled" | "return_requested" | "replacement_requested";
 }
 
 export interface Review {

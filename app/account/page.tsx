@@ -28,6 +28,15 @@ function AccountSettings() {
   const [profileErrors, setProfileErrors] = useState<Record<string, string>>({});
   const [profileSuccess, setProfileSuccess] = useState(false);
 
+  // Address state
+  const [street, setStreet] = useState(user?.address?.street ?? "");
+  const [city, setCity] = useState(user?.address?.city ?? "");
+  const [addrState, setAddrState] = useState(user?.address?.state ?? "");
+  const [zipCode, setZipCode] = useState(user?.address?.zipCode ?? "");
+  const [country, setCountry] = useState(user?.address?.country ?? "");
+  const [addressErrors, setAddressErrors] = useState<Record<string, string>>({});
+  const [addressSuccess, setAddressSuccess] = useState(false);
+
   // Password state
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -51,18 +60,42 @@ function AccountSettings() {
     return Object.keys(next).length === 0;
   }
 
-  function handleProfileSubmit(e: FormEvent) {
+  async function handleProfileSubmit(e: FormEvent) {
     e.preventDefault();
     setProfileSuccess(false);
     if (!validateProfile()) return;
 
-    const result = updateProfile({ name, email, dob });
+    const result = await updateProfile({ name, email, dob });
     if (result.success) {
       setProfileSuccess(true);
       setToastMessage("Profile updated successfully");
       setToastVisible(true);
     } else {
       setProfileErrors({ email: result.error ?? "Update failed" });
+    }
+  }
+
+  async function handleAddressSubmit(e: FormEvent) {
+    e.preventDefault();
+    setAddressSuccess(false);
+    const next: Record<string, string> = {};
+    if (!street.trim()) next.street = "Street address is required";
+    if (!city.trim()) next.city = "City is required";
+    if (!addrState.trim()) next.addrState = "State is required";
+    if (!zipCode.trim()) next.zipCode = "ZIP code is required";
+    if (!country.trim()) next.country = "Country is required";
+    setAddressErrors(next);
+    if (Object.keys(next).length > 0) return;
+
+    const result = await updateProfile({
+      address: { street, city, state: addrState, zipCode, country },
+    });
+    if (result.success) {
+      setAddressSuccess(true);
+      setToastMessage("Address updated successfully");
+      setToastVisible(true);
+    } else {
+      setAddressErrors({ street: result.error ?? "Update failed" });
     }
   }
 
@@ -83,11 +116,11 @@ function AccountSettings() {
     return Object.keys(next).length === 0;
   }
 
-  function handlePasswordSubmit(e: FormEvent) {
+  async function handlePasswordSubmit(e: FormEvent) {
     e.preventDefault();
     if (!validatePassword()) return;
 
-    const result = changePassword(currentPassword, newPassword);
+    const result = await changePassword(currentPassword, newPassword);
     if (result.success) {
       setCurrentPassword("");
       setNewPassword("");
@@ -100,7 +133,7 @@ function AccountSettings() {
     }
   }
 
-  function handleDeleteAccount(e: FormEvent) {
+  async function handleDeleteAccount(e: FormEvent) {
     e.preventDefault();
     setDeleteError("");
 
@@ -109,7 +142,7 @@ function AccountSettings() {
       return;
     }
 
-    const result = deleteAccount(deletePassword);
+    const result = await deleteAccount(deletePassword);
     if (result.success) {
       router.push("/");
     } else {
@@ -195,6 +228,143 @@ function AccountSettings() {
               Save Changes
             </button>
             {profileSuccess && (
+              <span className="text-sm text-green-600 font-medium">Saved!</span>
+            )}
+          </div>
+        </form>
+      </section>
+
+      {/* Shipping Address */}
+      <section className="border border-gray-200 rounded-lg p-6 mb-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Shipping Address</h2>
+        <form onSubmit={handleAddressSubmit} className="space-y-4" noValidate>
+          <div>
+            <label htmlFor="street" className="block text-sm font-medium text-gray-900 mb-1">
+              Street Address
+            </label>
+            <input
+              id="street"
+              type="text"
+              value={street}
+              onChange={(e) => {
+                setStreet(e.target.value);
+                setAddressSuccess(false);
+                if (addressErrors.street) setAddressErrors((prev) => ({ ...prev, street: "" }));
+              }}
+              className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                addressErrors.street ? "border-red-500" : "border-gray-300"
+              }`}
+              placeholder="123 Main Street, Apt 4B"
+            />
+            {addressErrors.street && (
+              <p className="text-xs text-red-600 mt-1">{addressErrors.street}</p>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="city" className="block text-sm font-medium text-gray-900 mb-1">
+                City
+              </label>
+              <input
+                id="city"
+                type="text"
+                value={city}
+                onChange={(e) => {
+                  setCity(e.target.value);
+                  setAddressSuccess(false);
+                  if (addressErrors.city) setAddressErrors((prev) => ({ ...prev, city: "" }));
+                }}
+                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  addressErrors.city ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="San Francisco"
+              />
+              {addressErrors.city && (
+                <p className="text-xs text-red-600 mt-1">{addressErrors.city}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="addrState" className="block text-sm font-medium text-gray-900 mb-1">
+                State
+              </label>
+              <input
+                id="addrState"
+                type="text"
+                value={addrState}
+                onChange={(e) => {
+                  setAddrState(e.target.value);
+                  setAddressSuccess(false);
+                  if (addressErrors.addrState) setAddressErrors((prev) => ({ ...prev, addrState: "" }));
+                }}
+                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  addressErrors.addrState ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="CA"
+              />
+              {addressErrors.addrState && (
+                <p className="text-xs text-red-600 mt-1">{addressErrors.addrState}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="zipCode" className="block text-sm font-medium text-gray-900 mb-1">
+                ZIP Code
+              </label>
+              <input
+                id="zipCode"
+                type="text"
+                value={zipCode}
+                onChange={(e) => {
+                  setZipCode(e.target.value);
+                  setAddressSuccess(false);
+                  if (addressErrors.zipCode) setAddressErrors((prev) => ({ ...prev, zipCode: "" }));
+                }}
+                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  addressErrors.zipCode ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="94102"
+              />
+              {addressErrors.zipCode && (
+                <p className="text-xs text-red-600 mt-1">{addressErrors.zipCode}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="country" className="block text-sm font-medium text-gray-900 mb-1">
+                Country
+              </label>
+              <input
+                id="country"
+                type="text"
+                value={country}
+                onChange={(e) => {
+                  setCountry(e.target.value);
+                  setAddressSuccess(false);
+                  if (addressErrors.country) setAddressErrors((prev) => ({ ...prev, country: "" }));
+                }}
+                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  addressErrors.country ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="United States"
+              />
+              {addressErrors.country && (
+                <p className="text-xs text-red-600 mt-1">{addressErrors.country}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="submit"
+              className="bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold px-5 py-2.5 rounded-lg transition-all text-sm"
+            >
+              Save Address
+            </button>
+            {addressSuccess && (
               <span className="text-sm text-green-600 font-medium">Saved!</span>
             )}
           </div>
