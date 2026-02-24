@@ -6,31 +6,31 @@ import { apiPost } from "@/lib/api";
 
 declare global {
   interface Window {
-    crow: (action: string, payload?: unknown) => void;
+    ourguide: (action: string, payload?: unknown) => void;
   }
 }
 
-export function CrowToolsRegistrar() {
+export function OurguideToolsRegistrar() {
   const { items, placeOrder, cartTotal } = useApp();
   useEffect(() => {
     const register = () => {
-      if (typeof window.crow === "function") {
-        console.log("[CrowTools] Registering tools. Cart items:", items.length, "| Total:", cartTotal);
-        window.crow("registerTools", {
+      if (typeof window.ourguide === "function") {
+        console.log("[OurguideTools] Registering tools. Cart items:", items.length, "| Total:", cartTotal);
+        window.ourguide("registerTools", {
           buyAllCartProducts: async () => {
-            console.log("[CrowTools] buyAllCartProducts called. Items:", items.length, "| Total:", cartTotal);
+            console.log("[OurguideTools] buyAllCartProducts called. Items:", items.length, "| Total:", cartTotal);
 
             if (items.length === 0) {
-              console.warn("[CrowTools] buyAllCartProducts → cart is empty");
+              console.warn("[OurguideTools] buyAllCartProducts → cart is empty");
               return { status: "error", error: "Your cart is empty." };
             }
 
             let orderId: string;
             try {
               orderId = await placeOrder(items, cartTotal);
-              console.log("[CrowTools] Order placed. orderId:", orderId);
+              console.log("[OurguideTools] Order placed. orderId:", orderId);
             } catch (err) {
-              console.error("[CrowTools] placeOrder failed:", err);
+              console.error("[OurguideTools] placeOrder failed:", err);
               return { status: "error", error: "Failed to place order." };
             }
 
@@ -39,13 +39,13 @@ export function CrowToolsRegistrar() {
                 "/api/payment/process",
                 { orderId, amount: cartTotal },
               );
-              console.log("[CrowTools] Payment response:", payment);
+              console.log("[OurguideTools] Payment response:", payment);
               if (!payment.success) {
-                console.warn("[CrowTools] Payment not successful:", payment);
+                console.warn("[OurguideTools] Payment not successful:", payment);
                 return { status: "error", error: "Payment failed." };
               }
             } catch (err) {
-              console.error("[CrowTools] Payment request failed:", err);
+              console.error("[OurguideTools] Payment request failed:", err);
               return { status: "error", error: "Payment request failed." };
             }
 
@@ -55,13 +55,13 @@ export function CrowToolsRegistrar() {
               items_purchased: items.length,
               total: cartTotal,
             };
-            console.log("[CrowTools] buyAllCartProducts succeeded:", result);
+            console.log("[OurguideTools] buyAllCartProducts succeeded:", result);
             return result;
           },
         });
-        console.log("[CrowTools] Tools registered successfully.");
+        console.log("[OurguideTools] Tools registered successfully.");
       } else {
-        console.log("[CrowTools] window.crow not ready, retrying in 150ms...");
+        console.log("[OurguideTools] window.ourguide not ready, retrying in 150ms...");
         setTimeout(register, 2000);
       }
     };

@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
-import { CrowToolsRegistrar } from "@/components/CrowToolsRegistrar";
+import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,7 +44,7 @@ export default function RootLayout({
               <main className="flex-1">{children}</main>
               <Footer />
             </div>
-            <CrowToolsRegistrar />
+            <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
         <Script
