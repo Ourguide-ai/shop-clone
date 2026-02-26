@@ -1,0 +1,11 @@
+[
+    {
+        "name": "buyAllCartProducts",
+        "description": "Place an order and process payment for all items currently in the user's cart.",
+        "parameters": {
+            "type": "object",
+            "properties": {},
+            "required": []
+        }
+    }
+]

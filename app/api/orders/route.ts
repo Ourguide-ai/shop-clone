@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/db/mongoose";
 import Order from "@/lib/db/models/Order";
 import Cart from "@/lib/db/models/Cart";
+import Product from "@/lib/db/models/Product";
 import { getAuthUser } from "@/lib/auth";
 
 export async function GET(request: NextRequest) {
@@ -47,6 +48,27 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
 
+    // Look up full product details for each item
+    const enrichedItems = await Promise.all(
+      items.map(async (item: { product: { id: number }; quantity: number }) => {
+        const product = await Product.findOne({ productId: item.product.id }).lean();
+        if (!product) {
+          throw new Error(`Product with id ${item.product.id} not found`);
+        }
+        return {
+          product: {
+            id: product.productId,
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            image: product.image,
+            category: product.category,
+          },
+          quantity: item.quantity,
+        };
+      })
+    );
+
     // Simulate payment processing delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -55,7 +77,7 @@ export async function POST(request: NextRequest) {
     const order = await Order.create({
       orderId,
       userId: user._id,
-      items,
+      items: enrichedItems,
       total,
       status: "delivered",
       date: new Date().toISOString(),

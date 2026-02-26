@@ -47,12 +47,12 @@ export default function RootLayout({
             <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
-        <Script
+        <Script 
           src="/ourguide-b2b-widget.iife.js"
-          data-product-id="prod_12c959e4-94d1-49dc-991f-e2d829011ab1"
-          data-api-url="http://localhost:3001"
-          strategy="afterInteractive"
-        />
+          data-api-url="https://almightily-unrisky-floy.ngrok-free.dev"
+          data-product-id="prod_9518e7dd-ef3b-4cb9-a965-1f8d16ea0e14"
+          data-agent-name="Assistant"
+        ></Script>
       </body>
     </html>
   );
