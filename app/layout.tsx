@@ -50,7 +50,7 @@ export default function RootLayout({
         <Script 
           src="/ourguide-b2b-widget.iife.js"
           data-api-url="https://almightily-unrisky-floy.ngrok-free.dev"
-          data-product-id="prod_9518e7dd-ef3b-4cb9-a965-1f8d16ea0e14"
+          data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
           data-agent-name="Assistant"
         ></Script>
       </body>
