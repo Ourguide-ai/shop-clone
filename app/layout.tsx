@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
+import { CopilotWrapper } from "@/components/CopilotWrapper";
+import Script from "next/script";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
             <div className="flex flex-col min-h-screen">
               <Navbar />
               <main className="flex-1">{children}</main>
+              <CopilotWrapper />
               <Footer />
             </div>
             <OurguideToolsRegistrar />
