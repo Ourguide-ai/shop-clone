@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
-import Script from "next/script";
+import { OurguideCopilot , OurguideProvider} from "@/components/OurguideCopilot";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -45,22 +45,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${plusJakartaSans.variable} ${sourceSerif4.variable} ${geistMono.variable} antialiased`}
+        className={`${plusJakartaSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider>
-          <AppProvider>
-            <Navbar />
-            {children}
-            <Footer />
-            <OurguideToolsRegistrar />
-          </AppProvider>
-        </AuthProvider>
-        <Script
-          src="https://dashboard.ourguide.ai/ourguide-b2b-widget.iife.js"
-          data-api-url="https://dashboard.ourguide.ai"
-          data-product-id="prod_e755e441-382e-4156-93ac-56948bd00fbe"
-          data-agent-name="Assistant"
-        ></Script>
+        <OurguideProvider
+          productId="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
+          apiUrl="http://localhost:3000"
+          agentName="Assistant"
+        >
+          <AuthProvider>
+            <AppProvider>
+              <div className="flex flex-col min-h-screen">
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+              <OurguideToolsRegistrar />
+            </AppProvider>
+          </AuthProvider>
+          <OurguideCopilot position="right" width={400} />
+        </OurguideProvider>
       </body>
     </html>
   );
