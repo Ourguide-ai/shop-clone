@@ -7,7 +7,7 @@ export const products: Product[] = [
     title: "Wireless Noise-Cancelling Headphones",
     description: "Premium over-ear headphones with active noise cancellation, 30-hour battery life, and rich bass response. Foldable design with carrying case included.",
     price: 249.99,
-    image: "https://picsum.photos/seed/headphones/400/400",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -15,7 +15,7 @@ export const products: Product[] = [
     title: '4K Ultra HD Monitor 27"',
     description: "Stunning 27-inch IPS display with 4K resolution, HDR10 support, and 99% sRGB color accuracy. Ideal for creative professionals and gamers.",
     price: 379.99,
-    image: "https://picsum.photos/seed/monitor/400/400",
+    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -23,7 +23,7 @@ export const products: Product[] = [
     title: "Mechanical Keyboard RGB",
     description: "Compact tenkeyless mechanical keyboard with hot-swappable switches, per-key RGB lighting, and a detachable USB-C cable.",
     price: 129.99,
-    image: "https://picsum.photos/seed/keyboard/400/400",
+    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -31,7 +31,7 @@ export const products: Product[] = [
     title: "Portable Bluetooth Speaker",
     description: "Waterproof portable speaker with 360-degree sound, 12-hour playtime, and built-in microphone for hands-free calls.",
     price: 59.99,
-    image: "https://picsum.photos/seed/speaker/400/400",
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -39,7 +39,7 @@ export const products: Product[] = [
     title: "Wireless Gaming Mouse",
     description: "Ultra-lightweight wireless mouse with 25K DPI sensor, 70-hour battery life, and customizable side buttons for competitive gaming.",
     price: 79.99,
-    image: "https://picsum.photos/seed/gaming-mouse/400/400",
+    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -47,7 +47,7 @@ export const products: Product[] = [
     title: "USB-C Docking Station",
     description: "12-in-1 docking station with dual HDMI output, Gigabit Ethernet, SD card reader, and 100W power delivery passthrough.",
     price: 89.99,
-    image: "https://picsum.photos/seed/docking-station/400/400",
+    image: "https://images.unsplash.com/photo-1625842268584-8f3296236761?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -55,7 +55,7 @@ export const products: Product[] = [
     title: "Noise-Cancelling Earbuds",
     description: "True wireless earbuds with adaptive noise cancellation, spatial audio, and 8-hour battery life with wireless charging case.",
     price: 179.99,
-    image: "https://picsum.photos/seed/earbuds/400/400",
+    image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -63,7 +63,7 @@ export const products: Product[] = [
     title: "Portable SSD 1TB",
     description: "Compact external SSD with 1050MB/s read speeds, USB 3.2 Gen 2 interface, and shock-resistant aluminum enclosure.",
     price: 109.99,
-    image: "https://picsum.photos/seed/portable-ssd/400/400",
+    image: "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -71,7 +71,7 @@ export const products: Product[] = [
     title: "Webcam 4K Pro",
     description: "Ultra HD webcam with auto-focus, built-in ring light, dual noise-reducing microphones, and privacy shutter.",
     price: 149.99,
-    image: "https://picsum.photos/seed/webcam/400/400",
+    image: "https://images.unsplash.com/photo-1587826080692-f439cd0b70da?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -79,7 +79,7 @@ export const products: Product[] = [
     title: "Smart Watch Fitness Tracker",
     description: "AMOLED display smartwatch with heart rate monitoring, GPS tracking, sleep analysis, and 7-day battery life. Water-resistant to 50m.",
     price: 199.99,
-    image: "https://picsum.photos/seed/smartwatch/400/400",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -87,7 +87,7 @@ export const products: Product[] = [
     title: "Wireless Charging Pad",
     description: "Slim 15W fast wireless charger compatible with Qi-enabled devices. Includes LED indicator and foreign object detection.",
     price: 29.99,
-    image: "https://picsum.photos/seed/wireless-charger/400/400",
+    image: "https://images.unsplash.com/photo-1622445275576-721325763afe?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -95,7 +95,7 @@ export const products: Product[] = [
     title: "Tablet 10-inch",
     description: "Versatile 10.4-inch tablet with 2K display, octa-core processor, 64GB storage, and stylus support for notes and drawing.",
     price: 329.99,
-    image: "https://picsum.photos/seed/tablet/400/400",
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -103,7 +103,7 @@ export const products: Product[] = [
     title: "Streaming Microphone USB",
     description: "Condenser USB microphone with cardioid pattern, gain control knob, headphone monitoring, and shock mount included.",
     price: 69.99,
-    image: "https://picsum.photos/seed/usb-mic/400/400",
+    image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -111,7 +111,7 @@ export const products: Product[] = [
     title: "Portable Power Bank 20000mAh",
     description: "High-capacity power bank with dual USB-C ports, 65W fast charging, and digital display showing remaining charge.",
     price: 49.99,
-    image: "https://picsum.photos/seed/powerbank/400/400",
+    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -119,7 +119,7 @@ export const products: Product[] = [
     title: "Mechanical Numpad",
     description: "Wireless mechanical number pad with hot-swappable switches, Bluetooth 5.0, and aluminum frame for accounting and data entry.",
     price: 44.99,
-    image: "https://picsum.photos/seed/numpad/400/400",
+    image: "https://images.unsplash.com/photo-1595225476474-87563907a212?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -127,7 +127,7 @@ export const products: Product[] = [
     title: "Action Camera 5K",
     description: "Compact action camera with 5K recording, electronic stabilization, waterproof to 10m without a case, and voice control.",
     price: 299.99,
-    image: "https://picsum.photos/seed/action-camera/400/400",
+    image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -135,7 +135,7 @@ export const products: Product[] = [
     title: "Wi-Fi 6 Mesh Router",
     description: "Tri-band mesh router covering up to 5,000 sq ft with speeds up to 6.6 Gbps. Includes 3 nodes with built-in parental controls.",
     price: 349.99,
-    image: "https://picsum.photos/seed/mesh-router/400/400",
+    image: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -143,7 +143,7 @@ export const products: Product[] = [
     title: "Electric Standing Desk Converter",
     description: "Motorized sit-stand desk converter with dual-tier design, quiet motor, and programmable height presets.",
     price: 269.99,
-    image: "https://picsum.photos/seed/desk-converter/400/400",
+    image: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -151,7 +151,7 @@ export const products: Product[] = [
     title: "LED Desk Lamp with Clamp",
     description: "Adjustable LED desk lamp with 5 color temperatures, touch dimming, USB charging port, and flexible gooseneck arm.",
     price: 39.99,
-    image: "https://picsum.photos/seed/desk-lamp/400/400",
+    image: "https://images.unsplash.com/photo-1534105615256-13940a56ff44?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -159,7 +159,7 @@ export const products: Product[] = [
     title: "Digital Drawing Tablet",
     description: "10x6-inch pen tablet with 8192 levels of pressure sensitivity, tilt support, and 8 customizable shortcut keys.",
     price: 59.99,
-    image: "https://picsum.photos/seed/drawing-tablet/400/400",
+    image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -167,7 +167,7 @@ export const products: Product[] = [
     title: "Smart Home Hub",
     description: "Voice-controlled smart home hub with 7-inch display, built-in Zigbee bridge, and support for over 100,000 smart devices.",
     price: 129.99,
-    image: "https://picsum.photos/seed/smart-hub/400/400",
+    image: "https://images.unsplash.com/photo-1558089687-f282ffcbc126?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -175,7 +175,7 @@ export const products: Product[] = [
     title: "Noise Machine White Noise",
     description: "Compact sound machine with 30 soothing soundscapes, adjustable volume, auto-off timer, and travel-friendly design.",
     price: 34.99,
-    image: "https://picsum.photos/seed/noise-machine/400/400",
+    image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -183,7 +183,7 @@ export const products: Product[] = [
     title: "USB Flash Drive 256GB",
     description: "Ultra-fast USB 3.2 flash drive with 400MB/s read speed, retractable connector, and durable metal body.",
     price: 24.99,
-    image: "https://picsum.photos/seed/flash-drive/400/400",
+    image: "https://images.unsplash.com/photo-1618410320928-25228d811631?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -191,7 +191,7 @@ export const products: Product[] = [
     title: "Clip-On Ring Light",
     description: "Rechargeable clip-on ring light with 3 light modes and 10 brightness levels for video calls, selfies, and streaming.",
     price: 19.99,
-    image: "https://picsum.photos/seed/ring-light/400/400",
+    image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=400&h=400&fit=crop",
     category: "Electronics",
   },
   {
@@ -199,7 +199,7 @@ export const products: Product[] = [
     title: "Bluetooth Turntable",
     description: "Belt-driven turntable with built-in phono preamp, Bluetooth streaming, and vintage walnut finish. Plays 33 and 45 RPM records.",
     price: 159.99,
-    image: "https://picsum.photos/seed/turntable/400/400",
+    image: "https://images.unsplash.com/photo-1539375665275-f9de415ef9ac?w=400&h=400&fit=crop",
     category: "Electronics",
   },
 
@@ -209,7 +209,7 @@ export const products: Product[] = [
     title: "Classic Fit Denim Jacket",
     description: "Timeless denim jacket made from heavyweight 100% cotton denim. Features button closure, chest pockets, and a relaxed fit.",
     price: 89.99,
-    image: "https://picsum.photos/seed/denim-jacket/400/400",
+    image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -217,7 +217,7 @@ export const products: Product[] = [
     title: "Merino Wool Crewneck Sweater",
     description: "Lightweight yet warm merino wool sweater with a classic crewneck design. Naturally breathable and odor-resistant.",
     price: 74.99,
-    image: "https://picsum.photos/seed/sweater/400/400",
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -225,7 +225,7 @@ export const products: Product[] = [
     title: "Running Shoes Ultra Boost",
     description: "High-performance running shoes with responsive cushioning, breathable mesh upper, and durable rubber outsole.",
     price: 139.99,
-    image: "https://picsum.photos/seed/running-shoes/400/400",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -233,7 +233,7 @@ export const products: Product[] = [
     title: "Slim Fit Chinos",
     description: "Comfortable stretch cotton chinos with a modern slim fit, flat front, and side pockets. Available in multiple earth tones.",
     price: 54.99,
-    image: "https://picsum.photos/seed/chinos/400/400",
+    image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -241,7 +241,7 @@ export const products: Product[] = [
     title: "Linen Button-Down Shirt",
     description: "Relaxed-fit linen shirt perfect for warm weather. Features a button-down collar, chest pocket, and rolled-tab sleeves.",
     price: 64.99,
-    image: "https://picsum.photos/seed/linen-shirt/400/400",
+    image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -249,7 +249,7 @@ export const products: Product[] = [
     title: "Waterproof Rain Jacket",
     description: "Lightweight packable rain jacket with sealed seams, adjustable hood, and breathable membrane to keep you dry in downpours.",
     price: 119.99,
-    image: "https://picsum.photos/seed/rain-jacket/400/400",
+    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -257,7 +257,7 @@ export const products: Product[] = [
     title: "Leather Chelsea Boots",
     description: "Full-grain leather Chelsea boots with elastic side panels, pull tab, and Goodyear welt construction for easy resoling.",
     price: 189.99,
-    image: "https://picsum.photos/seed/chelsea-boots/400/400",
+    image: "https://images.unsplash.com/photo-1638247025967-b4e38f787b76?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -265,7 +265,7 @@ export const products: Product[] = [
     title: "Cotton Graphic Tee",
     description: "Soft 100% combed cotton t-shirt with a relaxed fit and vintage-inspired graphic print. Pre-shrunk for consistent sizing.",
     price: 24.99,
-    image: "https://picsum.photos/seed/graphic-tee/400/400",
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -273,7 +273,7 @@ export const products: Product[] = [
     title: "Fleece Zip-Up Hoodie",
     description: "Midweight fleece hoodie with full zip, kangaroo pockets, and ribbed cuffs. Brushed interior for extra warmth.",
     price: 59.99,
-    image: "https://picsum.photos/seed/fleece-hoodie/400/400",
+    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -281,7 +281,7 @@ export const products: Product[] = [
     title: "Athletic Joggers",
     description: "Tapered jogger pants with moisture-wicking fabric, zippered pockets, and elastic waistband with drawstring.",
     price: 44.99,
-    image: "https://picsum.photos/seed/joggers/400/400",
+    image: "https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -289,7 +289,7 @@ export const products: Product[] = [
     title: "Wool Blend Overcoat",
     description: "Tailored wool-blend overcoat with notch lapels, two-button closure, and satin-lined interior. A refined winter staple.",
     price: 229.99,
-    image: "https://picsum.photos/seed/overcoat/400/400",
+    image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -297,7 +297,7 @@ export const products: Product[] = [
     title: "Canvas Sneakers",
     description: "Classic low-top canvas sneakers with vulcanized rubber sole, metal eyelets, and cushioned insole for all-day comfort.",
     price: 49.99,
-    image: "https://picsum.photos/seed/canvas-sneakers/400/400",
+    image: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -305,7 +305,7 @@ export const products: Product[] = [
     title: "Striped Polo Shirt",
     description: "Pique cotton polo with a classic stripe pattern, two-button placket, and ribbed collar that holds its shape wash after wash.",
     price: 39.99,
-    image: "https://picsum.photos/seed/polo-shirt/400/400",
+    image: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -313,7 +313,7 @@ export const products: Product[] = [
     title: "Cargo Shorts",
     description: "Relaxed-fit cargo shorts made from durable ripstop cotton with multiple utility pockets and an adjustable waistband.",
     price: 34.99,
-    image: "https://picsum.photos/seed/cargo-shorts/400/400",
+    image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -321,7 +321,7 @@ export const products: Product[] = [
     title: "Quilted Puffer Vest",
     description: "Lightweight insulated vest with water-resistant shell, stand collar, and packable design that compresses into its own pocket.",
     price: 79.99,
-    image: "https://picsum.photos/seed/puffer-vest/400/400",
+    image: "https://images.unsplash.com/photo-1608063615781-e2ef8c73d114?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -329,7 +329,7 @@ export const products: Product[] = [
     title: "Selvedge Denim Jeans",
     description: "Raw selvedge denim jeans with a straight-leg fit, chain-stitched hem, and Japanese denim that develops unique fades over time.",
     price: 148.00,
-    image: "https://picsum.photos/seed/selvedge-jeans/400/400",
+    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -337,7 +337,7 @@ export const products: Product[] = [
     title: "Cashmere Beanie",
     description: "Pure cashmere ribbed beanie offering ultra-soft warmth without bulk. Foldable brim for adjustable coverage.",
     price: 59.99,
-    image: "https://picsum.photos/seed/cashmere-beanie/400/400",
+    image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -345,7 +345,7 @@ export const products: Product[] = [
     title: "Leather Belt",
     description: "Full-grain vegetable-tanned leather belt with brushed nickel buckle. Ages beautifully with wear.",
     price: 44.99,
-    image: "https://picsum.photos/seed/leather-belt/400/400",
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -353,7 +353,7 @@ export const products: Product[] = [
     title: "Hiking Boots Waterproof",
     description: "Rugged waterproof hiking boots with Vibram outsole, ankle support, and breathable Gore-Tex lining for all-terrain use.",
     price: 169.99,
-    image: "https://picsum.photos/seed/hiking-boots/400/400",
+    image: "https://images.unsplash.com/photo-1520219306100-ec4afeeefe58?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -361,7 +361,7 @@ export const products: Product[] = [
     title: "Oxford Button-Down Shirt",
     description: "Classic oxford cloth button-down in a tailored fit. Woven from long-staple cotton with a soft, lived-in feel.",
     price: 69.99,
-    image: "https://picsum.photos/seed/oxford-shirt/400/400",
+    image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -369,7 +369,7 @@ export const products: Product[] = [
     title: "Swim Trunks Quick Dry",
     description: "Quick-dry swim trunks with mesh liner, elastic waist, and side zip pocket for secure key storage.",
     price: 34.99,
-    image: "https://picsum.photos/seed/swim-trunks/400/400",
+    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -377,7 +377,7 @@ export const products: Product[] = [
     title: "Corduroy Overshirt",
     description: "Heavyweight corduroy overshirt with snap-button front, chest pockets, and a boxy relaxed fit for layering.",
     price: 84.99,
-    image: "https://picsum.photos/seed/corduroy-shirt/400/400",
+    image: "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -385,7 +385,7 @@ export const products: Product[] = [
     title: "Bamboo Crew Socks 6-Pack",
     description: "Breathable bamboo fiber crew socks with arch support, reinforced heel, and moisture-wicking properties. Set of six pairs.",
     price: 22.99,
-    image: "https://picsum.photos/seed/bamboo-socks/400/400",
+    image: "https://images.unsplash.com/photo-1586350977771-b3b0abd50c82?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -393,7 +393,7 @@ export const products: Product[] = [
     title: "Suede Loafers",
     description: "Italian suede penny loafers with Blake-stitched leather sole and cushioned footbed. Dress up or down effortlessly.",
     price: 129.99,
-    image: "https://picsum.photos/seed/suede-loafers/400/400",
+    image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400&h=400&fit=crop",
     category: "Clothing",
   },
   {
@@ -401,7 +401,7 @@ export const products: Product[] = [
     title: "UV Protection Sunglasses",
     description: "Polarized acetate sunglasses with UV400 protection, spring hinges, and scratch-resistant lenses in a classic wayfarer shape.",
     price: 54.99,
-    image: "https://picsum.photos/seed/sunglasses/400/400",
+    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=400&h=400&fit=crop",
     category: "Clothing",
   },
 
@@ -411,7 +411,7 @@ export const products: Product[] = [
     title: "Ceramic Pour-Over Coffee Set",
     description: "Handcrafted ceramic dripper with double-wall glass carafe. Brews a clean, full-bodied cup. Includes 50 paper filters.",
     price: 44.99,
-    image: "https://picsum.photos/seed/coffee-set/400/400",
+    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -419,7 +419,7 @@ export const products: Product[] = [
     title: "Bamboo Desk Organizer",
     description: "Multi-compartment desktop organizer made from sustainable bamboo. Keeps pens, phones, and supplies neatly sorted.",
     price: 34.99,
-    image: "https://picsum.photos/seed/desk-organizer/400/400",
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -427,7 +427,7 @@ export const products: Product[] = [
     title: "Scented Soy Candle Trio",
     description: "Set of three hand-poured soy wax candles in lavender, vanilla, and cedarwood. Each provides up to 45 hours of burn time.",
     price: 29.99,
-    image: "https://picsum.photos/seed/candles/400/400",
+    image: "https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -435,7 +435,7 @@ export const products: Product[] = [
     title: "Cast Iron Skillet 12-inch",
     description: "Pre-seasoned 12-inch cast iron skillet with helper handle. Oven-safe to 500 degrees for stovetop to oven versatility.",
     price: 39.99,
-    image: "https://picsum.photos/seed/cast-iron/400/400",
+    image: "https://images.unsplash.com/photo-1585515320310-259814833e62?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -443,7 +443,7 @@ export const products: Product[] = [
     title: "Weighted Blanket 15lb",
     description: "Glass bead weighted blanket with soft minky cover. Evenly distributed weight promotes deeper, more restful sleep.",
     price: 69.99,
-    image: "https://picsum.photos/seed/weighted-blanket/400/400",
+    image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -451,7 +451,7 @@ export const products: Product[] = [
     title: "Indoor Herb Garden Kit",
     description: "Self-watering indoor garden with full-spectrum LED grow light. Includes basil, cilantro, and parsley seed pods.",
     price: 49.99,
-    image: "https://picsum.photos/seed/herb-garden/400/400",
+    image: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -459,7 +459,7 @@ export const products: Product[] = [
     title: "Stoneware Dinnerware Set",
     description: "16-piece reactive-glaze stoneware set serving four. Includes dinner plates, salad plates, bowls, and mugs. Dishwasher safe.",
     price: 89.99,
-    image: "https://picsum.photos/seed/dinnerware/400/400",
+    image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -467,7 +467,7 @@ export const products: Product[] = [
     title: "Wall-Mounted Floating Shelves",
     description: "Set of three solid walnut floating shelves with hidden brackets. Perfect for displaying books, plants, and decor.",
     price: 59.99,
-    image: "https://picsum.photos/seed/floating-shelves/400/400",
+    image: "https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -475,7 +475,7 @@ export const products: Product[] = [
     title: "Robot Vacuum Cleaner",
     description: "Smart robot vacuum with LiDAR navigation, 2500Pa suction, auto-empty dock, and app-controlled room mapping.",
     price: 349.99,
-    image: "https://picsum.photos/seed/robot-vacuum/400/400",
+    image: "https://images.unsplash.com/photo-1589894404892-7310b92ea7a2?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -483,7 +483,7 @@ export const products: Product[] = [
     title: "Cotton Bath Towel Set",
     description: "Set of six Turkish cotton bath towels with 600 GSM weight. Ultra-absorbent and quick-drying with double-stitched hems.",
     price: 54.99,
-    image: "https://picsum.photos/seed/bath-towels/400/400",
+    image: "https://images.unsplash.com/photo-1616627561950-9f746e330187?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -491,7 +491,7 @@ export const products: Product[] = [
     title: "French Press Coffee Maker",
     description: "Borosilicate glass French press with stainless steel frame and four-layer filtration system. Brews 34 oz of rich coffee.",
     price: 32.99,
-    image: "https://picsum.photos/seed/french-press/400/400",
+    image: "https://images.unsplash.com/photo-1572119865084-43c285814d63?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -499,7 +499,7 @@ export const products: Product[] = [
     title: "Air Purifier HEPA",
     description: "True HEPA air purifier covering 500 sq ft. Three-stage filtration captures 99.97% of particles. Whisper-quiet night mode.",
     price: 149.99,
-    image: "https://picsum.photos/seed/air-purifier/400/400",
+    image: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -507,7 +507,7 @@ export const products: Product[] = [
     title: "Linen Throw Pillow Covers",
     description: "Set of four stonewashed linen pillow covers with invisible zipper. Fits standard 18x18-inch inserts.",
     price: 36.99,
-    image: "https://picsum.photos/seed/pillow-covers/400/400",
+    image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -515,7 +515,7 @@ export const products: Product[] = [
     title: "Electric Kettle Gooseneck",
     description: "Variable-temperature gooseneck kettle with precise pour control, hold function, and built-in timer for pour-over coffee and tea.",
     price: 74.99,
-    image: "https://picsum.photos/seed/gooseneck-kettle/400/400",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -523,7 +523,7 @@ export const products: Product[] = [
     title: "Wooden Cutting Board Set",
     description: "Set of three acacia wood cutting boards in graduated sizes. Deep juice grooves and non-slip rubber feet.",
     price: 44.99,
-    image: "https://picsum.photos/seed/cutting-board/400/400",
+    image: "https://images.unsplash.com/photo-1594226801341-41427b4e5c22?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -531,7 +531,7 @@ export const products: Product[] = [
     title: "Smart LED Light Bulbs 4-Pack",
     description: "Wi-Fi enabled RGBW smart bulbs with 16 million colors, voice control, and scheduling via app. No hub required.",
     price: 34.99,
-    image: "https://picsum.photos/seed/smart-bulbs/400/400",
+    image: "https://images.unsplash.com/photo-1550985616-10810253b84d?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -539,7 +539,7 @@ export const products: Product[] = [
     title: "Handwoven Jute Area Rug",
     description: "5x7-foot handwoven jute rug with natural texture and neutral tone. Adds warmth to any living space.",
     price: 119.99,
-    image: "https://picsum.photos/seed/jute-rug/400/400",
+    image: "https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -547,7 +547,7 @@ export const products: Product[] = [
     title: "Stainless Steel Water Bottle",
     description: "Double-wall vacuum insulated bottle keeping drinks cold 24 hours or hot 12 hours. 32 oz capacity with leak-proof lid.",
     price: 27.99,
-    image: "https://picsum.photos/seed/water-bottle/400/400",
+    image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -555,7 +555,7 @@ export const products: Product[] = [
     title: "Ceramic Planter Set",
     description: "Set of three minimalist ceramic planters with bamboo saucers. Drainage holes included. Sizes: 4, 6, and 8 inches.",
     price: 38.99,
-    image: "https://picsum.photos/seed/ceramic-planters/400/400",
+    image: "https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -563,7 +563,7 @@ export const products: Product[] = [
     title: "Knife Block Set 14-Piece",
     description: "Forged high-carbon stainless steel knife set with ergonomic handles and acacia wood block. Includes chef, bread, and paring knives.",
     price: 159.99,
-    image: "https://picsum.photos/seed/knife-set/400/400",
+    image: "https://images.unsplash.com/photo-1593618998160-e34014e67546?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -571,7 +571,7 @@ export const products: Product[] = [
     title: "Essential Oil Diffuser",
     description: "Ultrasonic aromatherapy diffuser with 300ml tank, 7 LED colors, and auto shut-off. Runs up to 10 hours on mist mode.",
     price: 28.99,
-    image: "https://picsum.photos/seed/oil-diffuser/400/400",
+    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -579,7 +579,7 @@ export const products: Product[] = [
     title: "Cotton Waffle Bathrobe",
     description: "Lightweight waffle-knit cotton robe with shawl collar, tie belt, and patch pockets. Ideal for spa days at home.",
     price: 49.99,
-    image: "https://picsum.photos/seed/bathrobe/400/400",
+    image: "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -587,7 +587,7 @@ export const products: Product[] = [
     title: "Wall Clock Minimalist",
     description: "Silent non-ticking wall clock with 12-inch brushed aluminum frame and clean sans-serif numerals.",
     price: 34.99,
-    image: "https://picsum.photos/seed/wall-clock/400/400",
+    image: "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -595,7 +595,7 @@ export const products: Product[] = [
     title: "Nonstick Cookware Set 10-Piece",
     description: "Ceramic-coated nonstick cookware set including fry pans, saucepans, and a Dutch oven. PFOA-free and oven-safe to 450 degrees.",
     price: 129.99,
-    image: "https://picsum.photos/seed/cookware-set/400/400",
+    image: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&h=400&fit=crop",
     category: "Home",
   },
   {
@@ -603,7 +603,7 @@ export const products: Product[] = [
     title: "Linen Duvet Cover Set",
     description: "Stonewashed French linen duvet cover with two matching pillowcases. Gets softer with every wash. Queen size.",
     price: 139.99,
-    image: "https://picsum.photos/seed/duvet-cover/400/400",
+    image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&h=400&fit=crop",
     category: "Home",
   },
 
@@ -613,7 +613,7 @@ export const products: Product[] = [
     title: "Design Patterns: Elements of Reusable Software",
     description: "The classic Gang of Four reference on software design patterns. Essential reading for writing flexible, maintainable code.",
     price: 42.99,
-    image: "https://picsum.photos/seed/design-patterns-book/400/400",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -621,7 +621,7 @@ export const products: Product[] = [
     title: "Atomic Habits",
     description: "A proven framework for building good habits and breaking bad ones. Evidence-based strategies for small changes that deliver results.",
     price: 16.99,
-    image: "https://picsum.photos/seed/atomic-habits/400/400",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -629,7 +629,7 @@ export const products: Product[] = [
     title: "Clean Code: A Handbook of Agile Software",
     description: "Robert C. Martin's guide to writing readable, maintainable code. Covers naming, functions, formatting, and error handling.",
     price: 37.99,
-    image: "https://picsum.photos/seed/clean-code/400/400",
+    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop&q=80",
     category: "Books",
   },
   {
@@ -637,7 +637,7 @@ export const products: Product[] = [
     title: "The Pragmatic Programmer",
     description: "Timeless advice on the craft of software development. Covers topics from personal responsibility to architectural techniques.",
     price: 44.99,
-    image: "https://picsum.photos/seed/pragmatic-programmer/400/400",
+    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -645,7 +645,7 @@ export const products: Product[] = [
     title: "Sapiens: A Brief History of Humankind",
     description: "Yuval Noah Harari explores how Homo sapiens came to dominate the planet through cognitive, agricultural, and scientific revolutions.",
     price: 18.99,
-    image: "https://picsum.photos/seed/sapiens/400/400",
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -653,7 +653,7 @@ export const products: Product[] = [
     title: "Thinking, Fast and Slow",
     description: "Nobel laureate Daniel Kahneman reveals the two systems that drive the way we think and how they shape our judgments and decisions.",
     price: 15.99,
-    image: "https://picsum.photos/seed/thinking-fast-slow/400/400",
+    image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -661,7 +661,7 @@ export const products: Product[] = [
     title: "System Design Interview Volume 1",
     description: "Step-by-step framework for tackling system design questions. Covers scalability, load balancing, caching, and real-world architectures.",
     price: 39.99,
-    image: "https://picsum.photos/seed/system-design/400/400",
+    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -669,7 +669,7 @@ export const products: Product[] = [
     title: "Deep Work",
     description: "Cal Newport makes the case for focused, uninterrupted work and provides actionable rules for achieving depth in a distracted world.",
     price: 14.99,
-    image: "https://picsum.photos/seed/deep-work/400/400",
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -677,7 +677,7 @@ export const products: Product[] = [
     title: "Introduction to Algorithms (CLRS)",
     description: "The definitive textbook on algorithms covering sorting, graph algorithms, dynamic programming, and computational complexity.",
     price: 79.99,
-    image: "https://picsum.photos/seed/clrs-algorithms/400/400",
+    image: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -685,7 +685,7 @@ export const products: Product[] = [
     title: "The Psychology of Money",
     description: "Morgan Housel shares 19 short stories exploring the strange ways people think about money and how to make better financial decisions.",
     price: 16.99,
-    image: "https://picsum.photos/seed/psychology-money/400/400",
+    image: "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -693,7 +693,7 @@ export const products: Product[] = [
     title: "Refactoring: Improving the Design of Existing Code",
     description: "Martin Fowler's essential guide to restructuring code without changing its behavior. Includes a catalog of proven refactoring techniques.",
     price: 47.99,
-    image: "https://picsum.photos/seed/refactoring-book/400/400",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -701,7 +701,7 @@ export const products: Product[] = [
     title: "Dune",
     description: "Frank Herbert's epic science fiction masterpiece set on the desert planet Arrakis. A tale of politics, religion, and ecology.",
     price: 12.99,
-    image: "https://picsum.photos/seed/dune-book/400/400",
+    image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -709,7 +709,7 @@ export const products: Product[] = [
     title: "Eloquent JavaScript",
     description: "A modern introduction to programming through JavaScript. Covers language fundamentals, browser APIs, and Node.js with hands-on exercises.",
     price: 33.99,
-    image: "https://picsum.photos/seed/eloquent-js/400/400",
+    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -717,7 +717,7 @@ export const products: Product[] = [
     title: "The Lean Startup",
     description: "Eric Ries introduces a scientific approach to creating and managing startups with continuous innovation and validated learning.",
     price: 17.99,
-    image: "https://picsum.photos/seed/lean-startup/400/400",
+    image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -725,7 +725,7 @@ export const products: Product[] = [
     title: "Cracking the Coding Interview",
     description: "189 programming questions and solutions covering data structures, algorithms, and system design for technical interviews.",
     price: 35.99,
-    image: "https://picsum.photos/seed/cracking-interview/400/400",
+    image: "https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -733,7 +733,7 @@ export const products: Product[] = [
     title: "Educated: A Memoir",
     description: "Tara Westover's memoir about growing up in a survivalist family and her journey to earn a PhD from Cambridge University.",
     price: 14.99,
-    image: "https://picsum.photos/seed/educated-book/400/400",
+    image: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -741,7 +741,7 @@ export const products: Product[] = [
     title: "You Don't Know JS Yet: Get Started",
     description: "Kyle Simpson's deep dive into JavaScript mechanics. Covers scope, closures, the this keyword, and prototypes in detail.",
     price: 29.99,
-    image: "https://picsum.photos/seed/ydkjs/400/400",
+    image: "https://images.unsplash.com/photo-1531988042231-d39a9cc12a9a?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -749,7 +749,7 @@ export const products: Product[] = [
     title: "Zero to One",
     description: "Peter Thiel's notes on startups and how to build the future. Argues that creating new things is more valuable than iterating.",
     price: 16.99,
-    image: "https://picsum.photos/seed/zero-to-one/400/400",
+    image: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -757,7 +757,7 @@ export const products: Product[] = [
     title: "The Mythical Man-Month",
     description: "Fred Brooks' classic essays on software engineering and project management. Explores why adding people to a late project makes it later.",
     price: 28.99,
-    image: "https://picsum.photos/seed/mythical-man-month/400/400",
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -765,7 +765,7 @@ export const products: Product[] = [
     title: "Meditations by Marcus Aurelius",
     description: "The Roman Emperor's private journal of Stoic philosophy. Timeless reflections on resilience, virtue, and the nature of existence.",
     price: 9.99,
-    image: "https://picsum.photos/seed/meditations/400/400",
+    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -773,7 +773,7 @@ export const products: Product[] = [
     title: "Learning TypeScript",
     description: "A practical guide to TypeScript's type system. Covers generics, type guards, mapped types, and integration with React and Node.",
     price: 39.99,
-    image: "https://picsum.photos/seed/learning-typescript/400/400",
+    image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -781,7 +781,7 @@ export const products: Product[] = [
     title: "Shoe Dog: A Memoir by Nike's Creator",
     description: "Phil Knight's candid memoir about building Nike from a startup selling shoes out of a car trunk into a global brand.",
     price: 15.99,
-    image: "https://picsum.photos/seed/shoe-dog/400/400",
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -789,7 +789,7 @@ export const products: Product[] = [
     title: "Structure and Interpretation of Computer Programs",
     description: "The legendary MIT textbook exploring computational processes, abstraction, and metalinguistic design through Scheme.",
     price: 54.99,
-    image: "https://picsum.photos/seed/sicp-book/400/400",
+    image: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=400&h=400&fit=crop&q=80",
     category: "Books",
   },
   {
@@ -797,7 +797,7 @@ export const products: Product[] = [
     title: "Range: Why Generalists Triumph",
     description: "David Epstein argues that broad experience and late specialization often outperform narrow focus in complex, unpredictable fields.",
     price: 17.99,
-    image: "https://picsum.photos/seed/range-book/400/400",
+    image: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=400&h=400&fit=crop",
     category: "Books",
   },
   {
@@ -805,7 +805,7 @@ export const products: Product[] = [
     title: "Staff Engineer: Leadership Beyond Management",
     description: "Will Larson's guide to the staff engineer role. Covers technical strategy, architecture, sponsorship, and operating at scale.",
     price: 34.99,
-    image: "https://picsum.photos/seed/staff-engineer/400/400",
+    image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=400&h=400&fit=crop",
     category: "Books",
   },
 ];
