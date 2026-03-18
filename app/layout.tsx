@@ -7,7 +7,9 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
-import { OurguideCopilot , OurguideProvider} from "@/components/OurguideCopilot";
+import { OurguideProvider, OurguideCopilot } from '@ourguide-ai/ui';
+import '@ourguide-ai/ui/styles.css';
+
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -49,8 +51,7 @@ export default function RootLayout({
       >
         <OurguideProvider
           productId="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
-          apiUrl="http://localhost:3000"
-          agentName="Assistant"
+          apiUrl="https://dashboard.ourguide.ai"
         >
           <AuthProvider>
             <AppProvider>
