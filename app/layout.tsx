@@ -7,7 +7,6 @@ import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
 import Script from "next/script";
-
 import { CrowProvider, CrowCopilot } from "@/components/CopilotWrapper";
 
 const geistSans = localFont({
@@ -41,32 +40,13 @@ export default function RootLayout({
       >
         <AuthProvider>
           <AppProvider>
-            <CrowProvider
-              productId="prod_74024eae-02e6-4942-8377-f89b7774b164"
-              apiUrl="http://localhost:3000"
-              agentName="Assistant"
-              defaultOpen={true}
-            >
-              <div className="flex h-screen overflow-hidden">
-                {/* Left column: navbar + scrollable content */}
-                <div className="flex flex-col flex-1 min-w-0 min-h-0">
-                  <Navbar />
-                  <div className="flex-1 overflow-y-auto">
-                    <main>{children}</main>
-                    <Footer />
-                  </div>
-                </div>
-                {/* Right column: full-height copilot */}
-                <CrowCopilot position="right" width={400} />
-              </div>
-            </CrowProvider>
             <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
         <Script 
-          src="https://dashboard.ourguide.ai/ourguide-b2b-widget.iife.js"
-          data-api-url="https://dashboard.ourguide.ai"
-          data-product-id="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
+          src="http://localhost:3000/ourguide-b2b-widget.iife.js"
+          data-api-url="http://localhost:3000"
+          data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
           data-agent-name="Assistant"
         ></Script>
       </body>
