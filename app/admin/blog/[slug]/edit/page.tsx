@@ -3,10 +3,9 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { apiGet } from "@/lib/api";
 import type { BlogPost } from "@/lib/types";
+import MarkdownEditor, { MarkdownPreview } from "@/components/MarkdownEditor";
 
 const BLOG_CATEGORIES = [
   { value: "buying-guides", label: "Buying Guides" },
@@ -26,10 +25,12 @@ export default function EditBlogPostPage() {
   const [category, setCategory] = useState("buying-guides");
   const [tags, setTags] = useState("");
   const [featuredImage, setFeaturedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
   const [status, setStatus] = useState<"draft" | "published">("draft");
-  const [showPreview, setShowPreview] = useState(false);
+  const [activeTab, setActiveTab] = useState<"write" | "preview">("write");
+  const [seoOpen, setSeoOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -47,6 +48,7 @@ export default function EditBlogPostPage() {
         setMetaTitle(p.metaTitle || "");
         setMetaDescription(p.metaDescription || "");
         setStatus(p.status);
+        if (p.featuredImage) setImagePreview(p.featuredImage);
       } catch {
         setError("Post not found");
       } finally {
@@ -55,6 +57,15 @@ export default function EditBlogPostPage() {
     }
     load();
   }, [slug]);
+
+  function handleImageChange(file: File | null) {
+    setFeaturedImage(file);
+    if (file) {
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImagePreview(null);
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -101,118 +112,214 @@ export default function EditBlogPostPage() {
 
   if (loading) {
     return (
-      <div className="animate-pulse">
-        <div className="h-8 bg-gray-200 rounded w-48 mb-6" />
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-10 bg-gray-200 rounded" />
-          ))}
+      <div className="adm-form-page">
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-200 rounded w-24 mb-6" />
+          <div className="h-8 bg-gray-200 rounded w-48 mb-8" />
+          <div className="adm-blog-layout">
+            <div className="adm-blog-layout__main">
+              <div className="adm-form-card"><div className="h-12 bg-gray-100 rounded mb-3" /><div className="h-8 bg-gray-100 rounded" /></div>
+              <div className="adm-form-card" style={{ minHeight: 300 }}><div className="h-8 bg-gray-100 rounded w-40 mb-4" /><div className="h-48 bg-gray-100 rounded" /></div>
+            </div>
+            <div className="adm-blog-layout__sidebar">
+              {[1, 2, 3].map((i) => <div key={i} className="adm-form-card"><div className="h-6 bg-gray-100 rounded w-24 mb-3" /><div className="h-10 bg-gray-100 rounded" /></div>)}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <Link href="/admin/blog" className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block">
-        &larr; Back to Blog
+    <div className="adm-form-page">
+      <Link href="/admin/blog" className="adm-form-back">
+        <svg viewBox="0 0 20 20" fill="currentColor" className="adm-form-back__icon">
+          <path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" />
+        </svg>
+        Back to Blog
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Edit Post</h1>
+
+      <div className="adm-form-header">
+        <div className="adm-form-header__icon adm-form-header__icon--blog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+          </svg>
+        </div>
+        <div>
+          <h1 className="adm-form-header__title">Edit Post</h1>
+          <p className="adm-form-header__subtitle">Update your blog post content and settings</p>
+        </div>
+      </div>
 
       {error && (
-        <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3 mb-4">{error}</p>
+        <div className="adm-form-alert adm-form-alert--error">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="adm-form-alert__icon">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+          </svg>
+          {error}
+        </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-3xl">
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Title</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="input" />
-        </div>
-
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Excerpt</label>
-          <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="input" style={{ resize: "vertical" }} />
-        </div>
-
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Category</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="input">
-            {BLOG_CATEGORIES.map((c) => (
-              <option key={c.value} value={c.value}>{c.label}</option>
-            ))}
-          </select>
-        </div>
-
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Tags (comma-separated)</label>
-          <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} className="input" />
-        </div>
-
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Featured Image (upload to replace)</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFeaturedImage(e.target.files?.[0] || null)}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-[var(--color-primary)] file:text-sm file:font-semibold file:bg-white file:text-[var(--color-primary)] hover:file:bg-[var(--color-primary)] hover:file:text-white file:cursor-pointer file:transition-colors"
-          />
-        </div>
-
-        <div className="price-match-form__field">
-          <div className="flex items-center justify-between mb-1">
-            <label className="price-match-form__label" style={{ marginBottom: 0 }}>Content (Markdown)</label>
-            <button type="button" onClick={() => setShowPreview(!showPreview)} className="btn btn--sm btn--outline">
-              {showPreview ? "Edit" : "Preview"}
-            </button>
-          </div>
-          <div className="blog-editor">
-            {showPreview ? (
-              <div className="blog-editor__preview blog-content">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      <form onSubmit={handleSubmit} className="adm-form adm-form--blog">
+        <div className="adm-blog-layout">
+          <div className="adm-blog-layout__main">
+            <div className="adm-form-card">
+              <div className="adm-form-field">
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Post title..."
+                  className="adm-form-input adm-form-input--title"
+                />
               </div>
-            ) : (
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows={16}
-                className="input w-full"
-                style={{ resize: "vertical", fontFamily: "var(--font-geist-mono)", fontSize: "0.8125rem" }}
-              />
-            )}
+            </div>
+
+            <div className="adm-form-card adm-form-card--flush">
+              <div className="adm-editor-tabs">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("write")}
+                  className={`adm-editor-tab ${activeTab === "write" ? "adm-editor-tab--active" : ""}`}
+                >
+                  <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                    <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+                  </svg>
+                  Write
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("preview")}
+                  className={`adm-editor-tab ${activeTab === "preview" ? "adm-editor-tab--active" : ""}`}
+                >
+                  <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                    <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                    <path fillRule="evenodd" d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                  </svg>
+                  Preview
+                </button>
+              </div>
+
+              {activeTab === "write" ? (
+                <MarkdownEditor
+                  value={content}
+                  onChange={setContent}
+                  placeholder="Write your blog post content..."
+                  minRows={20}
+                />
+              ) : (
+                <div className="adm-editor-preview">
+                  <MarkdownPreview content={content} />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="adm-blog-layout__sidebar">
+            <div className="adm-form-card">
+              <h2 className="adm-form-card__title">Publish</h2>
+              <div className="adm-form-field">
+                <div className="adm-form-status-group">
+                  <button
+                    type="button"
+                    onClick={() => setStatus("draft")}
+                    className={`adm-form-status ${status === "draft" ? "adm-form-status--active" : ""}`}
+                  >
+                    <span className="adm-form-status__dot adm-form-status__dot--draft" />
+                    Draft
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setStatus("published")}
+                    className={`adm-form-status ${status === "published" ? "adm-form-status--active adm-form-status--published" : ""}`}
+                  >
+                    <span className="adm-form-status__dot adm-form-status__dot--published" />
+                    Published
+                  </button>
+                </div>
+              </div>
+              <button type="submit" disabled={submitting} className="adm-form-btn adm-form-btn--primary adm-form-btn--full">
+                {submitting ? (
+                  <><span className="adm-form-btn__spinner" />Saving...</>
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
+            </div>
+
+            <div className="adm-form-card">
+              <h2 className="adm-form-card__title">Taxonomy</h2>
+              <div className="adm-form-field">
+                <label className="adm-form-label">Category</label>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} className="adm-form-input">
+                  {BLOG_CATEGORIES.map((c) => (
+                    <option key={c.value} value={c.value}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="adm-form-field">
+                <label className="adm-form-label">Tags</label>
+                <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} placeholder="electronics, guides, tips" className="adm-form-input" />
+                <p className="adm-form-hint">Separate with commas</p>
+              </div>
+            </div>
+
+            <div className="adm-form-card">
+              <h2 className="adm-form-card__title">Excerpt</h2>
+              <div className="adm-form-field">
+                <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} placeholder="Short summary..." rows={3} className="adm-form-input adm-form-input--textarea" />
+                <p className="adm-form-hint">{excerpt.length}/300 characters</p>
+              </div>
+            </div>
+
+            <div className="adm-form-card">
+              <h2 className="adm-form-card__title">Featured Image</h2>
+              <div className="adm-form-field">
+                {imagePreview ? (
+                  <div className="adm-form-image-preview">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={imagePreview} alt="Preview" />
+                    <button type="button" onClick={() => handleImageChange(null)} className="adm-form-image-preview__remove">
+                      <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <label className="adm-form-upload">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="adm-form-upload__icon">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                    </svg>
+                    <span className="adm-form-upload__text">Upload new image</span>
+                    <span className="adm-form-upload__hint">PNG, JPG, WebP up to 5MB</span>
+                    <input type="file" accept="image/*" onChange={(e) => handleImageChange(e.target.files?.[0] || null)} className="sr-only" />
+                  </label>
+                )}
+              </div>
+            </div>
+
+            <div className="adm-form-card">
+              <button type="button" onClick={() => setSeoOpen(!seoOpen)} className="adm-form-card__toggle">
+                <h2 className="adm-form-card__title" style={{ marginBottom: 0 }}>SEO Settings</h2>
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" className={`adm-form-card__chevron ${seoOpen ? "adm-form-card__chevron--open" : ""}`}>
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {seoOpen && (
+                <div className="adm-form-card__collapsible">
+                  <div className="adm-form-field">
+                    <label className="adm-form-label">Meta Title</label>
+                    <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} placeholder="Defaults to post title" className="adm-form-input" />
+                  </div>
+                  <div className="adm-form-field">
+                    <label className="adm-form-label">Meta Description</label>
+                    <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} placeholder="Defaults to excerpt" rows={2} className="adm-form-input adm-form-input--textarea" />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-
-        <details className="border border-gray-200 rounded-lg p-4">
-          <summary className="text-sm font-medium text-gray-700 cursor-pointer">SEO Settings</summary>
-          <div className="mt-4 space-y-4">
-            <div className="price-match-form__field">
-              <label className="price-match-form__label">Meta Title</label>
-              <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="input" />
-            </div>
-            <div className="price-match-form__field">
-              <label className="price-match-form__label">Meta Description</label>
-              <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} rows={2} className="input" style={{ resize: "vertical" }} />
-            </div>
-          </div>
-        </details>
-
-        <div className="price-match-form__field">
-          <label className="price-match-form__label">Status</label>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input type="radio" checked={status === "draft"} onChange={() => setStatus("draft")} />
-              Draft
-            </label>
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input type="radio" checked={status === "published"} onChange={() => setStatus("published")} />
-              Published
-            </label>
-          </div>
-        </div>
-
-        <button type="submit" disabled={submitting} className="btn btn--primary btn--lg w-full">
-          {submitting ? "Saving..." : "Save Changes"}
-        </button>
       </form>
     </div>
   );
