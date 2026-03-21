@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const validRoles = ["buyer", "seller"];
-    const userRole = validRoles.includes(role) ? role : "buyer";
+    const validRoles = ["admin", "buyer", "seller"];
+    const userRole = validRoles.includes(role) ? role : "admin";
 
     if (password.length < 6) {
       return NextResponse.json(

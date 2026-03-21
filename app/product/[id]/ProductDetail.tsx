@@ -174,7 +174,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
         {/* Left — Product image */}
-        <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+        <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden">
           <Image
             src={product.image}
             alt={product.title}
@@ -187,7 +187,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 
         {/* Right — Product info */}
         <div className="flex flex-col">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold font-heading text-gray-900 mb-2">
             {product.title}
           </h1>
 
@@ -202,7 +202,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           )}
 
           <div className="flex items-baseline gap-3 mb-4">
-            <span className="text-3xl font-bold text-gray-900">
+            <span className="text-3xl font-bold font-heading text-[var(--color-primary)]">
               ${product.price.toFixed(2)}
             </span>
           </div>
@@ -251,10 +251,10 @@ export default function ProductDetail({ product }: { product: Product }) {
             <button
               onClick={handleAddToCart}
               disabled={added}
-              className={`flex-1 sm:min-w-[140px] font-semibold py-3 px-6 rounded-lg transition-colors text-base ${
+              className={`flex-1 sm:min-w-[140px] btn btn--lg transition-colors ${
                 added
                   ? "bg-green-500 text-white cursor-default"
-                  : "bg-yellow-400 hover:bg-yellow-500 text-gray-900"
+                  : "btn--primary"
               }`}
             >
               {added ? "Added \u2713" : "Add to Cart"}
@@ -306,7 +306,7 @@ export default function ProductDetail({ product }: { product: Product }) {
       {/* Reviews Section */}
       <section className="mt-16 border-t border-gray-200 pt-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-xl font-bold font-heading text-gray-900">
             Customer Reviews
             {productReviews.length > 0 && (
               <span className="text-base font-normal text-gray-500 ml-2">({productReviews.length})</span>
@@ -315,7 +315,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           {isAuthenticated && !showReviewForm && (
             <button
               onClick={() => setShowReviewForm(true)}
-              className="text-sm font-medium bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg transition-colors"
+              className="text-sm font-medium bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white px-4 py-2 rounded-lg transition-colors"
             >
               Write a Review
             </button>
@@ -343,8 +343,8 @@ export default function ProductDetail({ product }: { product: Product }) {
                     setReviewTitle(e.target.value);
                     if (reviewErrors.title) setReviewErrors((prev) => ({ ...prev, title: "" }));
                   }}
-                  className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    reviewErrors.title ? "border-red-500" : "border-gray-300"
+                  className={`input ${
+                    reviewErrors.title ? "input--error" : ""
                   }`}
                   placeholder="Summarize your experience"
                 />
@@ -364,8 +364,8 @@ export default function ProductDetail({ product }: { product: Product }) {
                     setReviewBody(e.target.value);
                     if (reviewErrors.body) setReviewErrors((prev) => ({ ...prev, body: "" }));
                   }}
-                  className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y ${
-                    reviewErrors.body ? "border-red-500" : "border-gray-300"
+                  className={`input resize-y ${
+                    reviewErrors.body ? "input--error" : ""
                   }`}
                   placeholder="What did you like or dislike about this product?"
                 />
@@ -376,7 +376,7 @@ export default function ProductDetail({ product }: { product: Product }) {
               <div className="flex gap-3">
                 <button
                   type="submit"
-                  className="bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold px-5 py-2.5 rounded-lg transition-all text-sm"
+                  className="bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] active:scale-[0.98] text-white font-semibold px-5 py-2.5 rounded-lg transition-all text-sm"
                 >
                   Submit Review
                 </button>
@@ -415,7 +415,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           <div className="text-center py-8">
             <p className="text-gray-500 mb-3">No reviews yet. Be the first to review this product!</p>
             {!isAuthenticated && (
-              <Link href="/signin" className="text-sm text-blue-600 hover:underline font-medium">
+              <Link href="/signin" className="text-sm text-[var(--color-primary)] hover:underline font-medium">
                 Sign in to write a review
               </Link>
             )}
@@ -426,7 +426,7 @@ export default function ProductDetail({ product }: { product: Product }) {
       {/* Q&A Section (Inline Preview) */}
       <section className="mt-16 border-t border-gray-200 pt-10">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-          <h2 className="text-xl font-bold text-gray-900">
+          <h2 className="text-xl font-bold font-heading text-gray-900">
             Questions & Answers
             {topQuestions.length > 0 && (
               <span className="text-base font-normal text-gray-500 ml-2">({topQuestions.length})</span>
@@ -434,7 +434,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           </h2>
           <Link
             href={`/product/${product.id}/qa`}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-[var(--color-primary)] hover:underline"
           >
             See all Q&A &rarr;
           </Link>
@@ -463,7 +463,7 @@ export default function ProductDetail({ product }: { product: Product }) {
         ) : (
           <p className="text-gray-500 text-center py-6">
             No questions yet.{" "}
-            <Link href={`/product/${product.id}/qa`} className="text-blue-600 hover:underline">
+            <Link href={`/product/${product.id}/qa`} className="text-[var(--color-primary)] hover:underline">
               Be the first to ask!
             </Link>
           </p>

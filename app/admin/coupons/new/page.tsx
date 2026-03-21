@@ -61,10 +61,10 @@ export default function CreateCouponPage() {
 
   return (
     <div>
-      <Link href="/admin/coupons" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
+      <Link href="/admin/coupons" className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block">
         &larr; Back to Coupons
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Create Coupon</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Create Coupon</h1>
 
       <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
         {serverError && (
@@ -82,7 +82,7 @@ export default function CreateCouponPage() {
               if (errors.code) setErrors((p) => ({ ...p, code: "" }));
             }}
             placeholder="e.g., SAVE20"
-            className={`price-match-form__input ${errors.code ? "price-match-form__input--error" : ""}`}
+            className={`input ${errors.code ? "input--error" : ""}`}
             style={{ textTransform: "uppercase", letterSpacing: "0.05em" }}
           />
           {errors.code && <p className="price-match-form__error">{errors.code}</p>}
@@ -126,7 +126,7 @@ export default function CreateCouponPage() {
               setDiscountValue(e.target.value);
               if (errors.discountValue) setErrors((p) => ({ ...p, discountValue: "" }));
             }}
-            className={`price-match-form__input ${errors.discountValue ? "price-match-form__input--error" : ""}`}
+            className={`input ${errors.discountValue ? "input--error" : ""}`}
           />
           {errors.discountValue && <p className="price-match-form__error">{errors.discountValue}</p>}
         </div>
@@ -142,7 +142,7 @@ export default function CreateCouponPage() {
               value={maxDiscount}
               onChange={(e) => setMaxDiscount(e.target.value)}
               placeholder="No limit"
-              className="price-match-form__input"
+              className="input"
             />
           </div>
         )}
@@ -157,7 +157,7 @@ export default function CreateCouponPage() {
             value={minOrderAmount}
             onChange={(e) => setMinOrderAmount(e.target.value)}
             placeholder="0.00"
-            className="price-match-form__input"
+            className="input"
           />
         </div>
 
@@ -173,7 +173,7 @@ export default function CreateCouponPage() {
               if (errors.usageLimit) setErrors((p) => ({ ...p, usageLimit: "" }));
             }}
             placeholder="e.g., 100"
-            className={`price-match-form__input ${errors.usageLimit ? "price-match-form__input--error" : ""}`}
+            className={`input ${errors.usageLimit ? "input--error" : ""}`}
           />
           {errors.usageLimit && <p className="price-match-form__error">{errors.usageLimit}</p>}
         </div>
@@ -188,7 +188,7 @@ export default function CreateCouponPage() {
               setExpiresAt(e.target.value);
               if (errors.expiresAt) setErrors((p) => ({ ...p, expiresAt: "" }));
             }}
-            className={`price-match-form__input ${errors.expiresAt ? "price-match-form__input--error" : ""}`}
+            className={`input ${errors.expiresAt ? "input--error" : ""}`}
           />
           {errors.expiresAt && <p className="price-match-form__error">{errors.expiresAt}</p>}
         </div>

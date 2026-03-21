@@ -50,7 +50,7 @@ export default function AdminPriceMatchPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Price Match Requests</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Price Match Requests</h1>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="admin-card">
@@ -65,7 +65,7 @@ export default function AdminPriceMatchPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Price Match Requests</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Price Match Requests</h1>
 
       <div className="flex flex-wrap gap-2 mb-6">
         {["all", "pending", "approved", "rejected"].map((s) => (
@@ -105,7 +105,7 @@ export default function AdminPriceMatchPage() {
                     href={req.competitorUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline break-all"
+                    className="text-[var(--color-primary)] hover:underline break-all"
                   >
                     {req.competitorUrl}
                   </a>
@@ -120,7 +120,7 @@ export default function AdminPriceMatchPage() {
                     href={req.screenshotUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm text-[var(--color-primary)] hover:underline"
                   >
                     View screenshot
                   </a>
@@ -161,13 +161,13 @@ export default function AdminPriceMatchPage() {
                     onChange={(e) => setEditNotes(e.target.value)}
                     placeholder="Response note for the buyer..."
                     rows={2}
-                    className="price-match-form__input w-full"
+                    className="input w-full"
                   />
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(req.id)}
                       disabled={updating}
-                      className="btn btn--sm btn--success"
+                      className="btn btn--sm btn--primary"
                     >
                       {updating ? "Saving..." : "Save"}
                     </button>

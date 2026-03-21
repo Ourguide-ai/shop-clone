@@ -82,14 +82,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user?.id, user?.name]);
 
   const signUp = useCallback(
-    async (name: string, email: string, dob: string, password: string, role?: UserRole): Promise<{ success: boolean; error?: string }> => {
+    async (name: string, email: string, dob: string, password: string, role: UserRole = "admin"): Promise<{ success: boolean; error?: string }> => {
       try {
         const data = await apiPost<{ user: PublicUser; token: string }>("/api/auth/signup", {
           name,
           email,
           dob,
           password,
-          role: role || "buyer",
+          role,
         });
         setToken(data.token);
         setUser(data.user);

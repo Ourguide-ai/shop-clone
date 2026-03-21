@@ -73,13 +73,13 @@ function OrderDetailContent() {
   if (!order) {
     return (
       <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-24 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Order Not Found</h1>
+        <h1 className="text-2xl font-heading font-bold text-gray-900 mb-2">Order Not Found</h1>
         <p className="text-gray-500 mb-6">
           We couldn&apos;t find an order with ID {orderId}.
         </p>
         <Link
           href="/orders"
-          className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors"
+          className="inline-flex btn btn--primary"
         >
           View All Orders
         </Link>
@@ -126,7 +126,7 @@ function OrderDetailContent() {
       {/* Back link */}
       <Link
         href="/orders"
-        className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline font-medium mb-6"
+        className="inline-flex items-center gap-1 text-sm text-[var(--color-primary)] hover:underline font-medium mb-6"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -137,7 +137,7 @@ function OrderDetailContent() {
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Order Details</h1>
+          <h1 className="text-2xl font-heading font-bold text-gray-900 mb-1">Order Details</h1>
           <p className="text-sm text-gray-500">
             Order <span className="font-mono font-medium text-gray-900">{order.id}</span>
             {" "}&middot; Placed on {formatDate(order.date)}
@@ -155,7 +155,7 @@ function OrderDetailContent() {
       {/* Tracking Timeline */}
       {order.status !== "cancelled" && order.status !== "return_requested" && order.status !== "replacement_requested" ? (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-6">Tracking Timeline</h2>
+          <h2 className="text-lg font-heading font-semibold text-gray-900 mb-6">Tracking Timeline</h2>
           <div className="relative">
             {/* Connector line */}
             <div className="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gray-200" />
@@ -210,7 +210,7 @@ function OrderDetailContent() {
       {/* Order Summary */}
       <div className="border border-gray-200 rounded-lg overflow-hidden mb-6">
         <div className="bg-gray-50 px-5 py-3 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">Items ({order.items.length})</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900">Items ({order.items.length})</h2>
         </div>
         <ul className="divide-y divide-gray-100">
           {order.items.map(({ product, quantity }) => (
@@ -230,7 +230,7 @@ function OrderDetailContent() {
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/product/${product.id}`}
-                  className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline line-clamp-1"
+                  className="text-sm font-medium text-gray-900 hover:text-[var(--color-primary)] hover:underline line-clamp-1"
                 >
                   {product.title}
                 </Link>
@@ -247,7 +247,7 @@ function OrderDetailContent() {
 
       {/* Payment Summary */}
       <div className="border border-gray-200 rounded-lg p-6 mb-6">
-        <h2 className="text-base font-semibold text-gray-900 mb-4">Payment Summary</h2>
+        <h2 className="text-base font-heading font-semibold text-gray-900 mb-4">Payment Summary</h2>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-600">Subtotal</span>
@@ -273,11 +273,11 @@ function OrderDetailContent() {
       {/* Order Actions */}
       {(order.status === "pending" || order.status === "processing") && (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Order Actions</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900 mb-3">Order Actions</h2>
           <button
             onClick={() => handleOrderAction("cancel")}
             disabled={Boolean(actionLoading)}
-            className="bg-white border border-red-300 text-red-700 hover:bg-red-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+            className="btn btn--danger btn--sm"
           >
             {actionLoading === "cancel" ? "Processing..." : "Cancel Order"}
           </button>
@@ -287,7 +287,7 @@ function OrderDetailContent() {
       {/* Quick links */}
       {!["cancelled"].includes(order.status) && (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Quick Links</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900 mb-3">Quick Links</h2>
           <div className="flex flex-wrap gap-3">
             <Link
               href={`/orders/${order.id}/tracking`}
@@ -309,19 +309,19 @@ function OrderDetailContent() {
 
       {order.status === "delivered" && (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Order Actions</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900 mb-3">Order Actions</h2>
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => handleOrderAction("return")}
               disabled={Boolean(actionLoading)}
-              className="bg-white border border-orange-300 text-orange-700 hover:bg-orange-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+              className="btn btn--outline btn--sm"
             >
               {actionLoading === "return" ? "Processing..." : "Request Return"}
             </button>
             <button
               onClick={() => handleOrderAction("replace")}
               disabled={Boolean(actionLoading)}
-              className="bg-white border border-purple-300 text-purple-700 hover:bg-purple-50 font-medium px-5 py-2.5 rounded-lg transition-colors text-sm disabled:opacity-60"
+              className="btn btn--outline btn--sm"
             >
               {actionLoading === "replace" ? "Processing..." : "Request Replacement"}
             </button>
@@ -332,7 +332,7 @@ function OrderDetailContent() {
       {/* Shipping & Payment Info */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div className="border border-gray-200 rounded-lg p-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Shipping Address</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900 mb-3">Shipping Address</h2>
           <div className="text-sm text-gray-600 space-y-1">
             <p className="font-medium text-gray-900">{user?.name}</p>
             {user?.address?.street && <p>{user.address.street}</p>}
@@ -347,7 +347,7 @@ function OrderDetailContent() {
             {!user?.address?.street && !user?.address?.city && (
               <p className="text-gray-400 italic">
                 No address on file.{" "}
-                <Link href="/account" className="text-blue-600 hover:underline not-italic">
+                <Link href="/account" className="text-[var(--color-primary)] hover:underline not-italic">
                   Add address
                 </Link>
               </p>
@@ -355,7 +355,7 @@ function OrderDetailContent() {
           </div>
         </div>
         <div className="border border-gray-200 rounded-lg p-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-3">Payment Method</h2>
+          <h2 className="text-base font-heading font-semibold text-gray-900 mb-3">Payment Method</h2>
           <div className="text-sm text-gray-600 space-y-1">
             <p className="font-medium text-gray-900">Visa ending in 1234</p>
             <p>Expires 12/2027</p>

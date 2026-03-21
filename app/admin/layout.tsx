@@ -20,7 +20,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <RequireRole allowedRoles={["admin"]}>
       <div className="admin-layout">
         <aside className="admin-sidebar">
-          <h2 className="admin-sidebar__title">Admin Panel</h2>
+          <h2 className="admin-sidebar__title font-heading">Admin Panel</h2>
           <nav className="admin-sidebar__nav">
             {NAV_ITEMS.map((item) => (
               <Link

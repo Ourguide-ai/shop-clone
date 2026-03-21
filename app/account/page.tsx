@@ -356,19 +356,19 @@ function AccountSettings() {
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
       <div className="flex items-start justify-between gap-6 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">Account Settings</h1>
+          <h1 className="text-2xl sm:text-3xl font-heading font-bold tracking-tight text-gray-900">Account Settings</h1>
           <p className="text-sm text-gray-600 mt-1">Manage your profile, security, and preferences.</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className={`hidden sm:flex items-center gap-2 text-xs font-medium ${isDirty ? "text-yellow-700" : "text-gray-500"}`}>
-            <span className={`h-2 w-2 rounded-full ${isDirty ? "bg-yellow-500 animate-pulse" : "bg-gray-300"}`} />
+          <div className={`hidden sm:flex items-center gap-2 text-xs font-medium ${isDirty ? "text-[var(--color-primary)]" : "text-gray-500"}`}>
+            <span className={`h-2 w-2 rounded-full ${isDirty ? "bg-[var(--color-primary)] animate-pulse" : "bg-gray-300"}`} />
             {isDirty ? "Unsaved changes" : "All changes saved"}
           </div>
           <button
             type="button"
             onClick={onSaveProfile}
             disabled={savingProfile}
-            className="inline-flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] text-gray-900 font-semibold px-5 py-2.5 rounded-xl transition-all text-sm shadow-sm"
+            className="btn btn--primary"
           >
             {savingProfile ? <Spinner /> : <SaveIcon />}
             Save
@@ -377,9 +377,9 @@ function AccountSettings() {
       </div>
 
       {isDirty && (
-        <div className="enter d0 mb-6 rounded-2xl border border-yellow-200 bg-yellow-50/60 backdrop-blur px-4 py-3 flex items-center justify-between gap-3">
+        <div className="enter d0 mb-6 rounded-2xl border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 backdrop-blur px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-start gap-3">
-            <div className="mt-0.5 h-9 w-9 rounded-xl bg-yellow-400/30 flex items-center justify-center">
+            <div className="mt-0.5 h-9 w-9 rounded-xl bg-[var(--color-primary)]/20 flex items-center justify-center">
               <DotIcon />
             </div>
             <div>
@@ -391,7 +391,7 @@ function AccountSettings() {
             type="button"
             onClick={onSaveProfile}
             disabled={savingProfile}
-            className="text-sm font-semibold text-gray-900 bg-white/70 hover:bg-white border border-yellow-200 rounded-xl px-4 py-2 transition"
+            className="text-sm font-semibold text-gray-900 bg-white/70 hover:bg-white border border-[var(--color-primary)]/20 rounded-xl px-4 py-2 transition"
           >
             Save now
           </button>
@@ -563,7 +563,7 @@ function AccountSettings() {
                   type="button"
                   onClick={onSaveShippingAddress}
                   disabled={savingShipping}
-                  className="inline-flex items-center gap-2 rounded-xl bg-gray-900 text-white px-4 py-2.5 text-sm font-semibold hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                  className="btn btn--primary btn--sm"
                 >
                   {savingShipping ? <Spinner light /> : <SaveIcon />}
                   Save address
@@ -631,7 +631,7 @@ function AccountSettings() {
                     type="button"
                     onClick={onChangePassword}
                     disabled={savingPassword}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gray-900 text-white py-2.5 text-sm font-semibold hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                    className="w-full btn btn--primary"
                   >
                     {savingPassword ? <Spinner light /> : <LockIcon />}
                     Update password
@@ -656,7 +656,7 @@ function AccountSettings() {
                   {twoFASetupOpen && !twoFAEnabled && (
                     <div className="mt-4 rounded-xl border border-gray-200 bg-white/60 p-4">
                       <div className="flex items-start gap-3">
-                        <div className="h-9 w-9 rounded-xl bg-yellow-400/25 flex items-center justify-center">
+                        <div className="h-9 w-9 rounded-xl bg-[var(--color-primary)]/20 flex items-center justify-center">
                           <QrIcon />
                         </div>
                         <div className="flex-1">
@@ -682,7 +682,7 @@ function AccountSettings() {
                         <button
                           type="button"
                           onClick={complete2FASetup}
-                          className="rounded-xl bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold text-sm py-3 px-4 transition active:scale-[0.98]"
+                          className="btn btn--primary btn--sm"
                         >
                           Enable
                         </button>
@@ -977,7 +977,7 @@ function SectionCard({
       <div className="px-6 pt-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-base sm:text-lg font-bold tracking-tight text-gray-900">{title}</h2>
+            <h2 className="text-base sm:text-lg font-heading font-bold tracking-tight text-gray-900">{title}</h2>
             {subtitle && <p className="text-sm text-gray-600 mt-1">{subtitle}</p>}
           </div>
           {tone === "danger" && (
@@ -1101,7 +1101,7 @@ function FloatingInput({
 }) {
   const base =
     "peer w-full rounded-2xl border bg-white/70 px-4 pb-3 pt-5 text-sm text-gray-900 placeholder-transparent outline-none transition focus:ring-2";
-  const border = error ? "border-red-300 focus:border-red-300 focus:ring-red-200" : "border-gray-200 focus:border-yellow-300 focus:ring-yellow-200";
+  const border = error ? "border-red-300 focus:border-red-300 focus:ring-red-200" : "border-gray-200 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/30";
 
   return (
     <div>
@@ -1162,7 +1162,7 @@ function FloatingPassword({
           placeholder=" "
           autoComplete={autoComplete}
           className={`peer w-full rounded-2xl border bg-white/70 px-4 pb-3 pt-5 pr-12 text-sm text-gray-900 placeholder-transparent outline-none transition focus:ring-2 ${
-            error ? "border-red-300 focus:border-red-300 focus:ring-red-200" : "border-gray-200 focus:border-yellow-300 focus:ring-yellow-200"
+            error ? "border-red-300 focus:border-red-300 focus:ring-red-200" : "border-gray-200 focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]/30"
           }`}
         />
         <label
@@ -1268,7 +1268,7 @@ function SelectPopover<T extends string>({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className={`w-full rounded-2xl border border-gray-200 bg-white/70 px-4 py-3 text-sm text-gray-900 flex items-center justify-between gap-3 hover:bg-white transition focus:outline-none focus:ring-2 focus:ring-yellow-200 focus:border-yellow-300`}
+        className={`w-full rounded-2xl border border-gray-200 bg-white/70 px-4 py-3 text-sm text-gray-900 flex items-center justify-between gap-3 hover:bg-white transition focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)]`}
         aria-expanded={open}
       >
         <span className="truncate">{selected}</span>
@@ -1292,7 +1292,7 @@ function SelectPopover<T extends string>({
                 setOpen(false);
               }}
               className={`w-full text-left px-4 py-3 text-sm transition flex items-center justify-between ${
-                o.value === value ? "bg-yellow-50 text-gray-900" : "hover:bg-gray-50 text-gray-700"
+                o.value === value ? "bg-[var(--color-primary)]/10 text-gray-900" : "hover:bg-gray-50 text-gray-700"
               }`}
             >
               <span className="truncate">{o.label}</span>
@@ -1369,10 +1369,10 @@ function DangerAction({
       <button
         type="button"
         onClick={onClick}
-        className={`shrink-0 rounded-xl px-4 py-2 text-sm font-semibold transition active:scale-[0.98] ${
+        className={`shrink-0 ${
           destructive
-            ? "bg-red-600 hover:bg-red-700 text-white"
-            : "bg-white/70 hover:bg-white text-gray-900 border border-red-200"
+            ? "btn btn--danger btn--sm"
+            : "btn btn--outline btn--sm"
         }`}
       >
         {cta}
@@ -1414,20 +1414,15 @@ function ConfirmModal({
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const ctaClass =
-    tone === "danger"
-      ? "bg-red-600 hover:bg-red-700 text-white"
-      : "bg-gray-900 hover:bg-gray-800 text-white";
-
   return (
-    <div className="fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm" onClick={onClose} />
+    <div className="fixed inset-0 z-50 modal-backdrop">
+      <div className="absolute inset-0 bg-gray-900/40" onClick={onClose} />
       <div className="relative mx-auto mt-24 w-[92%] max-w-lg">
-        <div className="rounded-3xl border border-gray-200 bg-white shadow-xl overflow-hidden">
+        <div className="modal-panel rounded-3xl border border-gray-200 bg-white shadow-xl overflow-hidden">
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-lg font-bold text-gray-900">{title}</h3>
+                <h3 className="text-lg font-heading font-bold text-gray-900">{title}</h3>
                 <p className="text-sm text-gray-600 mt-1">{description}</p>
               </div>
               <button
@@ -1454,7 +1449,7 @@ function ConfirmModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-xl border border-gray-200 bg-white/70 hover:bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 transition"
+                className="btn btn--outline"
               >
                 Cancel
               </button>
@@ -1469,7 +1464,7 @@ function ConfirmModal({
                     setBusy(false);
                   }
                 }}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed ${ctaClass}`}
+                className={`${tone === "danger" ? "btn btn--danger" : "btn btn--primary"}`}
               >
                 {busy ? <Spinner light /> : <TrashIcon />}
                 {confirmLabel}

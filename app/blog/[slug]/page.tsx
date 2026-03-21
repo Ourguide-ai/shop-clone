@@ -80,7 +80,7 @@ export default async function BlogDetailPage({ params }: Props) {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="font-heading text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             {post.title}
           </h1>
 

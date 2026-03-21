@@ -65,7 +65,7 @@ export default function AdminIssuesPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Issue Reports</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Issue Reports</h1>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="admin-card">
@@ -80,7 +80,7 @@ export default function AdminIssuesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Issue Reports</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Issue Reports</h1>
 
       <div className="flex flex-wrap gap-2 mb-6">
         {["all", "submitted", "under_review", "resolved", "rejected"].map((s) => (
@@ -148,13 +148,13 @@ export default function AdminIssuesPage() {
                     onChange={(e) => setEditNotes(e.target.value)}
                     placeholder="Admin notes..."
                     rows={2}
-                    className="price-match-form__input w-full"
+                    className="input w-full"
                   />
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleUpdate(report.id)}
                       disabled={updating}
-                      className="btn btn--sm btn--success"
+                      className="btn btn--sm btn--primary"
                     >
                       {updating ? "Saving..." : "Save"}
                     </button>

@@ -20,7 +20,7 @@ export async function requireRole(
   if (!user) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
-  if (!allowedRoles.includes(user.role || "buyer")) {
+  if (user.role !== "admin" && !allowedRoles.includes(user.role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   return { user };

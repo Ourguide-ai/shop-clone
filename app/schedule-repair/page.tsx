@@ -271,15 +271,13 @@ function ScheduleRepairContent() {
     }
   };
 
-  const inputBase =
-    "w-full border border-stone-200 rounded-lg px-4 py-3 text-sm text-stone-900 bg-white outline-none transition-all placeholder:text-stone-300 focus:border-stone-900 focus:ring-1 focus:ring-stone-900";
-  const slotInputBase =
-    "w-full border border-stone-200 rounded-lg px-3 py-2.5 text-sm text-stone-900 bg-white outline-none transition-all focus:border-stone-900 focus:ring-1 focus:ring-stone-900";
+  const inputBase = "input w-full";
+  const slotInputBase = "input w-full";
 
   return (
     <div className="w-full max-w-3xl mx-auto px-6 sm:px-8 lg:px-0">
       <header className="pt-16 sm:pt-24 pb-12">
-        <h1 className="font-display text-[2.75rem] sm:text-[3.5rem] text-stone-900 tracking-[-0.01em] leading-[1.1]">
+        <h1 className="font-heading font-display text-[2.75rem] sm:text-[3.5rem] text-stone-900 tracking-[-0.01em] leading-[1.1]">
           Schedule a Repair
         </h1>
         <p className="mt-6 text-base sm:text-lg text-stone-400 leading-relaxed max-w-md text-balance">
@@ -292,7 +290,7 @@ function ScheduleRepairContent() {
         <button
           onClick={() => setShowForm(true)}
           disabled={deliveredOrders.length === 0}
-          className="group inline-flex items-center gap-3 bg-stone-900 text-white font-medium text-sm tracking-wide px-7 py-3.5 rounded-full hover:bg-stone-800 transition-colors disabled:opacity-30 disabled:pointer-events-none"
+          className="btn btn--primary group inline-flex items-center gap-3 font-medium text-sm tracking-wide px-7 py-3.5 rounded-full disabled:opacity-30 disabled:pointer-events-none"
         >
           <svg
             className="w-4 h-4"
@@ -344,7 +342,7 @@ function ScheduleRepairContent() {
       {showForm && (
         <div className="mt-10 mb-4 bg-white border border-stone-200 rounded-2xl overflow-hidden animate-step-reveal">
           <div className="px-6 sm:px-8 py-5 flex items-center justify-between border-b border-stone-100">
-            <h2 className="font-display text-xl text-stone-900">
+            <h2 className="font-heading font-display text-xl text-stone-900">
               New Request
             </h2>
             <button
@@ -688,7 +686,7 @@ function ScheduleRepairContent() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center gap-2.5 bg-stone-900 text-white font-medium text-sm px-7 py-3 rounded-full hover:bg-stone-800 disabled:opacity-40 transition-colors"
+                  className="btn btn--primary inline-flex items-center gap-2.5 font-medium text-sm px-7 py-3 rounded-full disabled:opacity-40"
                 >
                   {submitting ? (
                     <>
@@ -727,7 +725,7 @@ function ScheduleRepairContent() {
 
       <section className="pb-24">
         <div className="flex items-baseline justify-between mb-8">
-          <h2 className="font-display text-2xl text-stone-900">
+          <h2 className="font-heading font-display text-2xl text-stone-900">
             Your Repairs
           </h2>
           {!loadingRepairs && existingRepairs.length > 0 && (
@@ -789,7 +787,7 @@ function ScheduleRepairContent() {
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
-                      <h3 className="text-sm font-medium text-stone-900 line-clamp-1">
+                      <h3 className="font-heading text-sm font-medium text-stone-900 line-clamp-1">
                         {repair.productTitle}
                       </h3>
                       <p className="text-xs text-stone-400 mt-0.5">

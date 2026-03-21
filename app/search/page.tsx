@@ -116,7 +116,7 @@ export default function SearchPage() {
       {query.trim() ? (
         <>
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+            <h1 className="font-heading text-2xl font-bold text-gray-900 mb-1">
               Search Results
             </h1>
             {!loading && (
@@ -157,12 +157,12 @@ export default function SearchPage() {
                 </div>
               ) : (
                 <div className="rounded-2xl border border-black/5 bg-white/70 backdrop-blur-xl p-10 text-center">
-                  <h2 className="text-lg font-semibold text-gray-900">No matches</h2>
+                  <h2 className="font-heading text-lg font-semibold text-gray-900">No matches</h2>
                   <p className="text-sm text-gray-500 mt-2">Try widening your filters.</p>
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="mt-6 inline-flex rounded-xl bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-gray-950 transition-colors"
+                    className="btn btn--primary mt-6"
                   >
                     Reset filters
                   </button>
@@ -170,7 +170,7 @@ export default function SearchPage() {
                   <div className="mt-8">
                     <Link
                       href="/"
-                      className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors"
+                      className="btn btn--primary"
                     >
                       Browse All Products
                     </Link>
@@ -182,7 +182,7 @@ export default function SearchPage() {
         </>
       ) : (
         <div className="text-center py-16">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Search Products</h1>
+          <h1 className="font-heading text-2xl font-bold text-gray-900 mb-2">Search Products</h1>
           <p className="text-gray-500">Use the search bar above to find products.</p>
         </div>
       )}

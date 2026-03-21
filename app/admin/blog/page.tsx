@@ -38,7 +38,7 @@ export default function AdminBlogPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Blog Posts</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Blog Posts</h1>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="admin-card">
@@ -54,7 +54,7 @@ export default function AdminBlogPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Blog Posts</h1>
+        <h1 className="text-2xl font-bold text-gray-900 font-heading">Blog Posts</h1>
         <Link href="/admin/blog/new" className="btn btn--primary">
           New Post
         </Link>

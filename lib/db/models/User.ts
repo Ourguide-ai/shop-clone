@@ -36,7 +36,7 @@ const UserSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   dob: { type: String, default: "" },
   password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "buyer", "seller"], default: "buyer" },
+  role: { type: String, enum: ["admin", "buyer", "seller"], required: true, default: "admin" },
   address: { type: AddressSchema, default: () => ({}) },
   createdAt: { type: Date, default: Date.now },
 }, { collection: "users" });

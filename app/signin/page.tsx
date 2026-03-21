@@ -46,13 +46,13 @@ export default function SignInPage() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <Link href="/" className="block text-center text-2xl font-bold text-gray-900 mb-8">
+        <Link href="/" className="block text-center text-2xl font-bold font-heading text-gray-900 mb-8">
           ShopClone
         </Link>
 
         {/* Card */}
-        <div className="border border-gray-300 rounded-lg p-8">
-          <h1 className="text-xl font-semibold text-gray-900 mb-6">
+        <div className="shadow-lg rounded-xl border border-[var(--color-border)] p-8">
+          <h1 className="text-xl font-semibold font-heading text-gray-900 mb-6">
             Sign In
           </h1>
 
@@ -76,9 +76,7 @@ export default function SignInPage() {
                   setEmail(e.target.value);
                   if (errors.email || errors.form) setErrors((prev) => ({ ...prev, email: "", form: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.email ? " input--error" : ""}`}
                 placeholder="you@example.com"
               />
               {errors.email && (
@@ -99,9 +97,7 @@ export default function SignInPage() {
                   setPassword(e.target.value);
                   if (errors.password || errors.form) setErrors((prev) => ({ ...prev, password: "", form: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.password ? " input--error" : ""}`}
                 placeholder="Enter your password"
               />
               {errors.password && (
@@ -112,8 +108,9 @@ export default function SignInPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-2.5 rounded-lg transition-all text-sm mt-2 disabled:opacity-60"
+              className={`btn btn--primary btn--lg w-full${submitting ? " btn--loading" : ""}`}
             >
+              {submitting && <span className="btn__spinner" />}
               {submitting ? "Signing In..." : "Sign In"}
             </button>
           </form>
@@ -121,7 +118,7 @@ export default function SignInPage() {
           <div className="border-t border-gray-200 mt-6 pt-4">
             <p className="text-sm text-gray-600 text-center">
               New here?{" "}
-              <Link href="/signup" className="text-blue-600 hover:underline hover:text-blue-800 font-medium">
+              <Link href="/signup" className="text-[var(--color-primary)] hover:underline hover:text-[var(--color-primary-hover)] font-medium">
                 Create an account
               </Link>
             </p>

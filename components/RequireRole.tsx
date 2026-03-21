@@ -18,7 +18,7 @@ export default function RequireRole({ children, allowedRoles, fallbackPath = "/"
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.replace("/signin");
-    } else if (!loading && isAuthenticated && user && !allowedRoles.includes(user.role)) {
+    } else if (!loading && isAuthenticated && user && user.role !== "admin" && !allowedRoles.includes(user.role)) {
       router.replace(fallbackPath);
     }
   }, [isAuthenticated, loading, user, allowedRoles, fallbackPath, router]);
@@ -34,7 +34,7 @@ export default function RequireRole({ children, allowedRoles, fallbackPath = "/"
     );
   }
 
-  if (!isAuthenticated || !user || !allowedRoles.includes(user.role)) {
+  if (!isAuthenticated || !user || (user.role !== "admin" && !allowedRoles.includes(user.role))) {
     return null;
   }
 

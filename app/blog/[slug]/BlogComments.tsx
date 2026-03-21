@@ -54,7 +54,7 @@ export default function BlogComments({ slug }: { slug: string }) {
 
   return (
     <div>
-      <h2 className="text-xl font-bold text-gray-900 mb-6">
+      <h2 className="font-heading text-xl font-bold text-gray-900 mb-6">
         Comments {comments.length > 0 && `(${comments.length})`}
       </h2>
 
@@ -66,7 +66,7 @@ export default function BlogComments({ slug }: { slug: string }) {
             onChange={(e) => setText(e.target.value)}
             placeholder="Write a comment..."
             rows={3}
-            className="price-match-form__input w-full mb-2"
+            className="input w-full mb-2"
             style={{ resize: "vertical" }}
           />
           <button
@@ -79,7 +79,7 @@ export default function BlogComments({ slug }: { slug: string }) {
         </form>
       ) : (
         <p className="text-sm text-gray-500 mb-8">
-          <a href="/signin" className="text-blue-600 hover:underline">Sign in</a> to leave a comment.
+          <a href="/signin" className="text-[var(--color-primary)] hover:text-[var(--color-primary-hover)] hover:underline">Sign in</a> to leave a comment.
         </p>
       )}
 

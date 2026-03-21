@@ -59,7 +59,7 @@ export default function AdminOrdersPage() {
   if (loading) {
     return (
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">All Orders</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">All Orders</h1>
         <div className="animate-pulse space-y-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="admin-card">
@@ -74,7 +74,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">All Orders</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">All Orders</h1>
 
       <div className="flex flex-wrap gap-2 mb-6">
         {["all", "pending", "processing", "shipped", "delivered", "cancelled", "return_requested", "replacement_requested"].map((s) => (
@@ -96,7 +96,7 @@ export default function AdminOrdersPage() {
             <div key={order.id} className="admin-card">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div>
-                  <Link href={`/orders/${order.id}`} className="font-semibold text-gray-900 hover:text-blue-600">
+                  <Link href={`/orders/${order.id}`} className="font-semibold text-gray-900 hover:text-[var(--color-primary)]">
                     Order #{order.id}
                   </Link>
                   <p className="text-sm text-gray-500">{new Date(order.date).toLocaleDateString()}</p>

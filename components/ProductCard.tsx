@@ -53,7 +53,7 @@ export default function ProductCard({ product }: { product: Product }) {
               e.preventDefault();
               handleWishlist();
             }}
-            className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-md hover:scale-110 transition-transform z-10"
+            className="absolute top-2 right-2 p-1.5 bg-white rounded-full shadow-md hover:scale-110 transition-transform z-10 focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2"
             aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
           >
             <svg
@@ -72,13 +72,13 @@ export default function ProductCard({ product }: { product: Product }) {
           </button>
         </div>
         <div className="p-4 flex flex-col flex-1">
-          <p className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+          <p className="text-[0.6875rem] text-[var(--color-primary)] font-heading uppercase tracking-widest mb-1">
             {product.category}
           </p>
-          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2">
+          <h3 className="text-sm font-heading font-medium text-gray-900 line-clamp-2 mb-2">
             {product.title}
           </h3>
-          <p className="text-lg font-bold text-gray-900 mt-auto">
+          <p className="text-lg font-heading font-bold text-gray-900 mt-auto">
             ${product.price.toFixed(2)}
           </p>
         </div>
@@ -87,10 +87,10 @@ export default function ProductCard({ product }: { product: Product }) {
         <button
           onClick={handleAdd}
           disabled={added}
-          className={`w-full text-sm font-medium py-2 px-4 rounded-lg transition-colors ${
+          className={`w-full text-sm font-heading font-semibold py-2.5 px-4 rounded-lg transition-all duration-150 ${
             added
-              ? "bg-green-500 text-white cursor-default"
-              : "bg-yellow-400 hover:bg-yellow-500 text-gray-900"
+              ? "bg-[var(--color-success)] text-white cursor-default"
+              : "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white hover:-translate-y-0.5"
           }`}
         >
           {added ? "Added \u2713" : "Add to Cart"}

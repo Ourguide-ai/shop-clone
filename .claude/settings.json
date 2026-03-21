@@ -6,7 +6,10 @@
       "Read(//Users/sudhanshu/projects/e-commerce/node_modules/@ourguide/ui/**)",
       "Bash(head -30 /Users/sudhanshu/projects/e-commerce/app/product/[id]/page.tsx)",
       "Bash(cat /Users/sudhanshu/projects/e-commerce/app/product/[id]/page.tsx)",
-      "Bash(wc -l /Users/sudhanshu/projects/e-commerce/components/*.tsx)"
+      "Bash(wc -l /Users/sudhanshu/projects/e-commerce/components/*.tsx)",
+      "Bash(find /Users/sudhanshu/projects/e-commerce/components -type f \\\\\\(-name *.jsx -o -name *.tsx -o -name *.js -o -name *.ts \\\\\\))",
+      "Bash(head -100 /Users/sudhanshu/projects/e-commerce/app/product/[id]/page.tsx)",
+      "Bash(find /Users/sudhanshu/projects/e-commerce -type f -name *.scss -o -name *.sass -o -name *.module.css)"
     ],
     "additionalDirectories": [
       "/Users/sudhanshu/projects/e-commerce/app/category",

@@ -114,10 +114,10 @@ export default function EditBlogPostPage() {
 
   return (
     <div>
-      <Link href="/admin/blog" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
+      <Link href="/admin/blog" className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block">
         &larr; Back to Blog
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Post</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Edit Post</h1>
 
       {error && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3 mb-4">{error}</p>
@@ -126,17 +126,17 @@ export default function EditBlogPostPage() {
       <form onSubmit={handleSubmit} className="space-y-4 max-w-3xl">
         <div className="price-match-form__field">
           <label className="price-match-form__label">Title</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="price-match-form__input" />
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="input" />
         </div>
 
         <div className="price-match-form__field">
           <label className="price-match-form__label">Excerpt</label>
-          <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="price-match-form__input" style={{ resize: "vertical" }} />
+          <textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="input" style={{ resize: "vertical" }} />
         </div>
 
         <div className="price-match-form__field">
           <label className="price-match-form__label">Category</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} className="price-match-form__input">
+          <select value={category} onChange={(e) => setCategory(e.target.value)} className="input">
             {BLOG_CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
             ))}
@@ -145,7 +145,7 @@ export default function EditBlogPostPage() {
 
         <div className="price-match-form__field">
           <label className="price-match-form__label">Tags (comma-separated)</label>
-          <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} className="price-match-form__input" />
+          <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} className="input" />
         </div>
 
         <div className="price-match-form__field">
@@ -154,7 +154,7 @@ export default function EditBlogPostPage() {
             type="file"
             accept="image/*"
             onChange={(e) => setFeaturedImage(e.target.files?.[0] || null)}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-[var(--color-primary)] file:text-sm file:font-semibold file:bg-white file:text-[var(--color-primary)] hover:file:bg-[var(--color-primary)] hover:file:text-white file:cursor-pointer file:transition-colors"
           />
         </div>
 
@@ -175,7 +175,7 @@ export default function EditBlogPostPage() {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 rows={16}
-                className="price-match-form__input w-full"
+                className="input w-full"
                 style={{ resize: "vertical", fontFamily: "var(--font-geist-mono)", fontSize: "0.8125rem" }}
               />
             )}
@@ -187,11 +187,11 @@ export default function EditBlogPostPage() {
           <div className="mt-4 space-y-4">
             <div className="price-match-form__field">
               <label className="price-match-form__label">Meta Title</label>
-              <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="price-match-form__input" />
+              <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)} className="input" />
             </div>
             <div className="price-match-form__field">
               <label className="price-match-form__label">Meta Description</label>
-              <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} rows={2} className="price-match-form__input" style={{ resize: "vertical" }} />
+              <textarea value={metaDescription} onChange={(e) => setMetaDescription(e.target.value)} rows={2} className="input" style={{ resize: "vertical" }} />
             </div>
           </div>
         </details>

@@ -139,12 +139,12 @@ function ReportIssueContent() {
       <div className="report-form">
         <Link
           href={`/orders/${orderId}`}
-          className="text-sm text-blue-600 hover:underline mb-4 inline-block"
+          className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block"
         >
           &larr; Back to order
         </Link>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Report an Issue</h1>
+        <h1 className="text-2xl font-heading font-bold text-gray-900 mb-6">Report an Issue</h1>
 
         {/* Step indicator */}
         <div className="report-form__stepper">

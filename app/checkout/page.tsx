@@ -28,7 +28,7 @@ function CheckoutContent() {
   if (items.length === 0) {
     return (
       <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-24 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold font-heading text-gray-900 mb-2">
           Your cart is empty
         </h1>
         <p className="text-gray-500 mb-8">
@@ -36,7 +36,7 @@ function CheckoutContent() {
         </p>
         <Link
           href="/"
-          className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors"
+          className="btn btn--primary inline-block"
         >
           Continue Shopping
         </Link>
@@ -69,14 +69,14 @@ function CheckoutContent() {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Checkout</h1>
+      <h1 className="text-2xl font-bold font-heading text-gray-900 mb-8">Checkout</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] xl:grid-cols-[1fr_380px] gap-8 lg:gap-10">
         {/* Left — Form sections */}
         <div className="space-y-8">
           {/* Shipping address */}
           <section className="border border-gray-200 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="text-lg font-semibold font-heading text-gray-900 mb-4">
               Shipping Address
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -88,7 +88,7 @@ function CheckoutContent() {
                   type="text"
                   value={user?.name ?? ""}
                   readOnly
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
+                  className="input bg-gray-50"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -99,7 +99,7 @@ function CheckoutContent() {
                   type="text"
                   value={user?.address?.street ?? ""}
                   readOnly
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
+                  className="input bg-gray-50"
                 />
               </div>
               <div>
@@ -110,7 +110,7 @@ function CheckoutContent() {
                   type="text"
                   value={user?.address?.city ?? ""}
                   readOnly
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
+                  className="input bg-gray-50"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -122,7 +122,7 @@ function CheckoutContent() {
                     type="text"
                     value={user?.address?.state ?? ""}
                     readOnly
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
+                    className="input bg-gray-50"
                   />
                 </div>
                 <div>
@@ -133,14 +133,14 @@ function CheckoutContent() {
                     type="text"
                     value={user?.address?.zipCode ?? ""}
                     readOnly
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 bg-gray-50"
+                    className="input bg-gray-50"
                   />
                 </div>
               </div>
             </div>
             {!user?.address?.street && (
               <p className="text-sm text-gray-500 mt-3">
-                <Link href="/account" className="text-blue-600 hover:underline">
+                <Link href="/account" className="text-[var(--color-primary)] hover:underline">
                   Add your shipping address
                 </Link>{" "}
                 in account settings.
@@ -150,7 +150,7 @@ function CheckoutContent() {
 
           {/* Payment method */}
           <section className="border border-gray-200 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="text-lg font-semibold font-heading text-gray-900 mb-4">
               Payment Method
             </h2>
             <div className="flex items-center gap-4 bg-gray-50 border border-gray-200 rounded-md p-4">
@@ -182,7 +182,7 @@ function CheckoutContent() {
             <button
               onClick={handlePlaceOrder}
               disabled={placing}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base disabled:opacity-60"
+              className="btn btn--primary btn--lg w-full disabled:opacity-60"
             >
               {placing ? "Processing..." : "Place Your Order"}
             </button>
@@ -192,7 +192,7 @@ function CheckoutContent() {
         {/* Right — Order summary */}
         <div className="lg:self-start">
           <div className="border border-gray-200 rounded-lg p-6 sticky top-24">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            <h2 className="text-lg font-semibold font-heading text-gray-900 mb-4">
               Order Summary
             </h2>
 
@@ -299,7 +299,7 @@ function CheckoutContent() {
             <button
               onClick={handlePlaceOrder}
               disabled={placing}
-              className="hidden lg:block w-full mt-6 bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all text-base disabled:opacity-60"
+              className="hidden lg:block btn btn--primary btn--lg w-full mt-6 disabled:opacity-60"
             >
               {placing ? "Processing..." : "Place Your Order"}
             </button>

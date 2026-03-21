@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Instrument_Serif } from "next/font/google";
+import { Plus_Jakarta_Sans, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,23 +9,24 @@ import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
 import Script from "next/script";
 
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
 });
+
+const sourceSerif4 = Source_Serif_4({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-source-serif-4",
+  display: "swap",
+});
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
-});
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-display",
-  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -44,7 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+        className={`${plusJakartaSans.variable} ${sourceSerif4.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
           <AppProvider>
@@ -54,7 +55,7 @@ export default function RootLayout({
             <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
-        <Script 
+        <Script
           src="http://localhost:3000/ourguide-b2b-widget.iife.js"
           data-api-url="http://localhost:3000"
           data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"

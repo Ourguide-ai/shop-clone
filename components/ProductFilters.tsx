@@ -75,7 +75,7 @@ function Section({
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center justify-between gap-3 text-left"
       >
-        <span className="text-sm font-semibold text-gray-900">{title}</span>
+        <span className="text-sm font-heading font-semibold text-gray-900">{title}</span>
         <svg
           className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
             open ? "rotate-180" : "rotate-0"
@@ -133,7 +133,7 @@ export default function ProductFilters({
       <div className="flex items-start justify-between gap-3 p-4">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold text-gray-900">Filters</h2>
+            <h2 className="text-sm font-heading font-semibold text-gray-900">Filters</h2>
             {counts && (
               <span className="text-xs text-gray-500">
                 {counts.shown} of {counts.total}
@@ -196,9 +196,9 @@ export default function ProductFilters({
                     key={cat}
                     type="button"
                     onClick={() => onChange({ ...state, category: cat })}
-                    className={`rounded-full px-3.5 py-2 text-xs font-semibold transition-all duration-200 ${
+                    className={`rounded-full px-3.5 py-2 text-xs font-heading font-semibold transition-all duration-200 ${
                       active
-                        ? "bg-gray-900 text-white shadow-sm"
+                        ? "bg-[var(--color-primary)] text-white shadow-sm"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
@@ -231,7 +231,7 @@ export default function ProductFilters({
                     const nextMin = clamp(Number(e.target.value), normalizedBounds.min, state.priceMax);
                     onChange({ ...state, priceMin: nextMin });
                   }}
-                  className="absolute inset-0 w-full accent-gray-900"
+                  className="absolute inset-0 w-full accent-[var(--color-primary)]"
                 />
                 <input
                   type="range"
@@ -242,7 +242,7 @@ export default function ProductFilters({
                     const nextMax = clamp(Number(e.target.value), state.priceMin, normalizedBounds.max);
                     onChange({ ...state, priceMax: nextMax });
                   }}
-                  className="absolute inset-0 w-full accent-gray-900"
+                  className="absolute inset-0 w-full accent-[var(--color-primary)]"
                 />
               </div>
 
@@ -295,9 +295,9 @@ export default function ProductFilters({
                     key={opt.label}
                     type="button"
                     onClick={() => onChange({ ...state, minRating: opt.value })}
-                    className={`flex items-center justify-between gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-all duration-200 ${
+                    className={`flex items-center justify-between gap-2 rounded-xl border px-3 py-2 text-xs font-heading font-semibold transition-all duration-200 ${
                       active
-                        ? "border-gray-900 bg-gray-900 text-white"
+                        ? "border-[var(--color-primary)] bg-[var(--color-primary)] text-white"
                         : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
                     }`}
                   >

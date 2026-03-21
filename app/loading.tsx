@@ -4,10 +4,10 @@ export default function HomeLoading() {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
       <div className="mb-8">
-        <div className="h-8 bg-gray-200 rounded w-48 mb-4 animate-pulse" />
+        <div className="h-8 bg-gray-200 rounded w-48 mb-4 skeleton-shimmer" />
         <div className="flex gap-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-9 w-24 bg-gray-200 rounded-full animate-pulse" />
+            <div key={i} className="h-9 w-24 bg-gray-200 rounded-full skeleton-shimmer" />
           ))}
         </div>
       </div>

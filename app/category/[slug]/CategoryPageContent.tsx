@@ -100,7 +100,7 @@ export default function CategoryPageContent({ category, products, totalCount }: 
               placeholder="Min $"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="category-sort__select w-24"
+              className="input w-24"
             />
             <span className="text-sm text-gray-400">—</span>
             <input
@@ -108,7 +108,7 @@ export default function CategoryPageContent({ category, products, totalCount }: 
               placeholder="Max $"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="category-sort__select w-24"
+              className="input w-24"
             />
           </div>
 

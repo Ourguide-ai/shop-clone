@@ -99,10 +99,10 @@ function TrackingContent() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link href={`/orders/${order.id}`} className="text-sm text-blue-600 hover:underline mb-2 inline-block">
+          <Link href={`/orders/${order.id}`} className="text-sm text-[var(--color-primary)] hover:underline mb-2 inline-block">
             &larr; Back to order
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-heading font-bold text-gray-900">
             Track Order #{order.id}
           </h1>
           <p className="text-sm text-gray-500 mt-1">

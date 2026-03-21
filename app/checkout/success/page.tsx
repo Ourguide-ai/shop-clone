@@ -10,9 +10,9 @@ function SuccessContent() {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-24 text-center">
-      <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+      <div className="mx-auto w-16 h-16 bg-[var(--color-success)] rounded-full flex items-center justify-center mb-6">
         <svg
-          className="w-8 h-8 text-green-500"
+          className="w-8 h-8 text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -26,7 +26,7 @@ function SuccessContent() {
         </svg>
       </div>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">
+      <h1 className="text-2xl font-bold font-heading text-gray-900 mb-2">
         Order Placed Successfully!
       </h1>
 
@@ -47,7 +47,7 @@ function SuccessContent() {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Link
           href="/orders"
-          className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-colors"
+          className="btn btn--primary inline-block"
         >
           View Your Orders
         </Link>

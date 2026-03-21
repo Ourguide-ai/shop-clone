@@ -60,13 +60,13 @@ export default function SignUpPage() {
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <Link href="/" className="block text-center text-2xl font-bold text-gray-900 mb-8">
+        <Link href="/" className="block text-center text-2xl font-bold font-heading text-gray-900 mb-8">
           ShopClone
         </Link>
 
         {/* Card */}
-        <div className="border border-gray-300 rounded-lg p-8">
-          <h1 className="text-xl font-semibold text-gray-900 mb-6">
+        <div className="shadow-lg rounded-xl border border-[var(--color-border)] p-8">
+          <h1 className="text-xl font-semibold font-heading text-gray-900 mb-6">
             Create Account
           </h1>
 
@@ -84,9 +84,7 @@ export default function SignUpPage() {
                   setName(e.target.value);
                   if (errors.name) setErrors((prev) => ({ ...prev, name: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.name ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.name ? " input--error" : ""}`}
                 placeholder="First and last name"
               />
               {errors.name && (
@@ -107,9 +105,7 @@ export default function SignUpPage() {
                   setEmail(e.target.value);
                   if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.email ? " input--error" : ""}`}
                 placeholder="you@example.com"
               />
               {errors.email && (
@@ -130,9 +126,7 @@ export default function SignUpPage() {
                   setPassword(e.target.value);
                   if (errors.password) setErrors((prev) => ({ ...prev, password: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.password ? " input--error" : ""}`}
                 placeholder="At least 6 characters"
               />
               {errors.password && (
@@ -195,9 +189,7 @@ export default function SignUpPage() {
                   setConfirmPassword(e.target.value);
                   if (errors.confirmPassword) setErrors((prev) => ({ ...prev, confirmPassword: "" }));
                 }}
-                className={`w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`input${errors.confirmPassword ? " input--error" : ""}`}
               />
               {errors.confirmPassword && (
                 <p className="text-xs text-red-600 mt-1">{errors.confirmPassword}</p>
@@ -207,8 +199,9 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-yellow-400 hover:bg-yellow-500 active:scale-[0.98] text-gray-900 font-semibold py-2.5 rounded-lg transition-all text-sm mt-2 disabled:opacity-60"
+              className={`btn btn--primary btn--lg w-full${submitting ? " btn--loading" : ""}`}
             >
+              {submitting && <span className="btn__spinner" />}
               {submitting ? "Creating Account..." : "Create Account"}
             </button>
           </form>
@@ -216,7 +209,7 @@ export default function SignUpPage() {
           <div className="border-t border-gray-200 mt-6 pt-4">
             <p className="text-sm text-gray-600 text-center">
               Already have an account?{" "}
-              <Link href="/signin" className="text-blue-600 hover:underline hover:text-blue-800 font-medium">
+              <Link href="/signin" className="text-[var(--color-primary)] hover:underline hover:text-[var(--color-primary-hover)] font-medium">
                 Sign in
               </Link>
             </p>

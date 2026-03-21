@@ -3,11 +3,8 @@
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Inter } from "next/font/google";
 import { useApp } from "@/context/AppContext";
 import { useAuth } from "@/context/AuthContext";
-
-const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 type NavLink = {
   label: string;
@@ -255,7 +252,7 @@ export default function Navbar() {
       />
 
       <header
-        className={`${inter.className} sticky top-0 z-50 border-b border-black/5 backdrop-blur-xl transition-all duration-200 bg-gradient-to-b ${
+        className={`font-heading sticky top-0 z-50 border-b border-black/5 backdrop-blur-2xl transition-all duration-200 bg-gradient-to-b ${
           scrolled
             ? "from-white/95 via-white/90 to-slate-50/85 shadow-sm"
             : "from-white/80 via-white/70 to-slate-50/60"
@@ -331,7 +328,7 @@ export default function Navbar() {
                 aria-label="Products"
                 className={
                   isProductsOpen
-                    ? "pointer-events-auto absolute left-0 top-[calc(100%+0.65rem)] w-[min(44rem,calc(100vw-2rem))] origin-top translate-y-0 rounded-2xl border border-black/10 bg-white/80 p-4 lg:p-5 opacity-100 shadow-xl backdrop-blur-xl transition-all duration-200 ease-in-out"
+                    ? "pointer-events-auto absolute left-0 top-[calc(100%+0.65rem)] w-[min(44rem,calc(100vw-2rem))] origin-top translate-y-0 rounded-2xl border border-black/10 bg-white/80 p-4 lg:p-5 opacity-100 shadow-xl backdrop-blur-xl transition-all duration-200 ease-in-out before:absolute before:left-0 before:right-0 before:-top-4 before:h-4 before:content-['']"
                     : "pointer-events-none absolute left-0 top-[calc(100%+0.65rem)] w-[min(44rem,calc(100vw-2rem))] origin-top -translate-y-2 rounded-2xl border border-black/10 bg-white/80 p-4 lg:p-5 opacity-0 shadow-xl backdrop-blur-xl transition-all duration-200 ease-in-out"
                 }
               >
@@ -366,7 +363,7 @@ export default function Navbar() {
                   <Link
                     href="/"
                     onClick={closeAllMenus}
-                    className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-3 py-1.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-gray-800"
+                    className="inline-flex items-center gap-2 rounded-md bg-[var(--color-primary)] px-3 py-1.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-[var(--color-primary-hover)]"
                   >
                     Browse all
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -591,7 +588,7 @@ export default function Navbar() {
               </svg>
               {cartCount > 0 && (
                 <span
-                  className={`absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-gray-900 px-1 text-[11px] font-semibold text-white ${
+                  className={`absolute -right-1.5 -top-1.5 grid h-5 min-w-5 place-items-center rounded-full bg-[var(--color-primary)] px-1 text-[11px] font-semibold text-white ${
                     badgeBump ? "animate-badge-pop" : ""
                   }`}
                   aria-label={`${cartCount} items in cart`}
@@ -633,7 +630,7 @@ export default function Navbar() {
                     <Link
                       href="/admin"
                       onClick={closeAllMenus}
-                      className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-blue-600 transition-colors duration-200 hover:bg-black/5 hover:text-blue-800"
+                      className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-[var(--color-primary)] transition-colors duration-200 hover:bg-black/5 hover:text-[var(--color-primary-hover)]"
                     >
                       Admin Dashboard
                     </Link>
@@ -700,7 +697,7 @@ export default function Navbar() {
                 <Link
                   href="/signup"
                   onClick={closeAllMenus}
-                  className="rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-gray-800"
+                  className="rounded-lg bg-[var(--color-primary)] px-3 py-2 text-sm font-medium text-white transition-colors duration-200 hover:bg-[var(--color-primary-hover)]"
                 >
                   Sign Up
                 </Link>
@@ -920,7 +917,7 @@ export default function Navbar() {
                   <Link
                     href="/admin"
                     onClick={closeAllMenus}
-                    className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-blue-600 transition-colors duration-200 hover:bg-black/5 hover:text-blue-800"
+                    className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-[var(--color-primary)] transition-colors duration-200 hover:bg-black/5 hover:text-[var(--color-primary-hover)]"
                   >
                     Admin Dashboard
                   </Link>
@@ -978,7 +975,7 @@ export default function Navbar() {
                 <Link
                   href="/signup"
                   onClick={closeAllMenus}
-                  className="rounded-lg bg-gray-900 px-3 py-2 text-center text-sm font-medium text-white transition-colors duration-200 hover:bg-gray-800"
+                  className="rounded-lg bg-[var(--color-primary)] px-3 py-2 text-center text-sm font-medium text-white transition-colors duration-200 hover:bg-[var(--color-primary-hover)]"
                 >
                   Sign Up
                 </Link>

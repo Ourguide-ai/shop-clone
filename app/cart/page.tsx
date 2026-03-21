@@ -37,20 +37,10 @@ function CartContent() {
   if (items.length === 0) {
     return (
       <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-24 text-center">
-        <svg
-          className="mx-auto h-16 w-16 text-gray-300 mb-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={1.5}
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-          />
+        <svg className="mx-auto h-20 w-20 text-gray-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl font-bold font-heading text-gray-900 mb-2">
           Your cart is empty
         </h1>
         <p className="text-gray-500 mb-8">
@@ -58,9 +48,9 @@ function CartContent() {
         </p>
         <Link
           href="/"
-          className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors"
+          className="btn btn--primary inline-block"
         >
-          Continue Shopping
+          Browse Products
         </Link>
       </div>
     );
@@ -68,7 +58,7 @@ function CartContent() {
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Shopping Cart</h1>
+      <h1 className="text-2xl font-bold font-heading text-gray-900 mb-6">Shopping Cart</h1>
 
       {/* Header row — hidden on mobile */}
       <div className="hidden sm:grid sm:grid-cols-[1fr_100px_120px_100px_40px] gap-4 text-sm font-medium text-gray-500 border-b border-gray-200 pb-3 mb-2">
@@ -103,7 +93,7 @@ function CartContent() {
               <div className="min-w-0">
                 <Link
                   href={`/product/${product.id}`}
-                  className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline line-clamp-2"
+                  className="text-sm font-medium text-gray-900 hover:text-[var(--color-primary)] hover:underline line-clamp-2"
                 >
                   {product.title}
                 </Link>
@@ -249,7 +239,7 @@ function CartContent() {
       </div>
 
       {/* Summary */}
-      <div className="border-t border-gray-200 pt-6">
+      <div className="border border-gray-200 rounded-xl p-6 mt-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-lg text-gray-700">
             Subtotal ({cartCount} {cartCount === 1 ? "item" : "items"})
@@ -279,7 +269,7 @@ function CartContent() {
           </Link>
           <Link
             href="/checkout"
-            className="text-center bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-8 py-3 rounded-lg transition-colors"
+            className="text-center bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-semibold px-8 py-3 rounded-lg transition-colors"
           >
             Proceed to Checkout
           </Link>

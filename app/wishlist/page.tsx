@@ -42,7 +42,7 @@ function WishlistContent() {
     return (
       <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-24 text-center">
         <svg
-          className="mx-auto h-16 w-16 text-gray-300 mb-6"
+          className="h-16 w-16 text-gray-300 mx-auto"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -54,23 +54,16 @@ function WishlistContent() {
             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
           />
         </svg>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Your wishlist is empty</h1>
-        <p className="text-gray-500 mb-8">
-          Save items you love by clicking the heart icon on any product.
-        </p>
-        <Link
-          href="/"
-          className="inline-block bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium px-6 py-3 rounded-lg transition-colors"
-        >
-          Browse Products
-        </Link>
+        <h2 className="mt-4 text-xl font-heading font-semibold text-gray-900">Your wishlist is empty</h2>
+        <p className="mt-2 text-sm text-gray-500">Save products you love for later.</p>
+        <Link href="/" className="mt-6 inline-flex btn btn--primary">Start Browsing</Link>
       </div>
     );
   }
 
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">
+      <h1 className="text-2xl font-heading font-bold text-gray-900 mb-6">
         Your Wishlist ({wishlist.length} {wishlist.length === 1 ? "item" : "items"})
       </h1>
 
@@ -96,7 +89,7 @@ function WishlistContent() {
             <div className="min-w-0 flex-1">
               <Link
                 href={`/product/${product.id}`}
-                className="text-sm font-medium text-gray-900 hover:text-blue-600 hover:underline line-clamp-1"
+                className="text-sm font-medium text-gray-900 hover:text-[var(--color-primary)] hover:underline line-clamp-1"
               >
                 {product.title}
               </Link>
@@ -109,7 +102,7 @@ function WishlistContent() {
             <div className="flex flex-row gap-2 flex-shrink-0 w-full sm:w-auto">
               <button
                 onClick={() => handleAddToCart(product)}
-                className="text-sm font-medium bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg transition-colors"
+                className="btn btn--primary btn--sm"
               >
                 Add to Cart
               </button>

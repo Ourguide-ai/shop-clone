@@ -89,10 +89,10 @@ export default function CreateBlogPostPage() {
 
   return (
     <div>
-      <Link href="/admin/blog" className="text-sm text-blue-600 hover:underline mb-4 inline-block">
+      <Link href="/admin/blog" className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block">
         &larr; Back to Blog
       </Link>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">New Blog Post</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">New Blog Post</h1>
 
       {error && (
         <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3 mb-4">{error}</p>
@@ -107,7 +107,7 @@ export default function CreateBlogPostPage() {
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Post title"
-            className="price-match-form__input"
+            className="input"
           />
         </div>
 
@@ -118,7 +118,7 @@ export default function CreateBlogPostPage() {
             type="text"
             value={slug}
             onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
-            className="price-match-form__input"
+            className="input"
             style={{ fontFamily: "var(--font-geist-mono)" }}
           />
         </div>
@@ -131,7 +131,7 @@ export default function CreateBlogPostPage() {
             onChange={(e) => setExcerpt(e.target.value)}
             placeholder="Short summary for listing cards..."
             rows={2}
-            className="price-match-form__input"
+            className="input"
             style={{ resize: "vertical" }}
           />
         </div>
@@ -142,7 +142,7 @@ export default function CreateBlogPostPage() {
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="price-match-form__input"
+            className="input"
           >
             {BLOG_CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>{c.label}</option>
@@ -158,7 +158,7 @@ export default function CreateBlogPostPage() {
             value={tags}
             onChange={(e) => setTags(e.target.value)}
             placeholder="electronics, guides, tips"
-            className="price-match-form__input"
+            className="input"
           />
         </div>
 
@@ -169,7 +169,7 @@ export default function CreateBlogPostPage() {
             type="file"
             accept="image/*"
             onChange={(e) => setFeaturedImage(e.target.files?.[0] || null)}
-            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-[var(--color-primary)] file:text-sm file:font-semibold file:bg-white file:text-[var(--color-primary)] hover:file:bg-[var(--color-primary)] hover:file:text-white file:cursor-pointer file:transition-colors"
           />
         </div>
 
@@ -196,7 +196,7 @@ export default function CreateBlogPostPage() {
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Write your post content in Markdown..."
                 rows={16}
-                className="price-match-form__input w-full"
+                className="input w-full"
                 style={{ resize: "vertical", fontFamily: "var(--font-geist-mono)", fontSize: "0.8125rem" }}
               />
             )}
@@ -216,7 +216,7 @@ export default function CreateBlogPostPage() {
                 value={metaTitle}
                 onChange={(e) => setMetaTitle(e.target.value)}
                 placeholder="Defaults to post title"
-                className="price-match-form__input"
+                className="input"
               />
             </div>
             <div className="price-match-form__field">
@@ -226,7 +226,7 @@ export default function CreateBlogPostPage() {
                 onChange={(e) => setMetaDescription(e.target.value)}
                 placeholder="Defaults to excerpt"
                 rows={2}
-                className="price-match-form__input"
+                className="input"
                 style={{ resize: "vertical" }}
               />
             </div>

@@ -46,7 +46,7 @@ export default async function BlogListingPage({ searchParams }: Props) {
   return (
     <div className="w-full px-4 sm:px-6 lg:px-8 2xl:px-12 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Blog</h1>
+        <h1 className="font-heading text-2xl font-bold text-gray-900">Blog</h1>
         <p className="text-sm text-gray-500 mt-1">
           Buying guides, how-to articles, and industry insights.
         </p>
@@ -73,7 +73,11 @@ export default async function BlogListingPage({ searchParams }: Props) {
 
       {/* Post grid */}
       {posts.length === 0 ? (
-        <p className="text-gray-500 text-center py-12">No posts found.</p>
+        <div className="text-center py-12">
+          <h2 className="font-heading text-lg font-semibold text-gray-900">No posts found</h2>
+          <p className="text-gray-500 mt-2">Try selecting a different category.</p>
+          <Link href="/blog" className="btn btn--primary mt-6 inline-block">View All Posts</Link>
+        </div>
       ) : (
         <div className="blog-grid">
           {posts.map((post) => (

@@ -118,12 +118,12 @@ export default function QAPage() {
       <div className="max-w-3xl mx-auto">
         <Link
           href={`/product/${productId}`}
-          className="text-sm text-blue-600 hover:underline mb-4 inline-block"
+          className="text-sm text-[var(--color-primary)] hover:underline mb-4 inline-block"
         >
           &larr; Back to {productTitle || "product"}
         </Link>
 
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">
+        <h1 className="text-2xl font-heading font-bold text-gray-900 mb-6">
           Questions & Answers
         </h1>
 
@@ -151,7 +151,7 @@ export default function QAPage() {
 
         {!isAuthenticated && (
           <p className="text-sm text-gray-500 mb-6">
-            <Link href="/signin" className="text-blue-600 hover:underline">Sign in</Link> to ask a question.
+            <Link href="/signin" className="text-[var(--color-primary)] hover:underline">Sign in</Link> to ask a question.
           </p>
         )}
 

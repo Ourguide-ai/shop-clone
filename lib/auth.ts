@@ -9,7 +9,7 @@ const OURGUIDE_AUTH_SECRET =
 
 interface JwtPayload {
   userId: string;
-  role?: string;
+  role: string;
 }
 
 interface OurguideJwtPayload {
@@ -18,8 +18,8 @@ interface OurguideJwtPayload {
   name?: string;
 }
 
-export function signToken(userId: string, role?: string): string {
-  return jwt.sign({ userId, role: role || "buyer" }, JWT_SECRET, { expiresIn: "7d" });
+export function signToken(userId: string, role: string = "admin"): string {
+  return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: "7d" });
 }
 
 export function verifyToken(token: string): JwtPayload {
@@ -113,7 +113,7 @@ export function userToPublic(user: IUser) {
     name: user.name,
     email: user.email,
     dob: user.dob,
-    role: user.role || "buyer",
+    role: user.role || "admin",
     address: user.address
       ? {
           street: user.address.street || "",

@@ -313,7 +313,7 @@ export default function HelpPage() {
           <div className="flex items-start justify-between gap-6">
             <div className="max-w-2xl">
               <p className="text-xs font-semibold text-gray-700 tracking-wide">Customer Service</p>
-              <h1 className="mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">How can we help you?</h1>
+              <h1 className="font-heading mt-2 text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">How can we help you?</h1>
               <p className="mt-2 text-sm text-gray-600">
                 Search help topics, track an order, or contact support — we’re here to help.
               </p>
@@ -336,7 +336,7 @@ export default function HelpPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search help topics (returns, refunds, shipping, payment…)"
-                className="w-full rounded-2xl border border-gray-200 bg-white/70 pl-11 pr-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition"
+                className="input w-full rounded-2xl pl-11 pr-4 py-3 text-sm text-gray-900 placeholder:text-gray-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition"
               />
               {!!search.trim() && (
                 <button
@@ -360,7 +360,7 @@ export default function HelpPage() {
                   onClick={() => scrollToFaq(c.key)}
                   className="chip inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white/60 px-3 py-1.5 text-xs font-semibold text-gray-800 hover:bg-white transition"
                 >
-                  <span className="h-2 w-2 rounded-full bg-yellow-400" />
+                  <span className="h-2 w-2 rounded-full bg-[var(--color-primary)]" />
                   {c.label}
                 </button>
               ))}
@@ -377,11 +377,11 @@ export default function HelpPage() {
             <div className="px-6 pt-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold tracking-tight text-gray-900">FAQs</h2>
+                  <h2 className="font-heading text-base sm:text-lg font-bold tracking-tight text-gray-900">FAQs</h2>
                   <p className="text-sm text-gray-600 mt-1">Quick answers, organized by category.</p>
                 </div>
                 <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-gray-600">
-                  <span className="rounded-full bg-yellow-400/25 border border-yellow-200 px-2 py-0.5 text-gray-800">Tip</span>
+                  <span className="rounded-full bg-[var(--color-primary)]/15 border border-[var(--color-primary)]/30 px-2 py-0.5 text-gray-800">Tip</span>
                   Try searching “refund” or “tracking”.
                 </div>
               </div>
@@ -406,7 +406,7 @@ export default function HelpPage() {
             <div className="px-6 pb-6 pt-4">
               {filteredFaq.length === 0 ? (
                 <div className="rounded-2xl border border-gray-200 bg-white/70 p-5">
-                  <p className="text-sm font-semibold text-gray-900">No results</p>
+                  <h3 className="font-heading text-sm font-semibold text-gray-900">No results</h3>
                   <p className="text-sm text-gray-600 mt-1">Try a different keyword or browse a category.</p>
                 </div>
               ) : (
@@ -427,7 +427,7 @@ export default function HelpPage() {
           {/* ORDER TRACKER */}
           <div className="enter d2 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
             <div className="px-6 pt-6">
-              <h2 className="text-base sm:text-lg font-bold tracking-tight text-gray-900">Order Issue Tracker</h2>
+              <h2 className="font-heading text-base sm:text-lg font-bold tracking-tight text-gray-900">Order Issue Tracker</h2>
               <p className="text-sm text-gray-600 mt-1">Enter an order number to see its current status instantly.</p>
             </div>
             <div className="px-6 pb-6 pt-5">
@@ -460,7 +460,7 @@ export default function HelpPage() {
           {/* CONTACT OPTIONS */}
           <div className="enter d1 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
             <div className="px-6 pt-6">
-              <h2 className="text-base sm:text-lg font-bold tracking-tight text-gray-900">Contact options</h2>
+              <h2 className="font-heading text-base sm:text-lg font-bold tracking-tight text-gray-900">Contact options</h2>
               <p className="text-sm text-gray-600 mt-1">Choose the fastest way to get help.</p>
             </div>
             <div className="px-6 pb-6 pt-5">
@@ -508,7 +508,7 @@ export default function HelpPage() {
           {/* SUPPORT FORM */}
           <div id="support-form" className="enter d2 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
             <div className="px-6 pt-6">
-              <h2 className="text-base sm:text-lg font-bold tracking-tight text-gray-900">Contact support</h2>
+              <h2 className="font-heading text-base sm:text-lg font-bold tracking-tight text-gray-900">Contact support</h2>
               <p className="text-sm text-gray-600 mt-1">We’ll respond as fast as possible — typically within 24 hours.</p>
             </div>
 
@@ -581,7 +581,7 @@ export default function HelpPage() {
                           onClick={() => setPriority(p.key)}
                           className={`rounded-xl px-3 py-2 text-xs font-semibold transition ${
                             priority === p.key
-                              ? "bg-gray-900 text-white shadow-sm"
+                              ? "bg-[var(--color-primary)] text-white shadow-sm"
                               : "text-gray-700 hover:bg-white"
                           }`}
                         >
@@ -622,7 +622,7 @@ export default function HelpPage() {
                   <div
                     className={`mt-2 rounded-2xl border border-dashed bg-white/60 p-4 transition ${
                       dragging
-                        ? "border-yellow-400 ring-2 ring-yellow-200"
+                        ? "border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20"
                         : errors.attachments
                           ? "border-red-400 ring-2 ring-red-100"
                           : "border-gray-200 hover:border-gray-300"
@@ -709,7 +709,7 @@ export default function HelpPage() {
                 <button
                   type="submit"
                   disabled={submitState !== "idle"}
-                  className="w-full rounded-2xl bg-yellow-400 hover:bg-yellow-500 disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] text-gray-900 font-semibold py-3 transition flex items-center justify-center gap-2"
+                  className="btn btn--primary w-full rounded-2xl disabled:opacity-60 disabled:cursor-not-allowed active:scale-[0.98] font-semibold py-3 transition flex items-center justify-center gap-2"
                 >
                   {submitState === "idle" && (
                     <>
@@ -807,7 +807,7 @@ function Pill({ active, onClick, label }: { active: boolean; onClick: () => void
       onClick={onClick}
       className={`whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-semibold transition border ${
         active
-          ? "bg-gray-900 text-white border-gray-900"
+          ? "bg-[var(--color-primary)] text-white border-[var(--color-primary)]"
           : "bg-white/60 text-gray-800 border-gray-200 hover:bg-white"
       }`}
     >
@@ -934,7 +934,7 @@ function FloatingInput({
 }) {
   return (
     <div>
-      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-yellow-200 focus-within:border-yellow-300"}`}>
+      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20 focus-within:border-[var(--color-primary)]"}`}>
         <input
           id={id}
           value={value}
@@ -976,7 +976,7 @@ function FloatingTextarea({
 }) {
   return (
     <div>
-      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-yellow-200 focus-within:border-yellow-300"}`}>
+      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20 focus-within:border-[var(--color-primary)]"}`}>
         <textarea
           id={id}
           value={value}
@@ -1029,7 +1029,7 @@ function Listbox<T extends string>({
 
   return (
     <div ref={rootRef}>
-      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-yellow-200 focus-within:border-yellow-300"}`}>
+      <div className={`relative rounded-2xl border bg-white/70 transition shadow-sm ${error ? "border-red-400 ring-2 ring-red-100" : "border-gray-200 focus-within:ring-2 focus-within:ring-[var(--color-primary)]/20 focus-within:border-[var(--color-primary)]"}`}>
         <button
           type="button"
           onClick={() => setOpen((p) => !p)}
@@ -1059,7 +1059,7 @@ function Listbox<T extends string>({
                     onChange(o.value);
                     setOpen(false);
                   }}
-                  className={`w-full text-left px-4 py-3 transition ${active ? "bg-yellow-50" : "hover:bg-gray-50"}`}
+                  className={`w-full text-left px-4 py-3 transition ${active ? "bg-[var(--color-primary)]/5" : "hover:bg-gray-50"}`}
                 >
                   <p className="text-sm font-semibold text-gray-900">{o.label}</p>
                   {o.hint && <p className="text-xs text-gray-600 mt-0.5">{o.hint}</p>}
@@ -1122,7 +1122,7 @@ function OrderProgressView({ tracked }: { tracked: ReturnType<typeof resolveOrde
 
       <div className="mt-4">
         <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
-          <div className={`h-full bg-yellow-400 transition-all duration-500 ${barWidthClass}`} />
+          <div className={`h-full bg-[var(--color-primary)] transition-all duration-500 ${barWidthClass}`} />
         </div>
         <div className="mt-3 grid grid-cols-4 gap-2">
           {steps.map((s, idx) => {
@@ -1134,7 +1134,7 @@ function OrderProgressView({ tracked }: { tracked: ReturnType<typeof resolveOrde
                   <span
                     className={`h-3 w-3 rounded-full border ${
                       isCurrent
-                        ? "bg-yellow-400 border-yellow-300 pulse-dot"
+                        ? "bg-[var(--color-primary)] border-[var(--color-primary)] pulse-dot"
                         : isDone
                           ? "bg-gray-900 border-gray-900"
                           : "bg-white border-gray-300"
@@ -1331,7 +1331,7 @@ function UploadIcon() {
 
 function SendIcon() {
   return (
-    <svg className="h-5 w-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-5 w-5 text-current" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 12l16-8-6 16-2.5-6L4 12z" />
     </svg>
   );

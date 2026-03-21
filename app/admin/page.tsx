@@ -50,7 +50,7 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-900 mb-6 font-heading">Admin Dashboard</h1>
 
       {loading ? (
         <div className="admin-stats">
