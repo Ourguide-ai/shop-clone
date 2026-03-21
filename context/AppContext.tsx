@@ -9,7 +9,7 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { Product, CartItem, Order, Review } from "@/lib/types";
+import { Product, CartItem, Order, Review, AppliedCoupon } from "@/lib/types";
 import { useAuth } from "@/context/AuthContext";
 import { apiGet, apiPost, apiPut, apiDelete, apiPatch } from "@/lib/api";
 
@@ -22,6 +22,12 @@ interface AppContextType {
   clearCart: () => void;
   cartTotal: number;
   cartCount: number;
+
+  // Coupons
+  appliedCoupon: AppliedCoupon | null;
+  applyCoupon: (code: string) => Promise<{ success: boolean; error?: string }>;
+  removeCoupon: () => void;
+  discountedTotal: number;
 
   // Orders
   orders: Order[];
@@ -47,6 +53,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const { user, isAuthenticated } = useAuth();
 
   const [items, setItems] = useState<CartItem[]>([]);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [wishlist, setWishlist] = useState<Product[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -146,22 +153,69 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [items]
   );
 
+  // Clear coupon when cart items change (discount may become invalid)
+  useEffect(() => {
+    setAppliedCoupon(null);
+  }, [items.length]);
+
+  const applyCoupon = useCallback(
+    async (code: string): Promise<{ success: boolean; error?: string }> => {
+      try {
+        const data = await apiPost<{
+          valid: boolean;
+          code: string;
+          discountType: "percentage" | "fixed";
+          discountValue: number;
+          discountAmount: number;
+          error?: string;
+        }>("/api/coupons/validate", { code, cartTotal });
+
+        if (!data.valid) {
+          return { success: false, error: data.error || "Invalid coupon" };
+        }
+
+        setAppliedCoupon({
+          code: data.code,
+          discountType: data.discountType,
+          discountValue: data.discountValue,
+          discountAmount: data.discountAmount,
+        });
+        return { success: true };
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Failed to apply coupon";
+        return { success: false, error: message };
+      }
+    },
+    [cartTotal]
+  );
+
+  const removeCoupon = useCallback(() => {
+    setAppliedCoupon(null);
+  }, []);
+
+  const discountedTotal = useMemo(
+    () => Math.max(0, cartTotal - (appliedCoupon?.discountAmount ?? 0)),
+    [cartTotal, appliedCoupon]
+  );
+
   const placeOrder = useCallback(
     async (orderItems: CartItem[], total: number): Promise<string> => {
       try {
         const data = await apiPost<{ order: Order }>("/api/orders", {
           items: orderItems,
           total,
+          couponCode: appliedCoupon?.code || undefined,
         });
         setOrders((prev) => [data.order, ...prev]);
         setItems([]);
+        setAppliedCoupon(null);
         return data.order.id;
       } catch (err) {
         console.error("Failed to place order:", err);
         throw err;
       }
     },
-    []
+    [appliedCoupon]
   );
 
   const updateOrderStatus = useCallback(
@@ -245,6 +299,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
       clearCart,
       cartTotal,
       cartCount,
+      appliedCoupon,
+      applyCoupon,
+      removeCoupon,
+      discountedTotal,
       orders,
       placeOrder,
       updateOrderStatus,
@@ -257,7 +315,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       getProductReviews,
       fetchProductReviews,
     }),
-    [items, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount, orders, placeOrder, updateOrderStatus, wishlist, addToWishlist, removeFromWishlist, isInWishlist, reviews, addReview, getProductReviews, fetchProductReviews]
+    [items, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount, appliedCoupon, applyCoupon, removeCoupon, discountedTotal, orders, placeOrder, updateOrderStatus, wishlist, addToWishlist, removeFromWishlist, isInWishlist, reviews, addReview, getProductReviews, fetchProductReviews]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

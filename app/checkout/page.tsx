@@ -17,10 +17,13 @@ export default function CheckoutPage() {
 }
 
 function CheckoutContent() {
-  const { items, cartTotal, cartCount, placeOrder } = useApp();
+  const { items, cartTotal, cartCount, placeOrder, appliedCoupon, applyCoupon, removeCoupon, discountedTotal } = useApp();
   const { user } = useAuth();
   const router = useRouter();
   const [placing, setPlacing] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [applyingCoupon, setApplyingCoupon] = useState(false);
 
   if (items.length === 0) {
     return (
@@ -41,10 +44,23 @@ function CheckoutContent() {
     );
   }
 
+  async function handleApplyCoupon() {
+    if (!couponCode.trim()) return;
+    setApplyingCoupon(true);
+    setCouponError("");
+    const result = await applyCoupon(couponCode.trim());
+    if (!result.success) {
+      setCouponError(result.error || "Invalid coupon");
+    } else {
+      setCouponCode("");
+    }
+    setApplyingCoupon(false);
+  }
+
   async function handlePlaceOrder() {
     setPlacing(true);
     try {
-      const orderId = await placeOrder(items, cartTotal);
+      const orderId = await placeOrder(items, discountedTotal);
       router.push(`/checkout/success?orderId=${orderId}`);
     } catch {
       setPlacing(false);
@@ -205,18 +221,77 @@ function CheckoutContent() {
               ))}
             </ul>
 
+            {/* Coupon input */}
+            <div className="border-t border-gray-200 pt-4 mb-4">
+              {appliedCoupon ? (
+                <div className="coupon-input__applied">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="coupon-badge">{appliedCoupon.code}</span>
+                      <span className="text-xs text-gray-500 ml-2">
+                        {appliedCoupon.discountType === "percentage"
+                          ? `${appliedCoupon.discountValue}% off`
+                          : `$${appliedCoupon.discountValue.toFixed(2)} off`}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={removeCoupon}
+                      className="text-sm text-red-500 hover:text-red-700 font-medium"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <div className="coupon-input">
+                    <input
+                      type="text"
+                      value={couponCode}
+                      onChange={(e) => {
+                        setCouponCode(e.target.value.toUpperCase());
+                        if (couponError) setCouponError("");
+                      }}
+                      placeholder="Promo code"
+                      className="coupon-input__field"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      disabled={applyingCoupon || !couponCode.trim()}
+                      className="coupon-input__button"
+                    >
+                      {applyingCoupon ? "..." : "Apply"}
+                    </button>
+                  </div>
+                  {couponError && (
+                    <p className="text-xs mt-1" style={{ color: "var(--color-danger)" }}>
+                      {couponError}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className="border-t border-gray-200 pt-4 space-y-2">
               <div className="flex justify-between text-sm text-gray-600">
                 <span>Items ({cartCount})</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
+              {appliedCoupon && (
+                <div className="discount-line">
+                  <span>Discount ({appliedCoupon.code})</span>
+                  <span>-${appliedCoupon.discountAmount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-sm text-gray-600">
                 <span>Shipping</span>
                 <span className="text-green-600 font-medium">Free</span>
               </div>
               <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-gray-200">
                 <span>Order Total</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>${discountedTotal.toFixed(2)}</span>
               </div>
             </div>
 

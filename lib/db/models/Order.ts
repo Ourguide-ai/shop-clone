@@ -19,6 +19,9 @@ export interface IOrder extends Document {
   userId: Types.ObjectId;
   items: IOrderItem[];
   total: number;
+  subtotal?: number;
+  couponCode?: string;
+  discountAmount?: number;
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled" | "return_requested" | "replacement_requested";
   date: string;
 }
@@ -48,6 +51,9 @@ const OrderSchema = new Schema<IOrder>({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   items: { type: [OrderItemSchema], required: true },
   total: { type: Number, required: true },
+  subtotal: { type: Number, default: null },
+  couponCode: { type: String, default: null },
+  discountAmount: { type: Number, default: 0 },
   status: {
     type: String,
     enum: ["pending", "processing", "shipped", "delivered", "cancelled", "return_requested", "replacement_requested"],

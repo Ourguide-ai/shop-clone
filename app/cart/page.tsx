@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useApp } from "@/context/AppContext";
@@ -14,8 +15,24 @@ export default function CartPage() {
 }
 
 function CartContent() {
-  const { items, removeFromCart, updateQuantity, cartTotal, cartCount } =
+  const { items, removeFromCart, updateQuantity, cartTotal, cartCount, appliedCoupon, applyCoupon, removeCoupon, discountedTotal } =
     useApp();
+  const [couponCode, setCouponCode] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [applyingCoupon, setApplyingCoupon] = useState(false);
+
+  async function handleApplyCoupon() {
+    if (!couponCode.trim()) return;
+    setApplyingCoupon(true);
+    setCouponError("");
+    const result = await applyCoupon(couponCode.trim());
+    if (!result.success) {
+      setCouponError(result.error || "Invalid coupon");
+    } else {
+      setCouponCode("");
+    }
+    setApplyingCoupon(false);
+  }
 
   if (items.length === 0) {
     return (
@@ -191,14 +208,66 @@ function CartContent() {
         ))}
       </ul>
 
+      {/* Coupon */}
+      <div className="border-t border-gray-200 mt-4 pt-4 pb-4">
+        {appliedCoupon ? (
+          <div className="coupon-input__applied">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="coupon-badge">{appliedCoupon.code}</span>
+                <span className="text-xs text-gray-500 ml-2">
+                  {appliedCoupon.discountType === "percentage"
+                    ? `${appliedCoupon.discountValue}% off`
+                    : `$${appliedCoupon.discountValue.toFixed(2)} off`}
+                </span>
+              </div>
+              <button type="button" onClick={removeCoupon} className="text-sm text-red-500 hover:text-red-700 font-medium">
+                Remove
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="coupon-input">
+              <input
+                type="text"
+                value={couponCode}
+                onChange={(e) => {
+                  setCouponCode(e.target.value.toUpperCase());
+                  if (couponError) setCouponError("");
+                }}
+                placeholder="Promo code"
+                className="coupon-input__field"
+              />
+              <button type="button" onClick={handleApplyCoupon} disabled={applyingCoupon || !couponCode.trim()} className="coupon-input__button">
+                {applyingCoupon ? "..." : "Apply"}
+              </button>
+            </div>
+            {couponError && <p className="text-xs mt-1" style={{ color: "var(--color-danger)" }}>{couponError}</p>}
+          </div>
+        )}
+      </div>
+
       {/* Summary */}
-      <div className="border-t border-gray-200 mt-4 pt-6">
-        <div className="flex items-center justify-between mb-6">
+      <div className="border-t border-gray-200 pt-6">
+        <div className="flex items-center justify-between mb-2">
           <span className="text-lg text-gray-700">
             Subtotal ({cartCount} {cartCount === 1 ? "item" : "items"})
           </span>
-          <span className="text-2xl font-bold text-gray-900">
+          <span className="text-lg font-semibold text-gray-900">
             ${cartTotal.toFixed(2)}
+          </span>
+        </div>
+        {appliedCoupon && (
+          <div className="discount-line mb-2">
+            <span>Discount ({appliedCoupon.code})</span>
+            <span>-${appliedCoupon.discountAmount.toFixed(2)}</span>
+          </div>
+        )}
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-lg font-bold text-gray-900">Total</span>
+          <span className="text-2xl font-bold text-gray-900">
+            ${discountedTotal.toFixed(2)}
           </span>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">

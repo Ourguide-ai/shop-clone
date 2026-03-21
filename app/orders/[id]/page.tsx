@@ -251,8 +251,14 @@ function OrderDetailContent() {
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
             <span className="text-gray-600">Subtotal</span>
-            <span className="text-gray-900">${order.total.toFixed(2)}</span>
+            <span className="text-gray-900">${(order.subtotal ?? order.total).toFixed(2)}</span>
           </div>
+          {order.couponCode && order.discountAmount && order.discountAmount > 0 && (
+            <div className="discount-line">
+              <span>Discount ({order.couponCode})</span>
+              <span>-${order.discountAmount.toFixed(2)}</span>
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-gray-600">Shipping</span>
             <span className="text-green-600 font-medium">Free</span>

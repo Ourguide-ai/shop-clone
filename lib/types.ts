@@ -55,6 +55,9 @@ export interface Order {
   id: string;
   items: CartItem[];
   total: number;
+  subtotal?: number;
+  couponCode?: string;
+  discountAmount?: number;
   date: string;
   status: "pending" | "processing" | "shipped" | "delivered" | "cancelled" | "return_requested" | "replacement_requested";
 }
@@ -99,6 +102,54 @@ export interface PriceMatchRequest {
   notes?: string;
   status: "pending" | "approved" | "rejected";
   adminNotes?: string;
+  createdAt: string;
+}
+
+export interface Coupon {
+  id: string;
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  minOrderAmount: number;
+  maxDiscount?: number;
+  usageLimit: number;
+  usedCount: number;
+  isActive: boolean;
+  expiresAt: string;
+  createdAt: string;
+}
+
+export interface AppliedCoupon {
+  code: string;
+  discountType: "percentage" | "fixed";
+  discountValue: number;
+  discountAmount: number;
+}
+
+export type BlogCategory = "buying-guides" | "how-to" | "comparisons" | "industry-news";
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  featuredImage: string;
+  category: BlogCategory;
+  tags: string[];
+  authorName: string;
+  status: "draft" | "published";
+  publishedAt: string;
+  metaTitle: string;
+  metaDescription: string;
+  createdAt: string;
+}
+
+export interface BlogComment {
+  id: string;
+  userName: string;
+  userRole: UserRole;
+  text: string;
   createdAt: string;
 }
 

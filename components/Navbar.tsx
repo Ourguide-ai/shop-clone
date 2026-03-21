@@ -378,6 +378,13 @@ export default function Navbar() {
             </div>
 
             <Link
+              href="/blog"
+              onClick={closeAllMenus}
+              className="inline-flex items-center rounded-xl px-2.5 py-2 text-[13px] xl:text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+            >
+              Blog
+            </Link>
+            <Link
               href="/search?q=deal"
               onClick={closeAllMenus}
               className="inline-flex items-center rounded-xl px-2.5 py-2 text-[13px] xl:text-sm font-medium text-gray-600 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
@@ -876,6 +883,13 @@ export default function Navbar() {
               ))}
             </div>
 
+            <Link
+              href="/blog"
+              onClick={closeAllMenus}
+              className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+            >
+              Blog
+            </Link>
             <Link
               href="/search?q=deal"
               onClick={closeAllMenus}

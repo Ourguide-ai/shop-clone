@@ -7,6 +7,8 @@ import RequireRole from "@/components/RequireRole";
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: "📊" },
   { label: "Orders", href: "/admin/orders", icon: "📦" },
+  { label: "Coupons", href: "/admin/coupons", icon: "🎟️" },
+  { label: "Blog", href: "/admin/blog", icon: "📝" },
   { label: "Price Match", href: "/admin/price-match", icon: "💰" },
   { label: "Issue Reports", href: "/admin/issues", icon: "⚠️" },
 ];
