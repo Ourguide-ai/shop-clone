@@ -7,6 +7,7 @@ export interface IProduct extends Document {
   price: number;
   image: string;
   category: string;
+  warrantyDurationMonths: number;
 }
 
 const ProductSchema = new Schema<IProduct>({
@@ -16,6 +17,7 @@ const ProductSchema = new Schema<IProduct>({
   price: { type: Number, required: true },
   image: { type: String, required: true },
   category: { type: String, required: true },
+  warrantyDurationMonths: { type: Number, default: 12 },
 }, { collection: "products" });
 
 const Product: Model<IProduct> =

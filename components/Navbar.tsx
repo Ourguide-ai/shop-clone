@@ -630,6 +630,13 @@ export default function Navbar() {
                     My Orders
                   </Link>
                   <Link
+                    href="/schedule-repair"
+                    onClick={closeAllMenus}
+                    className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+                  >
+                    Schedule Repair
+                  </Link>
+                  <Link
                     href="/account"
                     onClick={closeAllMenus}
                     className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
@@ -883,6 +890,13 @@ export default function Navbar() {
                   className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
                 >
                   My Orders
+                </Link>
+                <Link
+                  href="/schedule-repair"
+                  onClick={closeAllMenus}
+                  className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+                >
+                  Schedule Repair
                 </Link>
                 <Link
                   href="/account"

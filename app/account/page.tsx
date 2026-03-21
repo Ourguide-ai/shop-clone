@@ -1024,7 +1024,7 @@ function AvatarUploader({
         onMouseLeave={() => setHover(false)}
       >
         {value ? (
-          // Circular crop preview.
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={value} alt="Avatar" className="h-full w-full object-cover" />
         ) : (
           <div className="h-full w-full bg-gradient-to-b from-gray-100 to-white flex items-center justify-center">

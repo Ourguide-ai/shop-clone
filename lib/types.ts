@@ -24,6 +24,23 @@ export interface Product {
   category: string;
   avgRating?: number;
   reviewCount?: number;
+  warrantyDurationMonths?: number;
+}
+
+export interface RepairRequest {
+  id: string;
+  orderId: string;
+  productId: number;
+  productTitle: string;
+  productImage: string;
+  phoneNumber: string;
+  availabilitySlots: { date: string; startTime: string; endTime: string }[];
+  warrantySlipUrl: string;
+  scheduledDate: string;
+  scheduledTime: string;
+  status: "pending" | "scheduled" | "in_progress" | "completed" | "cancelled";
+  defectDescription: string;
+  createdAt: string;
 }
 
 export interface CartItem {
