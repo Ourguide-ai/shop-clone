@@ -278,10 +278,33 @@ function OrderDetailContent() {
         </div>
       )}
 
+      {/* Quick links */}
+      {!["cancelled"].includes(order.status) && (
+        <div className="border border-gray-200 rounded-lg p-6 mb-6">
+          <h2 className="text-base font-semibold text-gray-900 mb-3">Quick Links</h2>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={`/orders/${order.id}/tracking`}
+              className="btn btn--info btn--sm"
+            >
+              Track Order
+            </Link>
+            {order.status === "delivered" && (
+              <Link
+                href={`/orders/${order.id}/report`}
+                className="btn btn--outline btn--sm"
+              >
+                Report an Issue
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
       {order.status === "delivered" && (
         <div className="border border-gray-200 rounded-lg p-6 mb-6">
           <h2 className="text-base font-semibold text-gray-900 mb-3">Order Actions</h2>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <button
               onClick={() => handleOrderAction("return")}
               disabled={Boolean(actionLoading)}

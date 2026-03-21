@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = signToken(user._id.toString());
+    const token = signToken(user._id.toString(), user.role);
 
     const response = NextResponse.json({ user: userToPublic(user), token });
     response.cookies.set("shopclone-session", token, {

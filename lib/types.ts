@@ -1,3 +1,5 @@
+export type UserRole = "admin" | "buyer" | "seller";
+
 export interface Address {
   street: string;
   city: string;
@@ -12,6 +14,7 @@ export interface User {
   dob: string;
   email: string;
   password: string;
+  role: UserRole;
   address: Address;
 }
 
@@ -64,4 +67,50 @@ export interface Review {
   title: string;
   body: string;
   date: string;
+}
+
+export interface QuestionAnswer {
+  id: string;
+  answererName: string;
+  answerText: string;
+  createdAt: string;
+}
+
+export interface Question {
+  id: string;
+  productId: number;
+  askerName: string;
+  questionText: string;
+  answers: QuestionAnswer[];
+  upvoteCount: number;
+  hasUpvoted: boolean;
+  createdAt: string;
+}
+
+export interface PriceMatchRequest {
+  id: string;
+  productId: number;
+  productTitle: string;
+  competitorName: string;
+  competitorUrl: string;
+  competitorPrice: number;
+  screenshotUrl?: string;
+  email: string;
+  notes?: string;
+  status: "pending" | "approved" | "rejected";
+  adminNotes?: string;
+  createdAt: string;
+}
+
+export interface IssueReport {
+  id: string;
+  orderId: string;
+  items: { productId: number; productTitle: string; productImage: string }[];
+  issueType: "damaged" | "wrong_item" | "missing_parts" | "defective" | "not_as_described";
+  description: string;
+  evidenceUrls: string[];
+  resolutionPreference: "refund" | "replacement" | "repair" | "store_credit";
+  status: "submitted" | "under_review" | "resolved" | "rejected";
+  adminNotes?: string;
+  createdAt: string;
 }

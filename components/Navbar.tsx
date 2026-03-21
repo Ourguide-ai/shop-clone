@@ -26,10 +26,10 @@ const PRODUCT_CATEGORIES: ProductCategory[] = [
     icon: "🧭",
     links: [
       { label: "All Products", href: "/" },
-      { label: "Electronics", href: "/?category=Electronics" },
-      { label: "Clothing", href: "/?category=Clothing" },
-      { label: "Home", href: "/?category=Home" },
-      { label: "Books", href: "/?category=Books" },
+      { label: "Electronics", href: "/category/electronics" },
+      { label: "Clothing", href: "/category/clothing" },
+      { label: "Home", href: "/category/home" },
+      { label: "Books", href: "/category/books" },
     ],
   },
   {
@@ -622,6 +622,15 @@ export default function Navbar() {
                       : "pointer-events-none absolute right-0 top-[calc(100%+0.6rem)] z-[60] min-w-48 -translate-y-2 rounded-2xl border border-black/10 bg-white/90 p-2 opacity-0 shadow-xl backdrop-blur-xl transition-all duration-200 ease-in-out"
                   }
                 >
+                  {user?.role === "admin" && (
+                    <Link
+                      href="/admin"
+                      onClick={closeAllMenus}
+                      className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-blue-600 transition-colors duration-200 hover:bg-black/5 hover:text-blue-800"
+                    >
+                      Admin Dashboard
+                    </Link>
+                  )}
                   <Link
                     href="/orders"
                     onClick={closeAllMenus}
@@ -629,6 +638,15 @@ export default function Navbar() {
                   >
                     My Orders
                   </Link>
+                  {(user?.role === "buyer" || user?.role === "admin") && (
+                    <Link
+                      href="/price-match"
+                      onClick={closeAllMenus}
+                      className="flex w-full items-center rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+                    >
+                      Price Match
+                    </Link>
+                  )}
                   <Link
                     href="/schedule-repair"
                     onClick={closeAllMenus}
@@ -884,6 +902,15 @@ export default function Navbar() {
 
             {loading ? null : isAuthenticated ? (
               <>
+                {user?.role === "admin" && (
+                  <Link
+                    href="/admin"
+                    onClick={closeAllMenus}
+                    className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-blue-600 transition-colors duration-200 hover:bg-black/5 hover:text-blue-800"
+                  >
+                    Admin Dashboard
+                  </Link>
+                )}
                 <Link
                   href="/orders"
                   onClick={closeAllMenus}
@@ -891,6 +918,15 @@ export default function Navbar() {
                 >
                   My Orders
                 </Link>
+                {(user?.role === "buyer" || user?.role === "admin") && (
+                  <Link
+                    href="/price-match"
+                    onClick={closeAllMenus}
+                    className="flex items-center rounded-xl px-3 py-3 text-[15px] font-semibold text-gray-700 transition-colors duration-200 hover:bg-black/5 hover:text-gray-900"
+                  >
+                    Price Match
+                  </Link>
+                )}
                 <Link
                   href="/schedule-repair"
                   onClick={closeAllMenus}

@@ -8,11 +8,14 @@ export interface IUserAddress {
   country: string;
 }
 
+export type UserRole = "admin" | "buyer" | "seller";
+
 export interface IUser extends Document {
   name: string;
   email: string;
   dob: string;
   password: string;
+  role: UserRole;
   address: IUserAddress;
   createdAt: Date;
 }
@@ -33,6 +36,7 @@ const UserSchema = new Schema<IUser>({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   dob: { type: String, default: "" },
   password: { type: String, required: true },
+  role: { type: String, enum: ["admin", "buyer", "seller"], default: "buyer" },
   address: { type: AddressSchema, default: () => ({}) },
   createdAt: { type: Date, default: Date.now },
 }, { collection: "users" });

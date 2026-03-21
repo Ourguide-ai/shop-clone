@@ -14,7 +14,11 @@ export async function GET(request: NextRequest) {
 
     await dbConnect();
 
-    const orders = await Order.find({ userId: user._id })
+    const isAdmin = user.role === "admin";
+    const adminRequested = request.nextUrl.searchParams.get("admin") === "true";
+    const filter = isAdmin && adminRequested ? {} : { userId: user._id };
+
+    const orders = await Order.find(filter)
       .sort({ date: -1 })
       .lean();
 
@@ -79,7 +83,7 @@ export async function POST(request: NextRequest) {
       userId: user._id,
       items: enrichedItems,
       total,
-      status: "delivered",
+      status: "pending",
       date: new Date().toISOString(),
     });
 

@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import type { UserRole } from "@/lib/types";
 
 export default function SignUpPage() {
   const { signUp } = useAuth();
@@ -12,6 +13,7 @@ export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState<UserRole>("buyer");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -44,7 +46,7 @@ export default function SignUpPage() {
     if (!validate()) return;
 
     setSubmitting(true);
-    const result = await signUp(name, email, "", password);
+    const result = await signUp(name, email, "", password, role);
     setSubmitting(false);
 
     if (result.success) {
@@ -141,6 +143,43 @@ export default function SignUpPage() {
                   Passwords must be at least 6 characters.
                 </p>
               )}
+            </div>
+
+            {/* Role */}
+            <div>
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                I want to
+              </label>
+              <div className="signup-role-selector">
+                <label
+                  className={`signup-role-selector__option ${role === "buyer" ? "signup-role-selector__option--active" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="role"
+                    value="buyer"
+                    checked={role === "buyer"}
+                    onChange={() => setRole("buyer")}
+                    className="sr-only"
+                  />
+                  <span className="signup-role-selector__icon">🛒</span>
+                  <span className="signup-role-selector__label">Buy products</span>
+                </label>
+                <label
+                  className={`signup-role-selector__option ${role === "seller" ? "signup-role-selector__option--active" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="role"
+                    value="seller"
+                    checked={role === "seller"}
+                    onChange={() => setRole("seller")}
+                    className="sr-only"
+                  />
+                  <span className="signup-role-selector__icon">📦</span>
+                  <span className="signup-role-selector__label">Sell products</span>
+                </label>
+              </div>
             </div>
 
             {/* Confirm Password */}

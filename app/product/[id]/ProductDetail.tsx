@@ -4,9 +4,10 @@ import { useState, useCallback, useEffect, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Product } from "@/lib/types";
+import { Product, Question } from "@/lib/types";
 import { useApp } from "@/context/AppContext";
 import { useAuth } from "@/context/AuthContext";
+import { apiGet } from "@/lib/api";
 import Toast from "@/components/Toast";
 
 function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
@@ -56,10 +57,19 @@ export default function ProductDetail({ product }: { product: Product }) {
   const [toastMessage, setToastMessage] = useState("");
   const [added, setAdded] = useState(false);
 
+  const [topQuestions, setTopQuestions] = useState<Question[]>([]);
+
   // Fetch reviews from API when product loads
   useEffect(() => {
     fetchProductReviews(product.id);
   }, [product.id, fetchProductReviews]);
+
+  // Fetch top questions for inline Q&A
+  useEffect(() => {
+    apiGet<{ questions: Question[] }>(`/api/questions?productId=${product.id}`)
+      .then((data) => setTopQuestions(data.questions.slice(0, 3)))
+      .catch(() => {});
+  }, [product.id]);
 
   const wishlisted = isInWishlist(product.id);
   const productReviews = getProductReviews(product.id);
@@ -151,7 +161,7 @@ export default function ProductDetail({ product }: { product: Product }) {
           </li>
           <li>/</li>
           <li>
-            <Link href={`/?category=${product.category}`} className="hover:text-gray-900 hover:underline">
+            <Link href={`/category/${product.category.toLowerCase()}`} className="hover:text-gray-900 hover:underline">
               {product.category}
             </Link>
           </li>
@@ -410,6 +420,53 @@ export default function ProductDetail({ product }: { product: Product }) {
               </Link>
             )}
           </div>
+        )}
+      </section>
+
+      {/* Q&A Section (Inline Preview) */}
+      <section className="mt-16 border-t border-gray-200 pt-10">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+          <h2 className="text-xl font-bold text-gray-900">
+            Questions & Answers
+            {topQuestions.length > 0 && (
+              <span className="text-base font-normal text-gray-500 ml-2">({topQuestions.length})</span>
+            )}
+          </h2>
+          <Link
+            href={`/product/${product.id}/qa`}
+            className="text-sm font-medium text-blue-600 hover:underline"
+          >
+            See all Q&A &rarr;
+          </Link>
+        </div>
+
+        {topQuestions.length > 0 ? (
+          <div className="qa-section">
+            {topQuestions.map((q) => (
+              <div key={q.id} className={`qa-card ${q.answers.length === 0 ? "qa-card--unanswered" : ""}`}>
+                <p className="qa-card__question-text">Q: {q.questionText}</p>
+                <p className="qa-card__meta">
+                  {q.askerName} &middot; {q.upvoteCount} upvote{q.upvoteCount !== 1 ? "s" : ""}
+                </p>
+                {q.answers.length > 0 && (
+                  <div className="qa-card__answer">
+                    <p className="qa-card__answer-label">A: {q.answers[0].answererName}</p>
+                    <p className="qa-card__answer-text">{q.answers[0].answerText}</p>
+                  </div>
+                )}
+                {q.answers.length === 0 && (
+                  <span className="qa-badge--unanswered">Awaiting answer</span>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-500 text-center py-6">
+            No questions yet.{" "}
+            <Link href={`/product/${product.id}/qa`} className="text-blue-600 hover:underline">
+              Be the first to ask!
+            </Link>
+          </p>
         )}
       </section>
 

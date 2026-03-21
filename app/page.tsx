@@ -82,9 +82,12 @@ export default function Home() {
   }, [filters.minRating, filters.priceMax, filters.priceMin, loading, priceBounds.max, priceBounds.min, products]);
 
   function pushCategory(nextCategory: string) {
+    if (nextCategory !== "All") {
+      router.push(`/category/${nextCategory.toLowerCase()}`);
+      return;
+    }
     const params = new URLSearchParams(searchParams.toString());
-    if (nextCategory === "All") params.delete("category");
-    else params.set("category", nextCategory);
+    params.delete("category");
     const qs = params.toString();
     router.push(qs ? `/?${qs}` : "/");
   }

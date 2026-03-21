@@ -15,13 +15,30 @@ export async function GET(
 
     await dbConnect();
 
-    const order = await Order.findOne({
-      orderId: params.id,
-      userId: user._id,
-    }).lean();
+    const isAdmin = user.role === "admin";
+    const filter = isAdmin
+      ? { orderId: params.id }
+      : { orderId: params.id, userId: user._id };
+
+    const order = await Order.findOne(filter);
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
+    // Compute tracking waypoint from elapsed days
+    const daysSince = Math.floor(
+      (Date.now() - new Date(order.date).getTime()) / 86400000
+    );
+    const currentWaypoint = Math.min(5, Math.max(0, daysSince));
+
+    // Auto-deliver if 5+ days have elapsed and order isn't cancelled
+    if (
+      currentWaypoint >= 5 &&
+      !["delivered", "cancelled", "return_requested", "replacement_requested"].includes(order.status)
+    ) {
+      order.status = "delivered";
+      await order.save();
     }
 
     return NextResponse.json({
@@ -31,6 +48,12 @@ export async function GET(
         total: order.total,
         date: order.date,
         status: order.status,
+        tracking: {
+          currentWaypoint,
+          estimatedDelivery: new Date(
+            new Date(order.date).getTime() + 5 * 86400000
+          ).toISOString(),
+        },
       },
     });
   } catch (error) {
@@ -51,19 +74,21 @@ export async function PATCH(
 
     const { action } = await request.json();
 
-    if (!action || !["cancel", "return", "replace"].includes(action)) {
+    if (!action || !["cancel", "return", "replace", "deliver"].includes(action)) {
       return NextResponse.json(
-        { error: "Invalid action. Must be cancel, return, or replace" },
+        { error: "Invalid action. Must be cancel, return, replace, or deliver" },
         { status: 400 }
       );
     }
 
     await dbConnect();
 
-    const order = await Order.findOne({
-      orderId: params.id,
-      userId: user._id,
-    });
+    const isAdmin = user.role === "admin";
+    const patchFilter = isAdmin
+      ? { orderId: params.id }
+      : { orderId: params.id, userId: user._id };
+
+    const order = await Order.findOne(patchFilter);
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
@@ -93,6 +118,11 @@ export async function PATCH(
         );
       }
       order.status = "replacement_requested";
+    } else if (action === "deliver") {
+      if (!isAdmin) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      order.status = "delivered";
     }
 
     await order.save();

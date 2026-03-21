@@ -6,7 +6,7 @@ import { signToken, userToPublic } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, dob, password } = await request.json();
+    const { name, email, dob, password, role } = await request.json();
 
     if (!name?.trim() || !email?.trim() || !password) {
       return NextResponse.json(
@@ -14,6 +14,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const validRoles = ["buyer", "seller"];
+    const userRole = validRoles.includes(role) ? role : "buyer";
 
     if (password.length < 6) {
       return NextResponse.json(
@@ -38,9 +41,10 @@ export async function POST(request: NextRequest) {
       email: email.toLowerCase().trim(),
       dob: dob || "",
       password: hashedPassword,
+      role: userRole,
     });
 
-    const token = signToken(user._id.toString());
+    const token = signToken(user._id.toString(), user.role);
 
     const response = NextResponse.json({ user: userToPublic(user), token }, { status: 201 });
     response.cookies.set("shopclone-session", token, {

@@ -3,7 +3,16 @@
     "allow": [
       "Bash(git add:*)",
       "Read(//Users/sudhanshu/projects/Ourguide-B2B/packages/ui/**)",
-      "Read(//Users/sudhanshu/projects/e-commerce/node_modules/@ourguide/ui/**)"
+      "Read(//Users/sudhanshu/projects/e-commerce/node_modules/@ourguide/ui/**)",
+      "Bash(head -30 /Users/sudhanshu/projects/e-commerce/app/product/[id]/page.tsx)",
+      "Bash(cat /Users/sudhanshu/projects/e-commerce/app/product/[id]/page.tsx)"
+    ],
+    "additionalDirectories": [
+      "/Users/sudhanshu/projects/e-commerce/app/category",
+      "/Users/sudhanshu/projects/e-commerce/app/orders/[id]",
+      "/Users/sudhanshu/projects/e-commerce/app/api/questions/[id]",
+      "/Users/sudhanshu/projects/e-commerce/app/api/issues",
+      "/Users/sudhanshu/projects/e-commerce/app/api/price-match"
     ]
   }
 }

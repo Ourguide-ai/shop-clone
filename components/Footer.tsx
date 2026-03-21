@@ -14,22 +14,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/?category=Electronics" className="hover:text-white transition-colors">
+                <Link href="/category/electronics" className="hover:text-white transition-colors">
                   Electronics
                 </Link>
               </li>
               <li>
-                <Link href="/?category=Clothing" className="hover:text-white transition-colors">
+                <Link href="/category/clothing" className="hover:text-white transition-colors">
                   Clothing
                 </Link>
               </li>
               <li>
-                <Link href="/?category=Home" className="hover:text-white transition-colors">
+                <Link href="/category/home" className="hover:text-white transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/?category=Books" className="hover:text-white transition-colors">
+                <Link href="/category/books" className="hover:text-white transition-colors">
                   Books
                 </Link>
               </li>

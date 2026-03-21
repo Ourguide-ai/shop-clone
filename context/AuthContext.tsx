@@ -9,7 +9,7 @@ import {
   useMemo,
   ReactNode,
 } from "react";
-import { User, Address } from "@/lib/types";
+import { User, Address, UserRole } from "@/lib/types";
 import { apiPost, apiGet, apiPut, apiDelete, setToken, clearToken, hasToken } from "@/lib/api";
 import { ourguideIdentify, ourguideResetUser } from "@/lib/ourguideClient";
 
@@ -19,7 +19,7 @@ interface AuthContextType {
   user: PublicUser | null;
   isAuthenticated: boolean;
   loading: boolean;
-  signUp: (name: string, email: string, dob: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (name: string, email: string, dob: string, password: string, role?: UserRole) => Promise<{ success: boolean; error?: string }>;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => void;
   updateProfile: (data: { name?: string; email?: string; dob?: string; address?: Address }) => Promise<{ success: boolean; error?: string }>;
@@ -82,13 +82,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user?.id, user?.name]);
 
   const signUp = useCallback(
-    async (name: string, email: string, dob: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    async (name: string, email: string, dob: string, password: string, role?: UserRole): Promise<{ success: boolean; error?: string }> => {
       try {
         const data = await apiPost<{ user: PublicUser; token: string }>("/api/auth/signup", {
           name,
           email,
           dob,
           password,
+          role: role || "buyer",
         });
         setToken(data.token);
         setUser(data.user);
