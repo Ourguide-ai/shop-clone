@@ -113,7 +113,7 @@ function ReportIssueContent() {
       const response = await fetch("/api/issues", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("shopclone-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("ebay-token")}`,
         },
         body: formData,
       });

@@ -1,4 +1,4 @@
-const TOKEN_KEY = "shopclone-token";
+const TOKEN_KEY = "ebay-token";
 
 function getToken(): string | null {
   if (typeof window === "undefined") return null;

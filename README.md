@@ -1,6 +1,6 @@
-# ShopClone - E-Commerce Application
+# eBay - E-Commerce Application
 
-A full-featured, client-side e-commerce application built with **Next.js 14**, **React 18**, **TypeScript**, and **Tailwind CSS**. ShopClone provides a complete shopping experience including product browsing, cart management, checkout, order history, and user authentication -- all powered by browser localStorage for persistence.
+A full-featured, client-side e-commerce application built with **Next.js 14**, **React 18**, **TypeScript**, and **Tailwind CSS**. eBay provides a complete shopping experience including product browsing, cart management, checkout, order history, and user authentication -- all powered by browser localStorage for persistence.
 
 ---
 
@@ -137,7 +137,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser. The page au
 
 ## How to Run Locally
 
-A step-by-step guide to get ShopClone running on your machine.
+A step-by-step guide to get eBay running on your machine.
 
 ### 1. Prerequisites
 
@@ -232,7 +232,7 @@ npm run lint
 ## Components
 
 ### Navbar
-Sticky top navigation bar displaying the ShopClone logo, search bar, user greeting (when authenticated), links to orders/sign-in/sign-up, sign-out button, and a cart icon with an item count badge.
+Sticky top navigation bar displaying the eBay logo, search bar, user greeting (when authenticated), links to orders/sign-in/sign-up, sign-out button, and a cart icon with an item count badge.
 
 ### Footer
 Site-wide footer with categorized links for Shop, Account, and Help sections along with copyright information.
@@ -276,7 +276,7 @@ Manages user authentication state and provides:
 - Password and confirmation must match
 - Duplicate emails rejected
 
-**Storage keys:** `shopclone-users`, `shopclone-session`
+**Storage keys:** `ebay-users`, `ebay-session`
 
 ### AppContext (`context/AppContext.tsx`)
 
@@ -294,7 +294,7 @@ Manages cart and order state and provides:
 | `clearCart()`      | Empty the entire cart                           |
 | `placeOrder()`     | Create a new order from current cart items      |
 
-**Storage keys:** `shopclone-cart-{userId}`, `shopclone-orders-{userId}`
+**Storage keys:** `ebay-cart-{userId}`, `ebay-orders-{userId}`
 
 Both contexts are wrapped around the application in `app/layout.tsx`.
 
@@ -357,8 +357,8 @@ Product images are sourced from `picsum.photos` using seed-based URLs for consis
 
 Authentication is handled entirely on the client side using localStorage:
 
-1. **Sign Up** -- Creates a new user with a unique `USR-XXXXXX` ID, validates all fields, and stores the user in the `shopclone-users` array
-2. **Sign In** -- Looks up the user by email, verifies the password, and stores the session in `shopclone-session`
+1. **Sign Up** -- Creates a new user with a unique `USR-XXXXXX` ID, validates all fields, and stores the user in the `ebay-users` array
+2. **Sign In** -- Looks up the user by email, verifies the password, and stores the session in `ebay-session`
 3. **Session Persistence** -- The session survives page reloads by reading from localStorage on mount
 4. **Protected Routes** -- The `RequireAuth` component wraps pages that require authentication and redirects to `/signin` if no session exists
 5. **Sign Out** -- Clears the session from localStorage and navigates to the home page

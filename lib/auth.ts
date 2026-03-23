@@ -67,7 +67,7 @@ function getOurguideHeaderToken(request: NextRequest): string | null {
 }
 
 function getCookieToken(request: NextRequest): string | null {
-  return request.cookies.get("shopclone-session")?.value ?? null;
+  return request.cookies.get("ebay-session")?.value ?? null;
 }
 
 export async function getAppAuthUser(request: NextRequest): Promise<IUser | null> {

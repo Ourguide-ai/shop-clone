@@ -105,7 +105,7 @@ function PriceMatchContent() {
       const response = await fetch("/api/price-match", {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("shopclone-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("ebay-token")}`,
         },
         body: formData,
       });

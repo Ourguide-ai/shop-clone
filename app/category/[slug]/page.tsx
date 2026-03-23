@@ -21,10 +21,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!cat) return { title: "Category Not Found" };
 
   return {
-    title: `${cat.name} — ShopClone`,
+    title: `${cat.name} — eBay`,
     description: cat.description,
     openGraph: {
-      title: `${cat.name} — ShopClone`,
+      title: `${cat.name} — eBay`,
       description: cat.description,
     },
   };

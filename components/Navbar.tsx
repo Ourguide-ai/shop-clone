@@ -52,7 +52,7 @@ const PRODUCT_CATEGORIES: ProductCategory[] = [
 ];
 
 const POPULAR_SEARCHES = ["Headphones", "Sneakers", "Desk lamp", "Cookware", "Books"];
-const RECENT_KEY = "shopclone_recent_searches_v1";
+const RECENT_KEY = "ebay_recent_searches_v1";
 
 function getInitials(name?: string | null) {
   if (!name) return "U";
@@ -264,25 +264,19 @@ export default function Navbar() {
             href="/"
             onClick={closeAllMenus}
             className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[15px] font-semibold tracking-tight text-gray-900 transition-colors duration-200 hover:text-gray-950"
-            aria-label="ShopClone Home"
+            aria-label="eBay Home"
           >
-            <span className="relative grid h-8 w-8 place-items-center rounded-lg border border-black/10 bg-white/70 shadow-sm transition-transform duration-200 group-hover:scale-[1.02]">
-              <svg
-                className="h-4 w-4 text-gray-900"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.8}
-                  d="M6 7h12l-1 14H7L6 7zm3 0a3 3 0 016 0"
-                />
-              </svg>
+            <span className="hidden sm:inline leading-none text-[28px] font-bold tracking-tight">
+              <span className="text-[#e53238]">e</span>
+              <span className="text-[#0064d2]">B</span>
+              <span className="text-[#f5af02]">a</span>
+              <span className="text-[#86b817]">y</span>
             </span>
-            <span className="hidden sm:inline leading-none">
-              Shop<span className="text-gray-500">Clone</span>
+            <span className="sm:hidden leading-none text-[28px] font-bold tracking-tight">
+              <span className="text-[#e53238]">e</span>
+              <span className="text-[#0064d2]">B</span>
+              <span className="text-[#f5af02]">a</span>
+              <span className="text-[#86b817]">y</span>
             </span>
           </Link>
 

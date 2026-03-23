@@ -92,7 +92,7 @@ export default function EditBlogPostPage() {
       const response = await fetch(`/api/blog/${slug}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("shopclone-token")}`,
+          Authorization: `Bearer ${localStorage.getItem("ebay-token")}`,
         },
         body: formData,
       });

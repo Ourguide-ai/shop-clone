@@ -1,11 +1,11 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "ShopClone E-Commerce API",
-    "description": "A full-featured e-commerce REST API powering the ShopClone storefront. Provides endpoints for user authentication, product catalog browsing, shopping cart management, order processing, wishlists, product reviews, and simulated payment processing.",
+    "title": "eBay E-Commerce API",
+    "description": "A full-featured e-commerce REST API powering the eBay storefront. Provides endpoints for user authentication, product catalog browsing, shopping cart management, order processing, wishlists, product reviews, and simulated payment processing.",
     "version": "1.0.0",
     "contact": {
-      "name": "ShopClone API Support"
+      "name": "eBay API Support"
     },
     "license": {
       "name": "MIT",

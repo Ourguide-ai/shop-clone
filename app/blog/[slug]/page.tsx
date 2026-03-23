@@ -47,7 +47,7 @@ export default async function BlogDetailPage({ params }: Props) {
     author: { "@type": "Person", name: post.authorName },
     datePublished: post.publishedAt?.toISOString() || post.createdAt.toISOString(),
     dateModified: post.updatedAt?.toISOString() || post.createdAt.toISOString(),
-    publisher: { "@type": "Organization", name: "ShopClone" },
+    publisher: { "@type": "Organization", name: "eBay" },
   };
 
   return (

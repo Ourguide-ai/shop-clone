@@ -61,7 +61,7 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <Link href="/" className="block text-center text-2xl font-bold font-heading text-gray-900 mb-8">
-          ShopClone
+          eBay
         </Link>
 
         {/* Card */}

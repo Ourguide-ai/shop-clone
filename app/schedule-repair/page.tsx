@@ -93,7 +93,7 @@ function ScheduleRepairContent() {
   useEffect(() => {
     async function fetchRepairs() {
       try {
-        const token = localStorage.getItem("shopclone-token");
+        const token = localStorage.getItem("ebay-token");
         const res = await fetch("/api/repairs", {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
@@ -230,7 +230,7 @@ function ScheduleRepairContent() {
       formData.append("availabilitySlots", JSON.stringify(validSlots));
       formData.append("warrantySlip", warrantySlipFile);
 
-      const token = localStorage.getItem("shopclone-token");
+      const token = localStorage.getItem("ebay-token");
       const res = await fetch("/api/repairs", {
         method: "POST",
         headers: token ? { Authorization: `Bearer ${token}` } : {},

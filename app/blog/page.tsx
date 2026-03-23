@@ -7,8 +7,8 @@ import BlogPost from "@/lib/db/models/BlogPost";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blog — ShopClone",
-  description: "Buying guides, how-to articles, product comparisons, and industry insights from ShopClone.",
+  title: "Blog — eBay",
+  description: "Buying guides, how-to articles, product comparisons, and industry insights from eBay.",
 };
 
 const CATEGORIES = [

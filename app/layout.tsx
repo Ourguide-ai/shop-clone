@@ -31,8 +31,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "ShopClone",
-    template: "%s | ShopClone",
+    default: "eBay",
+    template: "%s | eBay",
   },
   description: "Your one-stop online shop",
 };
@@ -59,7 +59,7 @@ export default function RootLayout({
         <Script
           src="https://dashboard.ourguide.ai/ourguide-b2b-widget.iife.js"
           data-api-url="https://dashboard.ourguide.ai"
-          data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
+          data-product-id="prod_e755e441-382e-4156-93ac-56948bd00fbe"
           data-agent-name="Assistant"
         ></Script>
       </body>

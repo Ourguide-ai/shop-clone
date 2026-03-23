@@ -7,23 +7,11 @@ export default function Footer() {
         {/* Top: Logo + tagline */}
         <div className="mb-10">
           <Link href="/" className="inline-flex items-center gap-2 group">
-            <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--color-primary)] transition-transform duration-200 group-hover:scale-105">
-              <svg
-                className="h-4 w-4 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.8}
-                  d="M6 7h12l-1 14H7L6 7zm3 0a3 3 0 016 0"
-                />
-              </svg>
-            </span>
-            <span className="font-heading text-lg font-semibold text-white tracking-tight">
-              Shop<span className="text-gray-500">Clone</span>
+            <span className="text-xl font-bold tracking-tight">
+              <span className="text-[#e53238]">e</span>
+              <span className="text-[#0064d2]">B</span>
+              <span className="text-[#f5af02]">a</span>
+              <span className="text-[#86b817]">y</span>
             </span>
           </Link>
           <p className="mt-3 text-sm text-gray-500 max-w-sm leading-relaxed">
@@ -140,7 +128,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-gray-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-          <p className="text-gray-500">&copy; 2026 ShopClone. All rights reserved.</p>
+          <p className="text-gray-500">&copy; 2026 eBay. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span className="text-gray-600 font-heading text-xs">Built with care</span>
           </div>

@@ -21,7 +21,7 @@ function AccountSettings() {
   type ThemeMode = "light" | "dark" | "system";
   type Gender = "male" | "female" | "nonbinary" | "prefer_not_to_say";
 
-  const STORAGE_KEY = "shopclone.account.settings.v1";
+  const STORAGE_KEY = "ebay.account.settings.v1";
 
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
