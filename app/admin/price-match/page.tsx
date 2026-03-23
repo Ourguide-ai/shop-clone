@@ -34,9 +34,13 @@ export default function AdminPriceMatchPage() {
         `/api/price-match/${requestId}`,
         { status: editStatus, adminNotes: editNotes }
       );
-      setRequests((prev) =>
-        prev.map((r) => (r.id === requestId ? data.request : r))
-      );
+      if (editStatus === "approved" || editStatus === "rejected") {
+        setRequests((prev) => prev.filter((r) => r.id !== requestId));
+      } else {
+        setRequests((prev) =>
+          prev.map((r) => (r.id === requestId ? data.request : r))
+        );
+      }
       setEditingId(null);
     } catch {
       // handle error

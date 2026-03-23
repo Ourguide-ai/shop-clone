@@ -228,15 +228,23 @@ export default function CreateCouponPage() {
 
           <div className="adm-form-field">
             <label className="adm-form-label">Expiry Date</label>
-            <input
-              type="datetime-local"
-              value={expiresAt}
-              onChange={(e) => {
-                setExpiresAt(e.target.value);
-                if (errors.expiresAt) setErrors((p) => ({ ...p, expiresAt: "" }));
+            <div
+              className="adm-form-date-trigger"
+              onClick={(e) => {
+                const input = (e.currentTarget as HTMLElement).querySelector("input");
+                if (input) input.showPicker();
               }}
-              className={`adm-form-input ${errors.expiresAt ? "adm-form-input--error" : ""}`}
-            />
+            >
+              <input
+                type="datetime-local"
+                value={expiresAt}
+                onChange={(e) => {
+                  setExpiresAt(e.target.value);
+                  if (errors.expiresAt) setErrors((p) => ({ ...p, expiresAt: "" }));
+                }}
+                className={`adm-form-input ${errors.expiresAt ? "adm-form-input--error" : ""}`}
+              />
+            </div>
             {errors.expiresAt && <p className="adm-form-error">{errors.expiresAt}</p>}
           </div>
         </div>

@@ -2226,6 +2226,28 @@ select.adm-form-input {
   padding-left: 2rem;
 }
 
+/* ── Datetime-local fix ── */
+.adm-form-date-trigger {
+  cursor: pointer;
+}
+
+.adm-form-date-trigger .adm-form-input[type="datetime-local"] {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 2.5rem;
+  color-scheme: light;
+  cursor: pointer;
+}
+
+.adm-form-date-trigger .adm-form-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
 /* ── Toggle group (discount type) ── */
 .adm-form-toggle-group {
   display: flex;
