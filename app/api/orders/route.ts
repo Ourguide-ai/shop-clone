@@ -23,16 +23,33 @@ export async function GET(request: NextRequest) {
       .sort({ date: -1 })
       .lean();
 
-    const mapped = orders.map((o) => ({
-      id: o.orderId,
-      items: o.items,
-      total: o.total,
-      subtotal: o.subtotal ?? o.total,
-      couponCode: o.couponCode ?? null,
-      discountAmount: o.discountAmount ?? 0,
-      date: o.date,
-      status: o.status,
-    }));
+    const mapped = orders.map((o) => {
+      // Auto-advance status based on days elapsed (5-day delivery simulation)
+      let status = o.status;
+      if (status === "pending" || status === "processing" || status === "shipped") {
+        const daysSinceOrder = Math.floor(
+          (Date.now() - new Date(o.date).getTime()) / (1000 * 60 * 60 * 24)
+        );
+        if (daysSinceOrder >= 5) {
+          status = "delivered";
+        } else if (daysSinceOrder >= 3) {
+          status = "shipped";
+        } else if (daysSinceOrder >= 1) {
+          status = "processing";
+        }
+      }
+
+      return {
+        id: o.orderId,
+        items: o.items,
+        total: o.total,
+        subtotal: o.subtotal ?? o.total,
+        couponCode: o.couponCode ?? null,
+        discountAmount: o.discountAmount ?? 0,
+        date: o.date,
+        status,
+      };
+    });
 
     return NextResponse.json({ orders: mapped });
   } catch (error) {

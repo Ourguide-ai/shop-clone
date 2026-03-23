@@ -26,20 +26,25 @@ export async function GET(
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    // Compute tracking waypoint from elapsed days
+    // Auto-advance status based on days elapsed (5-day delivery simulation)
+    let effectiveStatus = order.status;
+    if (["pending", "processing", "shipped"].includes(effectiveStatus)) {
+      const daysSinceOrder = Math.floor(
+        (Date.now() - new Date(order.date).getTime()) / (1000 * 60 * 60 * 24)
+      );
+      if (daysSinceOrder >= 5) {
+        effectiveStatus = "delivered";
+      } else if (daysSinceOrder >= 3) {
+        effectiveStatus = "shipped";
+      } else if (daysSinceOrder >= 1) {
+        effectiveStatus = "processing";
+      }
+    }
+
     const daysSince = Math.floor(
       (Date.now() - new Date(order.date).getTime()) / 86400000
     );
     const currentWaypoint = Math.min(5, Math.max(0, daysSince));
-
-    // Auto-deliver if 5+ days have elapsed and order isn't cancelled
-    if (
-      currentWaypoint >= 5 &&
-      !["delivered", "cancelled", "return_requested", "replacement_requested"].includes(order.status)
-    ) {
-      order.status = "delivered";
-      await order.save();
-    }
 
     return NextResponse.json({
       order: {
@@ -47,7 +52,7 @@ export async function GET(
         items: order.items,
         total: order.total,
         date: order.date,
-        status: order.status,
+        status: effectiveStatus,
         tracking: {
           currentWaypoint,
           estimatedDelivery: new Date(
@@ -94,8 +99,23 @@ export async function PATCH(
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
+    // Compute effective status based on elapsed time
+    let effectiveStatus = order.status;
+    if (["pending", "processing", "shipped"].includes(effectiveStatus)) {
+      const daysSinceOrder = Math.floor(
+        (Date.now() - new Date(order.date).getTime()) / (1000 * 60 * 60 * 24)
+      );
+      if (daysSinceOrder >= 5) {
+        effectiveStatus = "delivered";
+      } else if (daysSinceOrder >= 3) {
+        effectiveStatus = "shipped";
+      } else if (daysSinceOrder >= 1) {
+        effectiveStatus = "processing";
+      }
+    }
+
     if (action === "cancel") {
-      if (!["pending", "processing"].includes(order.status)) {
+      if (!["pending", "processing"].includes(effectiveStatus)) {
         return NextResponse.json(
           { error: "Order can only be cancelled when pending or processing" },
           { status: 400 }
@@ -103,7 +123,7 @@ export async function PATCH(
       }
       order.status = "cancelled";
     } else if (action === "return") {
-      if (order.status !== "delivered") {
+      if (effectiveStatus !== "delivered") {
         return NextResponse.json(
           { error: "Return can only be requested for delivered orders" },
           { status: 400 }
@@ -111,7 +131,7 @@ export async function PATCH(
       }
       order.status = "return_requested";
     } else if (action === "replace") {
-      if (order.status !== "delivered") {
+      if (effectiveStatus !== "delivered") {
         return NextResponse.json(
           { error: "Replacement can only be requested for delivered orders" },
           { status: 400 }

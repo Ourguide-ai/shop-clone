@@ -424,8 +424,12 @@ export default function HelpPage() {
             </div>
           </div>
 
+        </div>
+
+        {/* Right column: contact cards + tracker + form */}
+        <div className="xl:col-span-5 space-y-6">
           {/* ORDER TRACKER */}
-          <div className="enter d2 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
+          <div className="enter d1 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
             <div className="px-6 pt-6">
               <h2 className="font-heading text-base sm:text-lg font-bold tracking-tight text-gray-900">Order Issue Tracker</h2>
               <p className="text-sm text-gray-600 mt-1">Enter an order number to see its current status instantly.</p>
@@ -453,10 +457,7 @@ export default function HelpPage() {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right column: contact cards + form */}
-        <div className="xl:col-span-5 space-y-6">
           {/* CONTACT OPTIONS */}
           <div className="enter d1 rounded-3xl border border-gray-200 bg-gradient-to-b from-white/80 to-white/50 backdrop-blur shadow-sm">
             <div className="px-6 pt-6">
@@ -1079,7 +1080,7 @@ function OrderProgressView({ tracked }: { tracked: ReturnType<typeof resolveOrde
     return (
       <div className="rounded-2xl border border-gray-200 bg-white/70 p-5">
         <p className="text-sm font-semibold text-gray-900">Enter an order number</p>
-        <p className="text-sm text-gray-600 mt-1">We’ll show the current step instantly.</p>
+        <p className="text-sm text-gray-600 mt-1">We’ll show the current status instantly.</p>
       </div>
     );
   }
