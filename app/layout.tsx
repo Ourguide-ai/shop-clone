@@ -43,10 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${plusJakartaSans.variable} ${sourceSerif4.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      className={`${plusJakartaSans.variable} ${sourceSerif4.variable} ${geistMono.variable}`}
+    >
+      <body className="antialiased">
         <AuthProvider>
           <AppProvider>
             <Navbar />
