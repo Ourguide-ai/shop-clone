@@ -56,8 +56,8 @@ export default function RootLayout({
           </AppProvider>
         </AuthProvider>
         <Script
-          src="http://localhost:3000/ourguide-b2b-widget.iife.js"
-          data-api-url="http://localhost:3000"
+          src="https://dashboard.ourguide.ai/ourguide-b2b-widget.iife.js"
+          data-api-url="https://dashboard.ourguide.ai"
           data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
           data-agent-name="Assistant"
         ></Script>
