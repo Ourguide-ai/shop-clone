@@ -2,12 +2,10 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 import ProductCardSkeleton from "@/components/ProductCardSkeleton";
 import ProductFilters, { ProductFiltersState } from "@/components/ProductFilters";
-import ScrollReveal from "@/components/ScrollReveal";
 import { apiGet } from "@/lib/api";
 
 const DEFAULT_CATEGORIES = ["All", "Electronics", "Clothing", "Home", "Books"];
