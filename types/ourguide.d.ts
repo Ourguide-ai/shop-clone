@@ -2,6 +2,6 @@ export {};
 
 declare global {
   interface Window {
-    ourguide?: (command: string, payload?: unknown) => void;
+    argide?: (command: string, payload?: unknown) => void;
   }
 }

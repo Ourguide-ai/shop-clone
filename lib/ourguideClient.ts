@@ -9,7 +9,7 @@ type OurguideIdentifyPayload = {
 
 function safeOurguideCall(command: OurguideCommand, payload?: OurguideIdentifyPayload) {
   if (typeof window === "undefined") return;
-  const fn = window.ourguide;
+  const fn = window.argide;
   if (typeof fn !== "function") return;
   fn(command, payload);
 }
