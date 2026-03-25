@@ -57,8 +57,8 @@ export default function RootLayout({
           </AppProvider>
         </AuthProvider>
         <Script
-          src="https://dashboard.ourguide.ai/ourguide-b2b-widget.iife.js"
-          data-api-url="https://dashboard.ourguide.ai"
+          src="https://dashboard.argide.ai/argide-b2b-widget.iife.js"
+          data-api-url="https://dashboard.argide.ai"
           data-product-id="prod_e755e441-382e-4156-93ac-56948bd00fbe"
           data-agent-name="Assistant"
         ></Script>
