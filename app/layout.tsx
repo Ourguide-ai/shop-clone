@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans} from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -6,8 +7,8 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
-import { OurguideProvider, OurguideCopilot } from '@ourguide-ai/ui';
-import '@ourguide-ai/ui/styles.css';
+import { ArgideProvider, ArgideCopilot } from '@argide/ui';
+import '@argide/ui/styles.css';
 
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -17,12 +18,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-const sourceSerif4 = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-source-serif-4",
-  display: "swap",
-});
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -48,9 +43,9 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${geistMono.variable} antialiased`}
       >
-        <OurguideProvider
+        <ArgideProvider
           productId="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
-          apiUrl="https://dashboard.ourguide.ai"
+          apiUrl="https://dashboard.argide.ai"
         >
           <AuthProvider>
             <AppProvider>
@@ -62,8 +57,8 @@ export default function RootLayout({
               <OurguideToolsRegistrar />
             </AppProvider>
           </AuthProvider>
-          <OurguideCopilot position="right" width={400} />
-        </OurguideProvider>
+          <ArgideCopilot position="right" width={400} />
+        </ArgideProvider>
       </body>
     </html>
   );
