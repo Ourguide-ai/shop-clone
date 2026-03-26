@@ -7,7 +7,8 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
-import { ArgideProvider, ArgideCopilot } from '@argide/ui';
+import { ArgideProviderWithTools } from "@/components/ArgideProviderWithTools";
+import { ArgideCopilot } from '@argide/ui';
 import '@argide/ui/styles.css';
 
 
@@ -43,22 +44,22 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ArgideProvider
-          productId="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
-          apiUrl="https://dashboard.argide.ai"
-        >
-          <AuthProvider>
-            <AppProvider>
+        <AuthProvider>
+          <AppProvider>
+            <ArgideProviderWithTools
+              productId="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
+              apiUrl="https://dashboard.argide.ai"
+            >
               <div className="flex flex-col min-h-screen">
                 <Navbar />
                 <main className="flex-1">{children}</main>
                 <Footer />
               </div>
               <OurguideToolsRegistrar />
-            </AppProvider>
-          </AuthProvider>
-          <ArgideCopilot position="right" width={400} />
-        </ArgideProvider>
+              <ArgideCopilot position="right" width={400} />
+            </ArgideProviderWithTools>
+          </AppProvider>
+        </AuthProvider>
       </body>
     </html>
   );
