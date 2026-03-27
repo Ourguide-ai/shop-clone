@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
 import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
-import Script from "next/script";
+import { ArgideWidgetClient } from "@/components/ArgideWidgetClient";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -56,12 +56,7 @@ export default function RootLayout({
             <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
-        <Script
-          src="https://dashboard.argide.ai/argide-b2b-widget.iife.js"
-          data-api-url="https://dashboard.argide.ai"
-          data-product-id="prod_e755e441-382e-4156-93ac-56948bd00fbe"
-          data-agent-name="Assistant"
-        ></Script>
+        <ArgideWidgetClient />
       </body>
     </html>
   );

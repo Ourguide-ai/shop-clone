@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ourguide/ui": "file:../Ourguide-B2B/packages/ui",
+    "@argide/ui": "<path-to-package>",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "jsonwebtoken": "^9.0.3",
