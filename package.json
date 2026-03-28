@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@argide/client": "^0.2.0",
-    "@argide/ui": "^0.4.0",
+    "@argide/client": "^0.3.0",
+    "@argide/ui": "^0.5.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "jsonwebtoken": "^9.0.3",
