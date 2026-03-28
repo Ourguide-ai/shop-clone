@@ -4,15 +4,15 @@ import dbConnect from "@/lib/db/mongoose";
 import User, { IUser } from "@/lib/db/models/User";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-const OURGUIDE_AUTH_SECRET =
-  process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
+const ARGIDE_AUTH_SECRET =
+  process.env.ARGIDE_AUTH_SECRET ?? process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
 
 interface JwtPayload {
   userId: string;
   role: string;
 }
 
-interface OurguideJwtPayload {
+interface ArgideJwtPayload {
   user_id: string;
   email?: string;
   name?: string;
@@ -26,14 +26,14 @@ export function verifyToken(token: string): JwtPayload {
   return jwt.verify(token, JWT_SECRET) as JwtPayload;
 }
 
-export function signOurguideToken(params: {
+export function signArgideToken(params: {
   userId: string;
   email?: string;
   name?: string;
   exp: number;
 }): string {
-  if (!OURGUIDE_AUTH_SECRET) {
-    throw new Error("OURGUIDE_AUTH_SECRET is not set");
+  if (!ARGIDE_AUTH_SECRET) {
+    throw new Error("ARGIDE_AUTH_SECRET is not set");
   }
   return jwt.sign(
     {
@@ -42,16 +42,16 @@ export function signOurguideToken(params: {
       email: params.email,
       name: params.name,
     },
-    OURGUIDE_AUTH_SECRET,
+    ARGIDE_AUTH_SECRET,
     { algorithm: "HS256" }
   );
 }
 
-export function verifyOurguideToken(token: string): OurguideJwtPayload {
-  if (!OURGUIDE_AUTH_SECRET) {
-    throw new Error("OURGUIDE_AUTH_SECRET is not set");
+export function verifyArgideToken(token: string): ArgideJwtPayload {
+  if (!ARGIDE_AUTH_SECRET) {
+    throw new Error("ARGIDE_AUTH_SECRET is not set");
   }
-  return jwt.verify(token, OURGUIDE_AUTH_SECRET) as OurguideJwtPayload;
+  return jwt.verify(token, ARGIDE_AUTH_SECRET) as ArgideJwtPayload;
 }
 
 function getBearerToken(request: NextRequest): string | null {
@@ -60,8 +60,8 @@ function getBearerToken(request: NextRequest): string | null {
   return authHeader.slice(7);
 }
 
-function getOurguideHeaderToken(request: NextRequest): string | null {
-  const raw = request.headers.get("x-ourguide-token");
+function getArgideHeaderToken(request: NextRequest): string | null {
+  const raw = request.headers.get("x-argide-token") ?? request.headers.get("x-ourguide-token");
   if (!raw) return null;
   return raw.trim() || null;
 }
@@ -84,7 +84,7 @@ export async function getAppAuthUser(request: NextRequest): Promise<IUser | null
 }
 
 export async function getAuthUser(request: NextRequest): Promise<IUser | null> {
-  const token = getBearerToken(request) ?? getOurguideHeaderToken(request) ?? getCookieToken(request);
+  const token = getBearerToken(request) ?? getArgideHeaderToken(request) ?? getCookieToken(request);
   if (!token) return null;
 
   // 1) Normal app auth token (JWT_SECRET)
@@ -96,10 +96,10 @@ export async function getAuthUser(request: NextRequest): Promise<IUser | null> {
     // fall through
   }
 
-  // 2) Ourguide verification token (OURGUIDE_AUTH_SECRET)
-  if (!OURGUIDE_AUTH_SECRET) return null;
+  // 2) Argide verification token (ARGIDE_AUTH_SECRET)
+  if (!ARGIDE_AUTH_SECRET) return null;
   try {
-    const payload = verifyOurguideToken(token);
+    const payload = verifyArgideToken(token);
     await dbConnect();
     return await User.findById(payload.user_id);
   } catch {

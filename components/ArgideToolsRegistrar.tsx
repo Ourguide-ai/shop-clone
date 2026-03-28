@@ -47,11 +47,11 @@ function setNativeValue(el: HTMLInputElement | HTMLTextAreaElement, value: strin
 
 declare global {
   interface Window {
-    ourguide?: (action: string, payload?: unknown) => void;
+    argide?: (action: string, payload?: unknown) => void;
   }
 }
 
-export function OurguideToolsRegistrar() {
+export function ArgideToolsRegistrar() {
   const { items, placeOrder, cartTotal } = useApp();
   const { user, isAuthenticated, updateProfile } = useAuth();
   const router = useRouter();
@@ -66,23 +66,23 @@ export function OurguideToolsRegistrar() {
     }
 
     const register = () => {
-      if (typeof window.ourguide === "function") {
-        console.log("[OurguideTools] Registering tools. Cart items:", items.length, "| Total:", cartTotal);
-        window.ourguide("registerTools", {
+      if (typeof window.argide === "function") {
+        console.log("[ArgideTools] Registering tools. Cart items:", items.length, "| Total:", cartTotal);
+        window.argide("registerTools", {
           buyAllCartProducts: async () => {
-            console.log("[OurguideTools] buyAllCartProducts called. Items:", items.length, "| Total:", cartTotal);
+            console.log("[ArgideTools] buyAllCartProducts called. Items:", items.length, "| Total:", cartTotal);
 
             if (items.length === 0) {
-              console.warn("[OurguideTools] buyAllCartProducts → cart is empty");
+              console.warn("[ArgideTools] buyAllCartProducts → cart is empty");
               return { status: "error", error: "Your cart is empty." };
             }
 
             let orderId: string;
             try {
               orderId = await placeOrder(items, cartTotal);
-              console.log("[OurguideTools] Order placed. orderId:", orderId);
+              console.log("[ArgideTools] Order placed. orderId:", orderId);
             } catch (err) {
-              console.error("[OurguideTools] placeOrder failed:", err);
+              console.error("[ArgideTools] placeOrder failed:", err);
               return { status: "error", error: "Failed to place order." };
             }
 
@@ -91,13 +91,13 @@ export function OurguideToolsRegistrar() {
                 "/api/payment/process",
                 { orderId, amount: cartTotal },
               );
-              console.log("[OurguideTools] Payment response:", payment);
+              console.log("[ArgideTools] Payment response:", payment);
               if (!payment.success) {
-                console.warn("[OurguideTools] Payment not successful:", payment);
+                console.warn("[ArgideTools] Payment not successful:", payment);
                 return { status: "error", error: "Payment failed." };
               }
             } catch (err) {
-              console.error("[OurguideTools] Payment request failed:", err);
+              console.error("[ArgideTools] Payment request failed:", err);
               return { status: "error", error: "Payment request failed." };
             }
 
@@ -107,7 +107,7 @@ export function OurguideToolsRegistrar() {
               items_purchased: items.length,
               total: cartTotal,
             };
-            console.log("[OurguideTools] buyAllCartProducts succeeded:", result);
+            console.log("[ArgideTools] buyAllCartProducts succeeded:", result);
             return result;
           },
 
@@ -343,9 +343,9 @@ export function OurguideToolsRegistrar() {
             };
           },
         });
-        console.log("[OurguideTools] Tools registered successfully.");
+        console.log("[ArgideTools] Tools registered successfully.");
       } else {
-        console.log("[OurguideTools] window.ourguide not ready, retrying in 150ms...");
+        console.log("[ArgideTools] window.argide not ready, retrying in 150ms...");
         setTimeout(register, 2000);
       }
     };
