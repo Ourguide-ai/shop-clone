@@ -1,0 +1,19 @@
+name,path,description
+Home,/,Main product listing page with category filtering. Displays products in a grid with skeletal loading states.
+Product Detail,/product/[id],Dynamic product page displaying individual product information fetched by product ID.
+Search Results,/search,Search functionality page. Takes a query parameter (?q=) and displays matching products.
+Sign In,/signin,User authentication page with email and password login form. Redirects to home on success.
+Sign Up,/signup,User registration page with name, email, password, and confirm password fields.
+Shopping Cart,/cart,Authenticated cart page showing all cart items with quantity controls, item removal, and cart totals.
+Checkout,/checkout,Authenticated checkout page with shipping address, payment method, and order summary.
+Order Success,/checkout/success,Order confirmation page displaying a success message with the Order ID after placing an order.
+Account Settings,/account,Authenticated account management page for editing profile, shipping address, password, and notification preferences.
+Profile,/account,View user profile
+Settings,/account,Manage account settings
+Wishlist,/wishlist,Authenticated wishlist page displaying saved products with add-to-cart and remove options.
+My Orders,/orders,Authenticated orders list page showing all user orders with status and action buttons (cancel, return, replace).
+Order Details,/orders/[id],Authenticated order detail page with order tracking timeline, items, payment summary, and shipping address.
+Help,/help,Customer support page with tabs for Contact Us, FAQ, Returns & Refunds, and Shipping Info.
+Deals,/search?q=deal,Deals and promotions
+About,/help,About and help
+Contact,/help?tab=contact,Contact us

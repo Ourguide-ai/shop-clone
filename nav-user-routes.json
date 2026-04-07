@@ -1,0 +1,20 @@
+[
+  {"name": "Home", "path": "/", "description": "Main product listing page with category filtering. Displays products in a grid with skeletal loading states."},
+  {"name": "Product Detail", "path": "/product/[id]", "description": "Dynamic product page displaying individual product information fetched by product ID."},
+  {"name": "Search Results", "path": "/search", "description": "Search functionality page. Takes a query parameter (?q=) and displays matching products."},
+  {"name": "Sign In", "path": "/signin", "description": "User authentication page with email and password login form. Redirects to home on success."},
+  {"name": "Sign Up", "path": "/signup", "description": "User registration page with name, email, password, and confirm password fields."},
+  {"name": "Shopping Cart", "path": "/cart", "description": "Authenticated cart page showing all cart items with quantity controls, item removal, and cart totals."},
+  {"name": "Checkout", "path": "/checkout", "description": "Authenticated checkout page with shipping address, payment method, and order summary."},
+  {"name": "Order Success", "path": "/checkout/success", "description": "Order confirmation page displaying a success message with the Order ID after placing an order."},
+  {"name": "Account Settings", "path": "/account", "description": "Authenticated account management page for editing profile, shipping address, password, and notification preferences."},
+  {"name": "Profile", "path": "/account", "description": "View user profile"},
+  {"name": "Settings", "path": "/account", "description": "Manage account settings"},
+  {"name": "Wishlist", "path": "/wishlist", "description": "Authenticated wishlist page displaying saved products with add-to-cart and remove options."},
+  {"name": "My Orders", "path": "/orders", "description": "Authenticated orders list page showing all user orders with status and action buttons (cancel, return, replace)."},
+  {"name": "Order Details", "path": "/orders/[id]", "description": "Authenticated order detail page with order tracking timeline, items, payment summary, and shipping address."},
+  {"name": "Help", "path": "/help", "description": "Customer support page with tabs for Contact Us, FAQ, Returns & Refunds, and Shipping Info."},
+  {"name": "Deals", "path": "/search?q=deal", "description": "Deals and promotions"},
+  {"name": "About", "path": "/help", "description": "About and help"},
+  {"name": "Contact", "path": "/help?tab=contact", "description": "Contact us"}
+]

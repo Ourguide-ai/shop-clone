@@ -59,7 +59,7 @@ export default function RootLayout({
         <Script
           src="https://dashboard.argide.ai/argide-b2b-widget.iife.js"
           data-api-url="https://api.argide.ai"
-          data-product-id="prod_e755e441-382e-4156-93ac-56948bd00fbe"
+          data-product-id="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
           data-agent-name="Assistant"
         ></Script>
       </body>
