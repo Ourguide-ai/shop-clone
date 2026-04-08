@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
-import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
+import { ArgideToolsRegistrar } from "@/components/ArgideToolsRegistrar";
 import Script from "next/script";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -53,7 +53,7 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
-            <OurguideToolsRegistrar />
+            <ArgideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
         <Script
