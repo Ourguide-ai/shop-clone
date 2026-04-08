@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
-import { ArgideToolsRegistrar } from "@/components/ArgideToolsRegistrar";
+import { OurguideToolsRegistrar } from "@/components/OurguideToolsRegistrar";
 import Script from "next/script";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -53,13 +53,15 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
-            <ArgideToolsRegistrar />
+            <OurguideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
         <Script
-          src="https://dashboard.argide.ai/argide-b2b-widget.iife.js"
-          data-api-url="https://api.argide.ai"
-          data-product-id="prod_35db7bb0-caad-423e-ba29-ebf34e7c206a"
+          src="/ourguide-b2b-widget.iife.js"
+          data-api-url="http://localhost:3000"
+          //uneet
+          data-product-id="prod_4118ca63-221f-4be2-a434-dc319c68c8f4"
+          //eshaangulati3221: prod_4118ca63-221f-4be2-a434-dc319c68c8f4
           data-agent-name="Assistant"
         ></Script>
       </body>
