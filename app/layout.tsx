@@ -58,7 +58,7 @@ export default function RootLayout({
         </AuthProvider>
         <Script
           src="/ourguide-b2b-widget.iife.js"
-          data-api-url="http://localhost:3000"
+          data-api-url="https://api.argide.ai"
           //uneet
           data-product-id="prod_4118ca63-221f-4be2-a434-dc319c68c8f4"
           //eshaangulati3221: prod_4118ca63-221f-4be2-a434-dc319c68c8f4
