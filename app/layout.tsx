@@ -56,14 +56,15 @@ export default function RootLayout({
             <ArgideToolsRegistrar />
           </AppProvider>
         </AuthProvider>
-        <Script
-          src="https://dashboard.argide.ai/argide-b2b-widget.iife.js"
+        <script>window.argide = window.argide || [];</script>
+        <script
+          src="https://dashboard.argide.ai/argide-b2b.iife.js"
+          data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
           data-api-url="https://api.argide.ai"
-          //uneet
-          data-product-id="prod_4118ca63-221f-4be2-a434-dc319c68c8f4"
-          //eshaangulati3221: prod_4118ca63-221f-4be2-a434-dc319c68c8f4
-          data-agent-name="Assistant"
-        ></Script>
+          data-position="right"
+          data-width="400"
+          data-trigger="both"
+        ></script>
       </body>
     </html>
   );

@@ -4,8 +4,14 @@ import dbConnect from "@/lib/db/mongoose";
 import User, { IUser } from "@/lib/db/models/User";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
+<<<<<<< Updated upstream
 const ARGIDE_AUTH_SECRET =
   process.env.ARGIDE_AUTH_SECRET ?? process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
+=======
+const OURGUIDE_AUTH_SECRET =
+  process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
+const X_API_KEY = process.env.X_API_KEY;
+>>>>>>> Stashed changes
 
 interface JwtPayload {
   userId: string;
@@ -70,6 +76,13 @@ function getCookieToken(request: NextRequest): string | null {
   return request.cookies.get("ebay-session")?.value ?? null;
 }
 
+function hasValidApiKey(request: NextRequest): boolean {
+  if (!X_API_KEY) return false;
+  const incomingApiKey = request.headers.get("x-api-key")?.trim();
+  console.log(X_API_KEY, incomingApiKey)
+  return incomingApiKey === X_API_KEY;
+}
+
 export async function getAppAuthUser(request: NextRequest): Promise<IUser | null> {
   const token = getBearerToken(request) ?? getCookieToken(request);
   if (!token) return null;
@@ -84,7 +97,13 @@ export async function getAppAuthUser(request: NextRequest): Promise<IUser | null
 }
 
 export async function getAuthUser(request: NextRequest): Promise<IUser | null> {
+<<<<<<< Updated upstream
   const token = getBearerToken(request) ?? getArgideHeaderToken(request) ?? getCookieToken(request);
+=======
+  console.log(hasValidApiKey(request), request.headers)
+  if (hasValidApiKey(request)) return null;
+  const token = getBearerToken(request) ?? getOurguideHeaderToken(request) ?? getCookieToken(request);
+>>>>>>> Stashed changes
   if (!token) return null;
 
   // 1) Normal app auth token (JWT_SECRET)
