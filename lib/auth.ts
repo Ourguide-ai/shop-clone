@@ -4,14 +4,8 @@ import dbConnect from "@/lib/db/mongoose";
 import User, { IUser } from "@/lib/db/models/User";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-<<<<<<< Updated upstream
 const ARGIDE_AUTH_SECRET =
   process.env.ARGIDE_AUTH_SECRET ?? process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
-=======
-const OURGUIDE_AUTH_SECRET =
-  process.env.OURGUIDE_AUTH_SECRET ?? process.env.OURGUIDE_VERIFICATION_SECRET;
-const X_API_KEY = process.env.X_API_KEY;
->>>>>>> Stashed changes
 
 interface JwtPayload {
   userId: string;
