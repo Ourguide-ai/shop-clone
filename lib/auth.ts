@@ -91,13 +91,7 @@ export async function getAppAuthUser(request: NextRequest): Promise<IUser | null
 }
 
 export async function getAuthUser(request: NextRequest): Promise<IUser | null> {
-<<<<<<< Updated upstream
   const token = getBearerToken(request) ?? getArgideHeaderToken(request) ?? getCookieToken(request);
-=======
-  console.log(hasValidApiKey(request), request.headers)
-  if (hasValidApiKey(request)) return null;
-  const token = getBearerToken(request) ?? getOurguideHeaderToken(request) ?? getCookieToken(request);
->>>>>>> Stashed changes
   if (!token) return null;
 
   // 1) Normal app auth token (JWT_SECRET)
