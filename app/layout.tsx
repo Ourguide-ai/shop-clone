@@ -58,9 +58,9 @@ export default function RootLayout({
         </AuthProvider>
         <script>window.argide = window.argide || [];</script>
         <script
-          src="https://dashboard.argide.ai/argide-b2b.iife.js"
-          data-product-id="prod_ba70c68d-5282-4da1-ba99-c46daddf4fa3"
-          data-api-url="https://api.argide.ai"
+          src="https://dev.dashboard.argide.ai/argide-b2b.iife.js"
+          data-product-id="prod_f03e2226-2558-4301-ab10-e0a8b2529a58"
+          data-api-url="https://dev.api.argide.ai"
           data-position="right"
           data-width="400"
           data-trigger="both"
