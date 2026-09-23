@@ -389,43 +389,18 @@ From the order history page, click "Buy Again" on any past order to add all its 
 
 ## Configuration
 
-### Ourguide identity verification
+### Chatwoot chat with the Argide browser agent
 
-This project supports identifying the currently signed-in user to the Ourguide chat widget using a short-lived JWT. Ourguide can then call protected API routes on behalf of that user by sending this token to our backend.
+The storefront chat is a Chatwoot website widget. When a customer asks for something that needs clicks on the page (add to cart, open the cart, go to checkout), the shop replies in Chatwoot with `content_attributes.argide_goal`, and [components/ChatwootArgideBridge.tsx](components/ChatwootArgideBridge.tsx) hands that goal to `ArgideAgent.do()` from `@ourguide-ai/agent`, which performs it in the customer's tab.
 
-- **Env**: set `OURGUIDE_AUTH_SECRET` in `.env.local` (HS256 signing secret).
-  - For compatibility, `OURGUIDE_VERIFICATION_SECRET` is also accepted as a fallback.
+1. The widget emits `chatwoot:on-message` for each customer message, and the page sends its ids to `POST /api/chatwoot/handoff`.
+2. The server re-reads the message from Chatwoot. Only when it matches a browser goal in [lib/browserGoal.ts](lib/browserGoal.ts) does the Argide agent bot reply "Handing this over to Argide…" with `argide_goal`. Other messages are left to Chatwoot's bot or agents.
+3. The widget emits that reply, and the bridge calls `ArgideAgent.do({ goal })`. The Argide session is claimed through `POST /api/argide/claim`, which holds the server-only `ARGIDE_AGENT_API_KEY`.
+4. The bridge waits for the task to settle with `ArgideAgent.check()` and sends the outcome to `POST /api/chatwoot/task-result`, which has the Argide bot post "✓ Done: …" or why it stopped. Shoppers and agents both see Argide as its own participant in the conversation.
 
-Example:
+Once the shop has a public URL, point a Chatwoot agent bot at `POST /api/chatwoot/webhook` instead of relaying through the browser.
 
-```bash
-OURGUIDE_AUTH_SECRET="your-long-random-secret"
-```
-
-#### Token minting endpoint
-
-- `GET /api/ourguide-token`
-  - Requires a normal app auth token (`Authorization: Bearer <app_jwt>`)
-  - Returns `{ token }` where `token` is a JWT with:
-    - `user_id` (required)
-    - `exp` (required, 1 hour)
-    - `email`, `name` (optional)
-
-#### Frontend identify/reset
-
-This is wired in [context/AuthContext.tsx](context/AuthContext.tsx):
-
-- After login (or when already logged in on page load), the app calls `window.ourguide('identify', { token, name })`.
-- It refreshes the token every 50 minutes.
-- On logout (or when auth is cleared), it calls `window.ourguide('resetUser')`.
-
-#### Backend verification (Ourguide calling our API)
-
-Protected routes that use `getAuthUser()` (for example: `PATCH /api/orders/:id` with `{ action: 'cancel' }`) accept either:
-
-- `Authorization: Bearer <app_jwt>` (normal user requests), or
-- `Authorization: Bearer <ourguide_token>` (Ourguide automation), or
-- `X-Ourguide-Token: <ourguide_token>` (alternate header)
+Environment variables are listed in [.env.example](.env.example). `CHATWOOT_API_TOKEN` must be a user access token from Chatwoot's Profile settings, because agent-bot tokens cannot read messages. `CHATWOOT_ARGIDE_BOT_ID` is the Chatwoot agent bot the Argide messages are sent as; it does not need to be connected to the inbox. Installing `@ourguide-ai/agent` needs a classic GitHub token with `read:packages` exported as `GITHUB_TOKEN` (see [.npmrc](.npmrc)).
 
 
 ### Next.js (`next.config.mjs`)

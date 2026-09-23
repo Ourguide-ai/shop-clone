@@ -6,8 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { AppProvider } from "@/context/AppContext";
-import { ArgideToolsRegistrar } from "@/components/ArgideToolsRegistrar";
-import Script from "next/script";
+import { ChatwootArgideBridge } from "@/components/ChatwootArgideBridge";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -53,18 +52,9 @@ export default function RootLayout({
             <Navbar />
             {children}
             <Footer />
-            <ArgideToolsRegistrar />
+            <ChatwootArgideBridge />
           </AppProvider>
         </AuthProvider>
-        <script>window.argide = window.argide || [];</script>
-        <script
-          src="https://dev.dashboard.argide.ai/argide-b2b.iife.js"
-          data-product-id="prod_f03e2226-2558-4301-ab10-e0a8b2529a58"
-          data-api-url="https://dev.api.argide.ai"
-          data-position="right"
-          data-width="400"
-          data-trigger="both"
-        ></script>
       </body>
     </html>
   );

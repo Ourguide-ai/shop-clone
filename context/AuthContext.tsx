@@ -11,7 +11,6 @@ import {
 } from "react";
 import { User, Address, UserRole } from "@/lib/types";
 import { apiPost, apiGet, apiPut, apiDelete, setToken, clearToken, hasToken } from "@/lib/api";
-import { argideIdentify, argideResetUser } from "@/lib/argideClient";
 
 type PublicUser = Omit<User, "password">;
 
@@ -45,41 +44,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(data.user);
       } catch {
         clearToken();
-        argideResetUser();
       } finally {
         setLoading(false);
       }
     }
     hydrate();
   }, []);
-
-  // Identify the user to Argide and refresh periodically (token expires in 60 mins)
-  useEffect(() => {
-    if (!user) return;
-
-    const userName = user.name;
-
-    let cancelled = false;
-    let intervalId: number | undefined;
-
-    async function identify() {
-      try {
-        const data = await apiGet<{ token: string }>("/api/argide-token");
-        if (cancelled) return;
-        argideIdentify({ token: data.token, name: userName });
-      } catch {
-        // Ignore: Argide is optional, and /api/argide-token may be disabled in some envs
-      }
-    }
-
-    identify();
-    intervalId = window.setInterval(identify, 50 * 60 * 1000);
-
-    return () => {
-      cancelled = true;
-      if (intervalId) window.clearInterval(intervalId);
-    };
-  }, [user?.id, user?.name]);
 
   const signUp = useCallback(
     async (name: string, email: string, dob: string, password: string, role: UserRole = "admin"): Promise<{ success: boolean; error?: string }> => {
@@ -123,7 +93,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => {
     clearToken();
     setUser(null);
-    argideResetUser();
     fetch("/api/auth/signout", { method: "POST" }).catch(() => {});
   }, []);
 
@@ -163,7 +132,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await apiDelete<{ success: boolean }>("/api/auth/account", { password });
         clearToken();
         setUser(null);
-        argideResetUser();
         return { success: true };
       } catch (err) {
         const message = err instanceof Error ? err.message : "Delete failed";
