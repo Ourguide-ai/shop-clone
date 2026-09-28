@@ -125,9 +125,9 @@ async function postAsArgide(
 }
 
 /**
- * Hands a customer message to Argide when it asks for a browser task: the Argide bot replies with
- * content_attributes.argide_goal. Other messages are left to Chatwoot's bot or agents. The message is
- * re-read from Chatwoot, so callers only supply ids and cannot choose the content or message type.
+ * Hands a customer message that starts with "argide:" to Argide: the Argide bot replies with the rest of the
+ * message as content_attributes.argide_goal. Other messages are left to Chatwoot's bot or agents. The message
+ * is re-read from Chatwoot, so callers only supply ids and cannot choose the content or message type.
  */
 export async function replyWithBrowserGoal(ref: MessageRef): Promise<Response> {
   const resolved = resolveConversation(ref);

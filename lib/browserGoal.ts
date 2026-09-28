@@ -1,22 +1,9 @@
-const BROWSER_GOALS: { pattern: RegExp; goal: string }[] = [
-  {
-    pattern: /\b(add|put)\b.*\bcart\b|\badd to cart\b/i,
-    goal: "Add the first product on this page to the cart by clicking its Add to Cart button.",
-  },
-  {
-    pattern: /\b(open|show|view|go to)\b.*\bcart\b/i,
-    goal: "Open the cart page.",
-  },
-  {
-    pattern: /\bcheckout\b/i,
-    goal: "Open the checkout page.",
-  },
-];
+// A customer message is routed to Argide only when it starts with "argide:"; the rest is the goal, as typed.
+const ARGIDE_PREFIX = /^\s*argide\s*:/i;
 
 export function browserGoalForUserText(text: string | null | undefined): string | null {
-  if (typeof text !== "string" || !text.trim()) return null;
-  const match = BROWSER_GOALS.find((rule) => rule.pattern.test(text));
-  return match?.goal ?? null;
+  if (typeof text !== "string" || !ARGIDE_PREFIX.test(text)) return null;
+  return text.replace(ARGIDE_PREFIX, "").trim() || null;
 }
 
 // Payload of the widget's chatwoot:on-message event (Chatwoot Message#push_event_data).

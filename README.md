@@ -391,10 +391,10 @@ From the order history page, click "Buy Again" on any past order to add all its 
 
 ### Chatwoot chat with the Argide browser agent
 
-The storefront chat is a Chatwoot website widget. When a customer asks for something that needs clicks on the page (add to cart, open the cart, go to checkout), the shop replies in Chatwoot with `content_attributes.argide_goal`, and [components/ChatwootArgideBridge.tsx](components/ChatwootArgideBridge.tsx) hands that goal to `ArgideAgent.do()` from `@ourguide-ai/agent`, which performs it in the customer's tab.
+The storefront chat is a Chatwoot website widget. When a customer starts a message with `argide:`, the shop replies in Chatwoot with `content_attributes.argide_goal`, and [components/ChatwootArgideBridge.tsx](components/ChatwootArgideBridge.tsx) hands that goal to `ArgideAgent.do()` from `@ourguide-ai/agent`, which performs it in the customer's tab.
 
 1. The widget emits `chatwoot:on-message` for each customer message, and the page sends its ids to `POST /api/chatwoot/handoff`.
-2. The server re-reads the message from Chatwoot. Only when it matches a browser goal in [lib/browserGoal.ts](lib/browserGoal.ts) does the Argide agent bot reply "Handing this over to Argide…" with `argide_goal`. Other messages are left to Chatwoot's bot or agents.
+2. The server re-reads the message from Chatwoot. Only when it starts with `argide:` (for example `argide: add the first 3 products to my cart`) does the Argide agent bot reply "Handing this over to Argide…" with the rest of the message as `argide_goal` ([lib/browserGoal.ts](lib/browserGoal.ts)). Other messages are left to Chatwoot's bot or agents.
 3. The widget emits that reply, and the bridge calls `ArgideAgent.do({ goal })`. The Argide session is claimed through `POST /api/argide/claim`, which holds the server-only `ARGIDE_AGENT_API_KEY`.
 4. The bridge waits for the task to settle with `ArgideAgent.check()` and sends the outcome to `POST /api/chatwoot/task-result`, which has the Argide bot post "✓ Done: …" or why it stopped. Shoppers and agents both see Argide as its own participant in the conversation.
 
