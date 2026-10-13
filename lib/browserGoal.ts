@@ -10,9 +10,10 @@ export function browserGoalForUserText(text: string | null | undefined): string 
 // conversation_id is the display id used by the REST API.
 type ChatwootMessage = {
   id?: number;
+  content?: string | null;
   message_type?: number;
   private?: boolean;
-  content_attributes?: { argide_goal?: unknown };
+  content_attributes?: { argide_goal?: unknown; argide_messages?: unknown };
   account_id?: number;
   conversation_id?: number;
 };
@@ -37,6 +38,18 @@ function argideGoalFromMessage(message: ChatwootMessage | null): string | null {
 export function browserHandoffGoal(message: ChatwootMessage | null): string | null {
   if (!message || message.private || message.message_type !== OUTGOING) return null;
   return argideGoalFromMessage(message);
+}
+
+type HostMessage = { role: "user" | "assistant"; content: string };
+
+/** The conversation the server attached to a handoff (argide_messages), for ArgideAgent.do({ messages }). */
+export function handoffConversation(message: ChatwootMessage | null): HostMessage[] {
+  const raw = message?.content_attributes?.argide_messages;
+  if (!Array.isArray(raw)) return [];
+  return raw.filter(
+    (m): m is HostMessage =>
+      !!m && typeof m === "object" && (m.role === "user" || m.role === "assistant") && typeof m.content === "string"
+  );
 }
 
 export function isIncomingMessage(message: ChatwootMessage | null): boolean {

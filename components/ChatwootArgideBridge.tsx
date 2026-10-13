@@ -1,22 +1,51 @@
 "use client";
 
+import type { AgentActivity } from "@ourguide-ai/agent";
 import { useEffect, useState } from "react";
 import {
   ARGIDE_AGENT_API_URL,
   ARGIDE_AGENT_PRODUCT_ID,
+  ARGIDE_ASSET_ORIGIN,
   CHATWOOT_BASE_URL,
   CHATWOOT_WEBSITE_TOKEN,
 } from "@/lib/chatwoot";
-import { asChatwootMessage, browserHandoffGoal, isIncomingMessage } from "@/lib/browserGoal";
+import {
+  asChatwootMessage,
+  browserGoalForUserText,
+  browserHandoffGoal,
+  handoffConversation,
+  isIncomingMessage,
+} from "@/lib/browserGoal";
+import { answerField, type FieldValue, type TaskWait, waitFromNeeds, waitQuestion } from "@/lib/taskWait";
 
-// The task in flight, kept per tab so its result is still reported after Argide reloads the page.
+// The task in flight, kept per tab so its result is still reported after Argide reloads the page. While it waits
+// for the customer, `wait` says what for, and their next chat message answers it.
 const PENDING_TASK_KEY = "argide-pending-task";
-const TASK_CHECK_INTERVAL_MS = 2000;
 
 const seenMessageIds = new Set<number>();
 
 type MessageIds = { id: number; account_id: number; conversation_id: number };
-type PendingTask = { taskId: string; handoff: MessageIds };
+type PendingTask = { taskId: string; handoff: MessageIds; wait?: TaskWait };
+type WaitAnswer = { message: string } | { inputs: Record<string, FieldValue> };
+type TaskEvent = Extract<AgentActivity, { kind: "task" }>;
+
+function savePendingTask(task: PendingTask) {
+  sessionStorage.setItem(PENDING_TASK_KEY, JSON.stringify(task));
+}
+
+function readPendingTask(): PendingTask | null {
+  const stored = sessionStorage.getItem(PENDING_TASK_KEY);
+  return stored ? (JSON.parse(stored) as PendingTask) : null;
+}
+
+// The server re-reads the message from Chatwoot, so only ids are sent.
+function handOffToChatwoot(ids: MessageIds) {
+  return fetch("/api/chatwoot/handoff", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(ids),
+  });
+}
 
 declare global {
   interface Window {
@@ -48,6 +77,7 @@ export function ChatwootArgideBridge() {
       ArgideAgent.init({
         apiUrl: ARGIDE_AGENT_API_URL,
         productId: ARGIDE_AGENT_PRODUCT_ID,
+        assetOrigin: ARGIDE_ASSET_ORIGIN,
         onStateChange: (state) => {
           if (state === "error") setActivity("Argide could not start");
         },
@@ -60,9 +90,15 @@ export function ChatwootArgideBridge() {
           if (!response.ok) throw new Error(`claim failed: HTTP ${response.status}`);
         },
       });
+      (window as unknown as { ArgideAgent: typeof ArgideAgent }).ArgideAgent = ArgideAgent;
 
       if (cancelled) return;
       const offActivity = ArgideAgent.onActivity((event) => {
+        if (event.kind === "task") {
+          setActivity(null);
+          void reportTaskEvent(event).catch((error: unknown) => console.error("[argide]", error));
+          return;
+        }
         if (event.kind === "idle") {
           setActivity(null);
           return;
@@ -70,19 +106,76 @@ export function ChatwootArgideBridge() {
         setActivity("Argide is working on this page");
       });
 
-      // Only the tab can read a task's outcome, so it waits for the task to settle and reports it to Chatwoot.
-      async function reportWhenSettled(task: PendingTask) {
-        sessionStorage.setItem(PENDING_TASK_KEY, JSON.stringify(task));
-        try {
-          let outcome = await ArgideAgent.check({ taskId: task.taskId });
-          while (outcome.status === "running") {
-            await new Promise((resolve) => setTimeout(resolve, TASK_CHECK_INTERVAL_MS));
-            outcome = await ArgideAgent.check({ taskId: task.taskId });
-          }
-          await reportTaskResult(task.handoff, outcome.status, outcome.summary);
-        } finally {
-          sessionStorage.removeItem(PENDING_TASK_KEY);
+      // The SDK follows the task, across page loads too, and sends each result as a `task` event; this reports it
+      // to the Chatwoot conversation that asked. A task that waits for the customer stays pending, with its question
+      // posted to the chat.
+      async function reportTaskEvent(event: TaskEvent) {
+        const task = readPendingTask();
+        if (!task || task.taskId !== event.taskId) return;
+        if (event.status === "needs_input") {
+          const wait = waitFromNeeds(event.needs);
+          savePendingTask({ ...task, wait });
+          await reportTaskResult(task.handoff, "needs_input", waitQuestion(wait, event.summary));
+          return;
         }
+        sessionStorage.removeItem(PENDING_TASK_KEY);
+        await reportTaskResult(task.handoff, event.status, event.summary);
+      }
+
+      // The customer's reply to a waiting task. A page action is answered with their words; values are asked
+      // one field per reply and sent together once every field has one.
+      async function answerWait(task: PendingTask & { wait: TaskWait }, reply: string) {
+        let answer: WaitAnswer = { message: reply };
+        if (task.wait.kind === "input") {
+          const step = answerField(task.wait, reply);
+          if ("ask" in step) {
+            savePendingTask({ ...task, wait: step.wait });
+            await reportTaskResult(task.handoff, "needs_input", step.ask);
+            return;
+          }
+          answer = { inputs: step.inputs };
+        }
+
+        // Running again from here: the customer's messages go to Chatwoot until the task's next event.
+        savePendingTask({ taskId: task.taskId, handoff: task.handoff });
+        try {
+          await ArgideAgent.resume({ taskId: task.taskId, ...answer });
+        } catch (error) {
+          // Refused or failed: a task that failed arrives as its own event; one still waiting keeps its wait, so the
+          // customer's next reply answers it again.
+          console.error("[argide]", error);
+          savePendingTask(task);
+          await reportTaskResult(task.handoff, "needs_input", "That didn't go through to Argide.");
+        }
+      }
+
+      // A new "argide:" goal replaces a waiting task. Cancelling it ends its workflow run now, rather than when
+      // the server suspends the run for want of a heartbeat.
+      async function cancelWaitingTask(task: PendingTask) {
+        sessionStorage.removeItem(PENDING_TASK_KEY);
+        const outcome = await ArgideAgent.cancel({ taskId: task.taskId }).catch(() =>
+          ArgideAgent.check({ taskId: task.taskId })
+        );
+        if (outcome.status !== "running" && outcome.status !== "needs_input") {
+          await reportTaskResult(task.handoff, outcome.status, outcome.summary);
+        }
+      }
+
+      // A customer message answers the waiting task, if there is one; anything else, and any "argide:" goal, goes
+      // to Chatwoot as before. Messages are handled one at a time, so a quick second one sees the first's outcome.
+      let customerMessages = Promise.resolve();
+      function onCustomerMessage(ids: MessageIds, text: string) {
+        customerMessages = customerMessages
+          .then(async () => {
+            const task = readPendingTask();
+            if (task?.wait && !browserGoalForUserText(text)) return answerWait({ ...task, wait: task.wait }, text);
+            if (task?.wait) await cancelWaitingTask(task);
+            await handOffToChatwoot(ids);
+          })
+          .then(
+            () => undefined,
+            (error: unknown) => console.error("[argide]", error)
+          );
       }
 
       const onMessage = (event: Event) => {
@@ -95,10 +188,11 @@ export function ChatwootArgideBridge() {
         const goal = browserHandoffGoal(message);
         if (goal) {
           seenMessageIds.add(message.id);
-          // do() resolves once the task exists; a different goal while one runs rejects with SESSION_BUSY.
-          ArgideAgent.do({ goal })
+          // do() resolves once the task exists; while another task runs it rejects with SESSION_BUSY.
+          // The chat so far goes along, so the agent understands "it" and "that" in the goal.
+          ArgideAgent.do({ goal, messages: handoffConversation(message) })
             .then(
-              ({ taskId }) => reportWhenSettled({ taskId, handoff: ids }),
+              ({ taskId }) => savePendingTask({ taskId, handoff: ids }),
               (error: unknown) => {
                 setActivity(error instanceof Error ? error.message : String(error));
                 return reportTaskResult(ids, "not_started");
@@ -110,13 +204,7 @@ export function ChatwootArgideBridge() {
 
         if (!isIncomingMessage(message)) return;
         seenMessageIds.add(message.id);
-
-        // The server re-reads the message from Chatwoot, so only ids are sent.
-        void fetch("/api/chatwoot/handoff", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(ids),
-        });
+        onCustomerMessage(ids, message.content ?? "");
       };
 
       window.addEventListener("chatwoot:on-message", onMessage);
@@ -125,12 +213,6 @@ export function ChatwootArgideBridge() {
         window.removeEventListener("chatwoot:on-message", onMessage);
       };
 
-      const pendingTask = sessionStorage.getItem(PENDING_TASK_KEY);
-      if (pendingTask) {
-        void reportWhenSettled(JSON.parse(pendingTask) as PendingTask).catch((error: unknown) => {
-          console.error("[argide]", error);
-        });
-      }
     }
 
     void startAgent().catch((error: unknown) => {
